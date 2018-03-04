@@ -1,4 +1,6 @@
 {
+  "name": "SilverTimetable",
+  "displayName": "SilverTimetable",
     "expo": {
       "sdkVersion": "25.0.0",
       "androidStatusBarColor": "#334393",
