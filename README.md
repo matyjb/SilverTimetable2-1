@@ -21,5 +21,9 @@ Następnie:
 - Jeśli zmienimy coś w kodzie to apka znów się "zbuduje" i odświerzy na telefonie
 - W przypadku błędów, zobaczymy je w konsoli na komputerze ale także na telefonie (expo pokazuje dokładnie to samo w formie nakładki nad naszą apką)
 
-*uwaga serwer podpina się pod sieć #1 zazwyczaj ethernet nawet jeśli do sieci lokalnej jesteśmy podpięci siecią np #2 lub #3 itp (np po wifi),
- więc może nam się expo nie chcieć połączyć z naszym serwerem.
+*uwaga serwer podpina się pod sieć #1 zazwyczaj ethernet nawet jeśli do sieci lokalnej jesteśmy podpięci siecią np #2 lub #3 itp (np po wifi), więc może nam się expo nie chcieć połączyć z naszym serwerem.
+ 
+-----------------------
+Native Base - to nam zastąpi material-ui
+https://nativebase.io/
+Warto pobrać sobie ich aplikacje NativeBase-KitchenSink, która prezentuje wszystkie komponenty w nativebase.
