@@ -24,6 +24,6 @@ Następnie:
 *uwaga serwer podpina się pod sieć #1 zazwyczaj ethernet nawet jeśli do sieci lokalnej jesteśmy podpięci siecią np #2 lub #3 itp (np po wifi), więc może nam się expo nie chcieć połączyć z naszym serwerem.
  
 -----------------------
-Native Base - to nam zastąpi material-ui
-https://nativebase.io/
+Native Base - to nam zastąpi material-ui  </br>
+https://nativebase.io/ </br>
 Warto pobrać sobie ich aplikacje NativeBase-KitchenSink, która prezentuje wszystkie komponenty w nativebase.
