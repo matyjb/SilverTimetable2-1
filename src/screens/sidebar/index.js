@@ -17,7 +17,13 @@ import styles from "./style";
 // const drawerImage = require("");
 const datas = [
   {
-    name: "AboutPage",
+    name: "Schemat piętra",
+    route: "FloorPage",
+    icon: "map",
+    bg: "#C5F442"
+  },
+  {
+    name: "O aplikacji",
     route: "AboutPage",
     icon: "phone-portrait",
     bg: "#C5F442"

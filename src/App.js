@@ -5,11 +5,13 @@ import { StackNavigator, DrawerNavigator } from "react-navigation";
 import Home from "./screens/home/";
 import SideBar from "./screens/sidebar";
 import AboutPage from "./screens/aboutPage";
+import FloorPage from "./screens/floorPage";
 
 const Drawer = DrawerNavigator(
   {
     Home: { screen: Home },
-    AboutPage: { screen: AboutPage }
+    AboutPage: { screen: AboutPage },
+    FloorPage: { screen: FloorPage }
   },
   {
     initialRouteName: "Home",
@@ -23,7 +25,8 @@ const Drawer = DrawerNavigator(
 const AppNavigator = StackNavigator(
   {
     Drawer: { screen: Drawer },
-    AboutPage: { screen: AboutPage }
+    AboutPage: { screen: AboutPage },
+    FloorPage: { screen: FloorPage }
   },
   {
     initialRouteName: "Drawer",
