@@ -13,9 +13,13 @@ import {
 } from "native-base";
 import styles from "./style";
 
-// const drawerCover = require("");
-// const drawerImage = require("");
 const datas = [
+  {
+    name: "Plan",
+    route: "Home",
+    icon: "calendar",
+    bg: "#C5F442"
+  },
   {
     name: "Schemat piętra",
     route: "FloorPage",

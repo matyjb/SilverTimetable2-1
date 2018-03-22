@@ -25,6 +25,7 @@ const Drawer = DrawerNavigator(
 const AppNavigator = StackNavigator(
   {
     Drawer: { screen: Drawer },
+    Home: { screen: Home },
     AboutPage: { screen: AboutPage },
     FloorPage: { screen: FloorPage }
   },

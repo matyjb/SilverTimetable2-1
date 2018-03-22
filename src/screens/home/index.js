@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { ImageBackground, View, StatusBar } from "react-native";
-import { Container, Button, H3, Text } from "native-base";
+import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text } from "native-base";
 
 import styles from "./styles";
 
@@ -10,30 +10,24 @@ class Home extends Component {
   render() {
     return (
       <Container>
-        <StatusBar barStyle="light-content" />
-        <ImageBackground source={launchscreenBg} style={styles.imageContainer}>
-          <View
-            style={{
-              alignItems: "center",
-              marginBottom: 50,
-              backgroundColor: "transparent"
-            }}
-          >
-            <H3 style={styles.text}>SilverTimetable</H3>
-            <View style={{ marginTop: 8 }} />
-            <H3 style={styles.text}>React Native version</H3>
-            <View style={{ marginTop: 8 }} />
-          </View>
-          <View style={{ marginBottom: 80 }}>
-            <Button
-              style={{ backgroundColor: "#6FAF98", alignSelf: "center" }}
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <Text>Start!</Text>
-            </Button>
-          </View>
-        </ImageBackground>
-      </Container>
+                <Header>
+                    <Left>
+                        <Button
+                            transparent
+                            onPress={() => this.props.navigation.navigate("DrawerOpen")}
+                        >
+                            <Icon name="ios-menu" />
+                        </Button>
+                    </Left>
+                    <Body>
+                        <Title style={{ width: 150 }}>Plan zajęć WZIiM</Title>
+                    </Body>
+                    <Right />
+                </Header>
+                <Content>
+                    <Text>MainPage</Text>
+                </Content>
+            </Container>
     );
   }
 }
