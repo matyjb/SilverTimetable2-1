@@ -19,6 +19,7 @@
     "preset": "react-native"
   },
   "dependencies": {
+    "eslint": "^4.19.1",
     "expo": "^25.0.0",
     "native-base": "^2.3.9",
     "react": "16.2.0",
