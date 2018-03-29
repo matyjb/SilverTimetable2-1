@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { Image } from "react-native";
 import {
   Content,
   Text,
@@ -11,6 +10,7 @@ import {
   Right,
   Badge
 } from "native-base";
+import PropTypes from 'prop-types';
 import styles from "./style";
 
 const datas = [
@@ -93,5 +93,11 @@ class SideBar extends Component {
     );
   }
 }
+
+SideBar.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default SideBar;

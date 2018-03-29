@@ -5,7 +5,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended"
-      ],
+    ],
+    "parser": "babel-eslint",
     "env": {
         "browser": true,
         "commonjs": true,
@@ -13,10 +14,13 @@
         "node": true
     },
     "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
         "ecmaFeatures": {
-            "jsx": true
-        },
-        "sourceType": "module"
+            "jsx": true,
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        }
     },
     "rules": {
         "no-const-assign": "warn",
@@ -25,15 +29,46 @@
         "no-unreachable": "warn",
         "no-unused-vars": "warn",
         "constructor-super": "warn",
-        "valid-typeof": "warn"
+        "valid-typeof": "warn",
+
+        "quote-props": [2, "consistent-as-needed"],
+        "no-ternary": 0,
+        "newline-per-chained-call": 0,
+        "arrow-body-style": 0,
+        "no-warning-comments": 0,
+        "max-len": [1, 200],
+        "camelcase": 0,
+        "space-before-function-paren": [1, "never"],
+        "one-var": [ 1, "never" ],
+        "indent": [2, 2, {"SwitchCase": 1}],
+        "object-shorthand": [ 2, "always" ],
+        "prefer-const": 0,
+        "comma-dangle": 0,
+        "spaced-comment": 1,
+        "object-curly-spacing": 0,
+        "arrow-spacing": [ 1, {
+            "before": true,
+            "after": true
+        } ],
+        "no-restricted-syntax": 0,
+
+        "no-console": 0,
+        "no-magic-numbers": 0,
+        "valid-jsdoc": [2, {
+            "requireReturn": false
+        }],
+
+        "react/display-name": [0, { "ignoreTranspilerName": false }]
     },
     "settings": {
         "react": {
-          "createClass": "createReactClass",
-          "pragma": "React",
-          "version": "15.0",
-          "flowVersion": "0.53"
+            "createClass": "createReactClass",
+            "pragma": "React",
+            "version": "15.0",
+            "flowVersion": "0.53"
         },
-        "propWrapperFunctions": [ "forbidExtraProps" ]
-      }
+        "propWrapperFunctions": [
+            "forbidExtraProps"
+        ]
+    }
 }
