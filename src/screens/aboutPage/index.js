@@ -15,33 +15,33 @@ class AboutPage extends Component {
     return (
       <Container>
         <Header>
-            <Left>
-              <Button
-                transparent
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
-                <Icon name="ios-menu" />
-              </Button>
-            </Left>
-            <Body>
-              <Title>O aplikacji</Title>
-            </Body>
-            <Right />
-          </Header>
-          <Content>
-            <Container style={{ alignSelf: "center", alignItems: "center" }}>
-              <Image source={require("./../../../assets/img/logo.png")} style={{flex:1, height: 155, width: 155}} resizeMode="contain"/>
-              <H1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2}}>Plan WZIM</H1>
-              <Text align="center">
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            >
+              <Icon name="ios-menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Title>O aplikacji</Title>
+          </Body>
+          <Right />
+        </Header>
+        <Content>
+          <Container style={{ alignSelf: "center", alignItems: "center" }}>
+            <Image source={require("./../../../assets/img/logo.png")} style={{flex:1, height: 155, width: 155}} resizeMode="contain"/>
+            <H1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2}}>Plan WZIM</H1>
+            <Text align="center">
                   Wersja 1.0.6
-              </Text>
-              <Text style={{ width: 280, textAlign: "center"}}>
+            </Text>
+            <Text style={{ width: 280, textAlign: "center"}}>
                   Aplikacja stworzona przez członków koła naukowego Silver .NET
-              </Text>
-              <Image source={require("./../../../assets/img/silver_logo.png")} style={{flex:1, height: 160, width: 160, marginTop: 10}} resizeMode="contain" />
-            </Container>
-          </Content>
-        </Container>
+            </Text>
+            <Image source={require("./../../../assets/img/silver_logo.png")} style={{flex:1, height: 160, width: 160, marginTop: 10}} resizeMode="contain" />
+          </Container>
+        </Content>
+      </Container>
     );
   }
 }

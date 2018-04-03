@@ -1,40 +1,18 @@
 import React, { Component } from "react";
 import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text } from "native-base";
 import { AppState } from "react-native";
-import globalProps from "../../globalProps";
 import PropTypes from 'prop-types';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log("text");
-    /* const onDeviceReady = () => {
-            // TimetableServices.initialize().then(() => 
-            this.Initialize();
-        };
-        document.addEventListener("deviceready", onDeviceReady, false);*/
-    // const onDeviceReady = () => {this.fetchData()}
-    // AppState.addEventListener("ready", onDeviceReady);
+    console.log("Home Page Loaded");
     this.state = {
       appState: AppState.currentState,
     };
         
   }
-  /* TODO:
-        Initialize:
-        1 czy config w sesji (czyli isLoaded isError..)
-           jesli tak to koniec
-        2 czytaj plik konfiguracyjny
-        3 sprawdz czy internet
-           jesli jest to pobierz nowy jesli: nie ma w pliku konfiguracyjnym lub jest nowy
-
-           jesli nie ma to wyswietl komunikat ze nie ma internetu
-                jesli nie ma planu w pliku konfiguracyjnym wyswietl ErrorPage nie ma internetu i planu w pamieci
-
-        4 Jesli nie bylo planu (pliku konfiguracyjnego) to stworz domyslny
-            jesli byla to wyswietl ze jest konfig w pamieci
-    */
-
+ 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
   }
@@ -65,20 +43,19 @@ class Home extends Component {
                 </Button>
               </Left>
               <Body>
-                <Title style={{ width: "100%" }}>Plan zajęć WZIiM</Title>
+                <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
               </Body>
               <Right />
             </Header>
             <Content>
               <Text>MainPage</Text>
               <Text>Current state: {this.state.appState}</Text>
-              <Text>{globalProps.timetable}</Text>
             </Content>
           </Container>
         );
       }
 }
-
+// <Text>{globalProps.timetable}</Text>
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
