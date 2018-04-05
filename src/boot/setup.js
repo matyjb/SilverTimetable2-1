@@ -23,12 +23,13 @@ export default class Setup extends Component {
       console.log("AppState changed to", state)
     );
 
-    const isNetwork = TimetableServices.isNetworkAvailable();
+    const isNetwork = await TimetableServices.isNetworkAvailable();
     const timetable = await TimetableServices.ReadTimetableFile();
 
     if (isNetwork) {
       console.log("Jest internet");
-      const update = await TimetableServices.IsNewTimetable(timetable.date);
+
+      const update = !timetable ? false : await TimetableServices.IsNewTimetable(timetable.date);
 
       if (!timetable || update) {
         console.log("Pobieram nowy plan...");

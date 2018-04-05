@@ -1,12 +1,21 @@
 {
   "name": "SilverTimetable",
   "displayName": "SilverTimetable",
-    "expo": {
-      "sdkVersion": "25.0.0",
-      "androidStatusBarColor": "#334393",
-      "androidStatusBar": {
-        "barStyle": "light-content",
-        "backgroundColor": "#334393"
+  "expo": {
+    "name": "SilverTimetable",
+    "version": "1.0.0",
+    "ios": {
+      "bundleIdentifier": "com.silvertimetable.timetable"
+    },
+    "android": {
+      "package": "com.silvertimetable.timetable"
+    },
+  
+    "sdkVersion": "25.0.0",
+    "androidStatusBarColor": "#334393",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#334393"
     }
   }
 }

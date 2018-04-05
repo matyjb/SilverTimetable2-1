@@ -10,16 +10,9 @@ class TimetableServices extends Component {
  * @returns {boolean} Boolean value whether network is available
  */
   static async isNetworkAvailable() {
-    
     const netStat = await NetInfo.isConnected.fetch().then(isConnected => {
-      if(isConnected)
-      {
-        // console.log('Internet is connected');
-        return true;
-      }
-      return false;
-    })
-
+      return isConnected ? true : false;
+    });
     return netStat;
   }
   
@@ -29,8 +22,6 @@ class TimetableServices extends Component {
  */
   static async IsNewTimetable(date) {
     const newDate = await this.getNewDate();
-    console.log(date);
-    // const date = globalProps.objs.timetable.date;
     if (newDate && date) {
       console.log(newDate === date ? "Nie ma nowej wersji planu." : "Jest nowa wersja planu.");
       return !(newDate === date); // Jest nowa wersja planu
@@ -81,17 +72,16 @@ class TimetableServices extends Component {
  */
   static async ReadTimetableFile() {
     const timetable = await FileManager.readFile(globalProps.objs.timetableFileName);
-    const json = await JSON.parse(timetable);
     
-    if (json) {
-      const events = json.events.map((event) => {
+    if (timetable) {
+      const events = timetable.events.map((event) => {
         return {
           ...event,
           startTime: Moment.utc(event.startTime, "HH:mm"),
           endTime: Moment.utc(event.endTime, "HH:mm"),
         };
       });
-      return { ...json, events };
+      return { ...timetable, events };
     }
   }
 

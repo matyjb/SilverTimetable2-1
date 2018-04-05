@@ -5,8 +5,9 @@ class FileManager extends Component {
 
   static async readFile(filename) {
     const fileEntry = await AsyncStorage.getItem(filename);
-    if (fileEntry) {
-      return fileEntry;
+    const json = await JSON.parse(fileEntry);
+    if (json) {
+      return json;
     }
   }
 
