@@ -23,7 +23,14 @@ export default {
   text: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
     fontSize: 16,
-    marginLeft: 20
+    marginLeft: 16
+  },
+  footer: {
+    fontWeight: Platform.OS === "ios" ? "500" : "400",
+    fontSize: 12,
+    color: "#808080",
+    marginLeft: 12,
+    marginBottom: 6
   },
   badgeText: {
     fontSize: Platform.OS === "ios" ? 13 : 11,
