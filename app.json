@@ -1,12 +1,36 @@
 {
-  "name": "SilverTimetable",
-  "displayName": "SilverTimetable",
-    "expo": {
-      "sdkVersion": "25.0.0",
-      "androidStatusBarColor": "#334393",
+  "expo": {
+    "name": "SilverTimetable",
+    "description": "This project is really great.",
+    "slug": "SilverTimetable",
+    "privacy": "public",
+    "sdkVersion": "26.0.0",
+    "platforms": ["ios", "android"],
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "androidStatusBarColor": "#334393",
       "androidStatusBar": {
         "barStyle": "light-content",
         "backgroundColor": "#334393"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.silvers.silvertimetable"
+    },
+    "android": {
+      "package": "com.silvers.silvertimetable"
     }
   }
 }

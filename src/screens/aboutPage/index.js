@@ -29,8 +29,8 @@ class AboutPage extends Component {
             <Right />
           </Header>
           <Content>
-            <Container style={{ alignSelf: "center", alignItems: "center" }}>
-              <Image source={require("./../../../assets/img/logo.png")} style={{flex:1, height: 155, width: 155}} resizeMode="contain"/>
+            <Container style={{ alignSelf: "center", alignItems: "center", height: "100%"}}>
+              <Image source={require("./../../../assets/img/logo.png")} style={{height: 155, width: 155}} resizeMode="contain"/>
               <H1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2}}>Plan WZIM</H1>
               <Text align="center">
                   Wersja 1.0.6
@@ -38,7 +38,7 @@ class AboutPage extends Component {
               <Text style={{ width: 280, textAlign: "center"}}>
                   Aplikacja stworzona przez członków koła naukowego Silver .NET
               </Text>
-              <Image source={require("./../../../assets/img/silver_logo.png")} style={{flex:1, height: 160, width: 160, marginTop: 10}} resizeMode="contain" />
+              <Image source={require("./../../../assets/img/silver_logo.png")} style={{height: 160, width: 160}} resizeMode="contain" />
             </Container>
           </Content>
         </Container>
