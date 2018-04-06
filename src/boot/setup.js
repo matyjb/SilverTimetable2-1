@@ -56,7 +56,6 @@ export default class Setup extends Component {
         console.log("Plan znajduje się w pamięci.")
       }
     }
-
   }
 
   async componentWillMount() {
@@ -88,7 +87,7 @@ export default class Setup extends Component {
     }
     return (
     //   <StyleProvider style={getTheme(variables)}>
-        <App />
+      <App />
     //   </StyleProvider>
     );
   }
