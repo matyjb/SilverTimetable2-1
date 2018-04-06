@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { StyleProvider } from "native-base";
 import { AppState } from "react-native";
 import App from "../App";
-import getTheme from "../theme/components";
-import variables from "../theme/variables/commonColor";
+// import getTheme from "../theme/components";
+// import variables from "../theme/variables/commonColor";
 import Expo from "expo";
 import globalProps from "../globalProps";
 import TimetableServices from "../timetable/TimetableServices";
@@ -87,9 +87,9 @@ export default class Setup extends Component {
       return <Expo.AppLoading />;
     }
     return (
-      <StyleProvider style={getTheme(variables)}>
+    //   <StyleProvider style={getTheme(variables)}>
         <App />
-      </StyleProvider>
+    //   </StyleProvider>
     );
   }
 }
