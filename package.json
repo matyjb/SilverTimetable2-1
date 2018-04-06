@@ -1,6 +1,17 @@
 {
   "main": "node_modules/expo/AppEntry.js",
   "private": true,
+  "devDependencies": { 
+    "babel-eslint": "^8.2.2", 
+    "eslint": "^4.19.1", 
+    "eslint-config-airbnb": "^16.1.0", 
+    "eslint-plugin-import": "^2.9.0", 
+    "eslint-plugin-jsx-a11y": "^6.0.3", 
+    "eslint-plugin-react": "^7.7.0"
+  },
+  "scripts": {
+    "lint": "eslint --fix *.js" 
+  }, 
   "dependencies": {
     "moment": "^2.21.0",
     "prop-types": "^15.6.1",
