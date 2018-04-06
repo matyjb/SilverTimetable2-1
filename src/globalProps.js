@@ -1,6 +1,6 @@
 var objs = {
   timetable: {
-    date: null,
+    date: "Nigdy",
     events: [],
   },
   isLoaded: null,

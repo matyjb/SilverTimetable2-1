@@ -33,7 +33,7 @@ class Home extends Component {
       render() {
         return (
           <Container>
-            <Header>
+            <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left >
               <Left>
                 <Button
                   transparent

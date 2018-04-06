@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Image } from "react-native";
 import { Text, Header, Right, Left, Body, Button, Icon, Title, H1,H2,H3, Container, Content } from "native-base";
+import PropTypes from "prop-types";
 
 class AboutPage extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class AboutPage extends Component {
   render() {
     return (
       <Container>
-        <Header>
+        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left>
           <Left>
             <Button
               transparent
@@ -45,5 +46,11 @@ class AboutPage extends Component {
     );
   }
 }
+
+AboutPage.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default AboutPage;

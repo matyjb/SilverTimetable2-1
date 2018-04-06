@@ -1,14 +1,16 @@
 import React, { Component } from "react";
-import { Image, ScrollView} from "react-native";
-import { Header, Right, Left, Body, Button, Icon, Title, Container, Content } from "native-base";
-import PictureOfFloor from "./../../../assets/img/floor.png";
+import { Text, Header, Right, Left, Body, Button, Icon, Title, Container, Content } from "native-base";
 import PropTypes from "prop-types";
-import styles from "./style";
 
-class FloorPage extends Component {
+class Settings extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      shadowOffsetWidth: 1,
+      shadowRadius: 4
+    };
   }
+
   render() {
     return (
       <Container>
@@ -22,25 +24,24 @@ class FloorPage extends Component {
             </Button>
           </Left>
           <Body>
-            <Title>Schemat piętra</Title>
+            <Title>Ustawienia</Title>
           </Body>
           <Right />
         </Header>
         <Content>
-          <ScrollView>
-            <Image style={styles.canvas} source={PictureOfFloor} resizeMode="stretch" />
-          </ScrollView>
+          <Text>
+                Tutaj się pojawi strona z ustawieniami ...
+          </Text>
         </Content>
       </Container>
     );
   }
 }
 
-FloorPage.propTypes = {
+Settings.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
 };
-  
-export default FloorPage;
-  
+
+export default Settings;

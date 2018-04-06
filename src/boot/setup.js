@@ -5,7 +5,7 @@ import App from "../App";
 import getTheme from "../theme/components";
 import variables from "../theme/variables/commonColor";
 import Expo from "expo";
-// import globalProps from "../globalProps";
+import globalProps from "../globalProps";
 import TimetableServices from "../timetable/TimetableServices";
 
 export default class Setup extends Component {
@@ -22,9 +22,13 @@ export default class Setup extends Component {
     AppState.addEventListener("change", state =>
       console.log("AppState changed to", state)
     );
-
+    
     const isNetwork = await TimetableServices.isNetworkAvailable();
     const timetable = await TimetableServices.ReadTimetableFile();
+
+    if (timetable) {
+      globalProps.objs.timetable.date = timetable.date;
+    }
 
     if (isNetwork) {
       console.log("Jest internet");

@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import {
   Content,
+  Footer,
   Text,
+  Title,
+  Subtitle,
   List,
   ListItem,
   Icon,
@@ -10,14 +13,25 @@ import {
   Right,
   Badge
 } from "native-base";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import styles from "./style";
+import globalProps from "../../globalProps";
+import { Row, Grid } from 'react-native-easy-grid';
+import { Dimensions, View } from "react-native"
+
+const { width, height } = Dimensions.get("screen");
 
 const datas = [
   {
     name: "Plan",
     route: "Home",
     icon: "calendar",
+    bg: "#C5F442"
+  },
+  {
+    name: "Ustawienia",
+    route: "Settings",
+    icon: "settings",
     bg: "#C5F442"
   },
   {
@@ -50,45 +64,56 @@ class SideBar extends Component {
           bounces={false}
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
-          {/* <Image source={drawerCover} style={styles.drawerCover} />
-          <Image square style={styles.drawerImage} source={drawerImage} /> */}
-
-          <List
-            dataArray={datas}
-            renderRow={data =>
-              <ListItem
-                button
-                noBorder
-                onPress={() => this.props.navigation.navigate(data.route)}
-              >
-                <Left>
-                  <Icon
-                    active
-                    name={data.icon}
-                    style={{ color: "#777", fontSize: 26, width: 30 }}
-                  />
-                  <Text style={styles.text}>
-                    {data.name}
-                  </Text>
-                </Left>
-                {data.types &&
-                  <Right style={{ flex: 1 }}>
-                    <Badge
-                      style={{
-                        borderRadius: 3,
-                        height: 25,
-                        width: 72,
-                        backgroundColor: data.bg
-                      }}
-                    >
-                      <Text
-                        style={styles.badgeText}
-                      >{`${data.types} Types`}</Text>
-                    </Badge>
-                  </Right>}
-              </ListItem>}
-          />
+          <Grid>
+            <Row style={{ backgroundColor: '#3f51b5', height: Math.max(height, width) * 0.25}}>
+              
+              <Left style={{ alignSelf: "flex-end", marginLeft: 16, marginBottom: 16 }}>
+                <Title style={{fontSize: 21}}>Informatyka (inż)</Title>
+                <Subtitle>Stacjonarne, semestr 4</Subtitle>
+              </Left>
+            </Row>
+            <Row style={{ height: Math.max(height, width) * 0.5 }}>
+              <List
+                dataArray={datas}
+                renderRow={data =>
+                  <ListItem
+                    button
+                    noBorder
+                    onPress={() => this.props.navigation.navigate(data.route)}
+                  >
+                    <Left>
+                      <Icon
+                        active
+                        name={data.icon}
+                        style={{ color: "#777", fontSize: 26, width: 30 }}
+                      />
+                      <Text style={styles.text}>
+                        {data.name}
+                      </Text>
+                    </Left>
+                    {data.types &&
+                      <Right style={{ flex: 1 }}>
+                        <Badge
+                          style={{
+                            borderRadius: 3,
+                            height: 25,
+                            width: 72,
+                            backgroundColor: data.bg
+                          }}
+                        >
+                          <Text
+                            style={styles.badgeText}
+                          >{`${data.types} Types`}</Text>
+                        </Badge>
+                      </Right>}
+                  </ListItem>}
+              />
+            </Row>
+          </Grid>
         </Content>
+        <View style={{ borderBottomColor: "#cccccc", borderBottomWidth: 1, marginBottom: 6}} />
+        <Text style={styles.footer}>Ostatnia aktualizacja:</Text>
+        <Text style={styles.footer}>{globalProps.objs.timetable.date.replace("T", " ").slice(0, 16)}</Text>
       </Container>
     );
   }
