@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleProvider } from "native-base";
+// import { StyleProvider } from "native-base";
 import { AppState } from "react-native";
 import App from "../App";
 // import getTheme from "../theme/components";
@@ -22,7 +22,7 @@ export default class Setup extends Component {
     AppState.addEventListener("change", state =>
       console.log("AppState changed to", state)
     );
-    
+
     const isNetwork = await TimetableServices.isNetworkAvailable();
     const timetable = await TimetableServices.ReadTimetableFile();
 
