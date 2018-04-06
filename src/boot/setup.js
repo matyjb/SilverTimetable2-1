@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { StyleProvider } from "native-base";
+// import { StyleProvider } from "native-base";
 
 import App from "../App";
-import getTheme from "../theme/components";
-import variables from "../theme/variables/commonColor";
+// import getTheme from "../theme/components";
+// import variables from "../theme/variables/commonColor";
 import Expo from "expo";
 
 export default class Setup extends Component {
@@ -26,9 +26,9 @@ export default class Setup extends Component {
       return <Expo.AppLoading />;
     }
     return (
-      <StyleProvider style={getTheme(variables)}>
+    //   <StyleProvider style={getTheme(variables)}>
         <App />
-      </StyleProvider>
+    //   </StyleProvider>
     );
   }
 }
