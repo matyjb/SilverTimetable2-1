@@ -1,3 +1,4 @@
 node_modules/**/*
-.expo/*
 npm-debug.*
+
+\.expo/packager-info\.json
