@@ -7,7 +7,8 @@ import Settings from "./screens/settings";
 import SideBar from "./screens/sidebar";
 import AboutPage from "./screens/aboutPage";
 import FloorPage from "./screens/floorPage";
-import { Dimensions } from "react-native"
+import ErrorPage from "./screens/errorPage";
+import { Dimensions } from "react-native";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -34,7 +35,8 @@ const AppNavigator = StackNavigator(
     Home: { screen: Home },
     Settings: { screen: Settings },
     AboutPage: { screen: AboutPage },
-    FloorPage: { screen: FloorPage }
+    FloorPage: { screen: FloorPage },
+    ErrorPage: { screen: ErrorPage }
   },
   {
     initialRouteName: "Drawer",
@@ -42,7 +44,8 @@ const AppNavigator = StackNavigator(
   }
 );
 
-export default () =>
+export default () => (
   <Root>
     <AppNavigator />
-  </Root>;
+  </Root>
+);
