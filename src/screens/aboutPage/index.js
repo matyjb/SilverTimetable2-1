@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image } from "react-native";
-import { Text, Header, Right, Left, Body, Button, Icon, Title, H1,H2,H3, Container, Content } from "native-base";
+import { Text, Header, Right, Left, Body, Button, Icon, Title, H1, Container, Content } from "native-base";
 import PropTypes from "prop-types";
 
 class AboutPage extends Component {
@@ -15,17 +15,17 @@ class AboutPage extends Component {
   render() {
     return (
       <Container>
-        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left>
+        <Header>
           <Left>
             <Button
               transparent
               onPress={() => this.props.navigation.navigate("DrawerOpen")}
             >
-              <Icon name="ios-menu" />
+              <Icon name="md-menu" />
             </Button>
           </Left>
           <Body>
-            <Title>O aplikacji</Title>
+            <Text style={{width: "150%"}}><Title>O aplikacji</Title></Text>
           </Body>
           <Right />
         </Header>

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text } from "native-base";
+import { Card, CardItem, Container, Content, Button, Body, Header, Icon, Tab, Tabs, Title, Right, Left, Text } from "native-base";
 import { AppState } from "react-native";
 import PropTypes from 'prop-types';
 
@@ -33,13 +33,13 @@ class Home extends Component {
       render() {
         return (
           <Container>
-            <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left >
+            <Header hasTabs>
               <Left>
                 <Button
                   transparent
                   onPress={() => this.props.navigation.navigate("DrawerOpen")}
                 >
-                  <Icon name="ios-menu" />
+                  <Icon name="md-menu" />
                 </Button>
               </Left>
               <Body>
@@ -48,14 +48,53 @@ class Home extends Component {
               <Right />
             </Header>
             <Content>
-              <Text>MainPage</Text>
-              <Text>Current state: {this.state.appState}</Text>
+              <Tabs initialPage={1}>
+                <Tab heading="Tab1">
+                  <Card>
+                    <CardItem header>
+                      <Text>NativeBase</Text>
+                    </CardItem>
+                    <CardItem>
+                      <Body>
+                        <Text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est.
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem footer>
+                      <Text>Lorem ipsum</Text>
+                    </CardItem>
+                  </Card>
+                  <Card>
+                    <CardItem header>
+                      <Text>NativeBase</Text>
+                    </CardItem>
+                    <CardItem>
+                      <Body>
+                        <Text>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est.
+                        </Text>
+                      </Body>
+                    </CardItem>
+                    <CardItem footer>
+                      <Text>Lorem ipsum</Text>
+                    </CardItem>
+                  </Card>
+                </Tab>
+                <Tab heading="Tab2">
+                  <Text>lorem ipsum</Text>
+                </Tab>
+                <Tab heading="Tab3">
+                  <Text>lorem ipsum</Text>
+                </Tab>
+              </Tabs>
+              
             </Content>
           </Container>
         );
       }
 }
-// <Text>{globalProps.timetable}</Text>
+
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
@@ -63,19 +102,3 @@ Home.propTypes = {
 };
 
 export default Home;
-/*
-<Timetable
-                            data={data}
-                            filters={filters}
-                            selectedDay={this.state.selectedDay}
-                            selectedEvent={this.state.selectedEvent}
-                            // bottomDrawerOpen={this.props.timetableConfig.bottomDrawerOpen}
-                            // quickGroupChangeAllowed={this.props.configuration.allowQuickGroupChange}
-                            // handleGroupChange={(group) => this.props.changeGroup(group)}
-                            onDayChange={this.changeDay}
-                            onEventBlockClick={(event) => this.handleEventBlockClick(event)}
-                            // onBottomDrawerClose={this.props.closeBottomDrawer}
-                            onTimetableRefresh={() => this.refresh(false)}
-                            // lecturerMode={this.props.configuration.lecturerMode}
-                        />
-*/

@@ -17,7 +17,7 @@ import PropTypes from "prop-types";
 import styles from "./style";
 import globalProps from "../../globalProps";
 import { Row, Grid } from 'react-native-easy-grid';
-import { Dimensions, View } from "react-native"
+import { Dimensions, View, Platform } from "react-native"
 
 const { width, height } = Dimensions.get("screen");
 
@@ -25,25 +25,25 @@ const datas = [
   {
     name: "Plan",
     route: "Home",
-    icon: "calendar",
+    icon: "md-calendar",
     bg: "#C5F442"
   },
   {
     name: "Ustawienia",
     route: "Settings",
-    icon: "settings",
+    icon: "md-settings",
     bg: "#C5F442"
   },
   {
     name: "Schemat piętra",
     route: "FloorPage",
-    icon: "map",
+    icon: "md-map",
     bg: "#C5F442"
   },
   {
     name: "O aplikacji",
     route: "AboutPage",
-    icon: "phone-portrait",
+    icon: "md-information-circle",
     bg: "#C5F442"
   }
 ];
@@ -65,13 +65,15 @@ class SideBar extends Component {
           style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
         >
           <Grid>
-            <Row style={{ backgroundColor: '#3f51b5', height: Math.max(height, width) * 0.25}}>
+            <Row style={{ backgroundColor: Platform.OS === "ios" ? "#fafafa" : "#3f51b5", height: Math.max(height, width) * 0.25}}>
               
               <Left style={{ alignSelf: "flex-end", marginLeft: 16, marginBottom: 16 }}>
                 <Title style={{fontSize: 21}}>Informatyka (inż)</Title>
                 <Subtitle>Stacjonarne, semestr 4</Subtitle>
               </Left>
             </Row>
+            {Platform.OS === "ios" &&
+            <Row style={{ backgroundColor: "#808080", height: 1 }}></Row>}
             <Row style={{ height: Math.max(height, width) * 0.5 }}>
               <List
                 dataArray={datas}
@@ -111,7 +113,7 @@ class SideBar extends Component {
             </Row>
           </Grid>
         </Content>
-        <View style={{ borderBottomColor: "#cccccc", borderBottomWidth: 1, marginBottom: 6}} />
+        <View style={{ borderBottomColor: "#808080", borderBottomWidth: 1, marginBottom: 6}} />
         <Text style={styles.footer}>Ostatnia aktualizacja:</Text>
         <Text style={styles.footer}>{globalProps.objs.timetable.date.replace("T", " ").slice(0, 16)}</Text>
       </Container>
