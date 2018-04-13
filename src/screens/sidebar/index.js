@@ -73,7 +73,7 @@ class SideBar extends Component {
               </Left>
             </Row>
             {Platform.OS === "ios" &&
-            <Row style={{ backgroundColor: "#808080", height: 1 }}></Row>}
+            <Row style={{ borderBottomColor: "#808080", borderBottomWidth: 1 }}></Row>}
             <Row style={{ height: Math.max(height, width) * 0.5 }}>
               <List
                 dataArray={datas}
@@ -113,7 +113,7 @@ class SideBar extends Component {
             </Row>
           </Grid>
         </Content>
-        <View style={{ borderBottomColor: "#808080", borderBottomWidth: 1, marginBottom: 6}} />
+        <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, marginBottom: 6}} />
         <Text style={styles.footer}>Ostatnia aktualizacja:</Text>
         <Text style={styles.footer}>{globalProps.objs.timetable.date.replace("T", " ").slice(0, 16)}</Text>
       </Container>
