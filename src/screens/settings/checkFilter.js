@@ -1,4 +1,7 @@
-function checkFilter(filter) {
+import globals from "../../globalProps";
+
+export function checkFilter() {
+    var filter = globals.objs.filter;
     if(filter.isLecturerMode){
         if(filter.lecturer === null){
             return false;
