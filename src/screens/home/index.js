@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text } from "native-base";
-import { AppState } from "react-native";
+import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, Tab, ScrollableTab } from "native-base";
+import { AppState, Dimensions } from "react-native";
 import PropTypes from 'prop-types';
 import {checkFilter} from "../settings/checkFilter";
 
@@ -11,7 +11,19 @@ class Home extends Component {
     this.state = {
       appState: AppState.currentState,
     };
-    if(!checkFilter()){
+    this.filter = {
+      isLecturerMode: false, 
+      lecturer: "Alinka", 
+      academicYear: null, 
+      department: null, 
+      fieldOfStudy: null, 
+      degree: null, 
+      semester: null, 
+      mode: "Stacjonarne", 
+      group: null, 
+    }
+    // if(!checkFilter()){ //to be able to work on tabs
+      if(false){
       console.log("zle filtry przechodzenie do settings");
       this.props.navigation.navigate("Settings");
     }
@@ -32,12 +44,39 @@ class Home extends Component {
     this.setState({appState: nextAppState});
   }
   
-  
+  renderDayTabs(filter) {
+    if (filter.isLecturerMode) {
+        return [
+            <Tab heading="Pn" key={0}/>,
+            <Tab heading="Wt" key={1}/>,
+            <Tab heading="Śr" key={2}/>,
+            <Tab heading="Czw" key={3}/>,
+            <Tab heading="Pt" key={4}/>,
+            <Tab heading="So" key={5}/>,
+            <Tab heading="Nd" key={6}/>,
+        ];
+    }
+    if (filter.mode === "Stacjonarne") {
+        return [
+            <Tab heading="Pn" key={0}/>,
+            <Tab heading="Wt" key={1}/>,
+            <Tab heading="Śr" key={2}/>,
+            <Tab heading="Czw" key={3}/>,
+            <Tab heading="Pt" key={4}/>,
+        ];
+    } else {
+        return [
+            <Tab heading="Pt" key={4}/>,
+            <Tab heading="So" key={5}/>,
+            <Tab heading="Nd" key={6}/>,
+        ];
+    }
+  }
   
   render() {
     return (
       <Container>
-        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left >
+        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left hasTabs>
           <Left>
             <Button
               transparent
@@ -51,6 +90,9 @@ class Home extends Component {
           </Body>
           <Right />
         </Header>
+        <Tabs renderTabBar={()=> <ScrollableTab />} style={{backgroundColor: '#3f51b5'}}>
+          {this.renderDayTabs(this.filter)}
+        </Tabs>
         <Content>
           <Text>MainPage</Text>
           <Text>Current state: {this.state.appState}</Text>
