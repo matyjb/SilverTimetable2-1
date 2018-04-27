@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Content,
-  Footer,
   Text,
   Title,
   Subtitle,
@@ -15,9 +14,9 @@ import {
 } from "native-base";
 import PropTypes from "prop-types";
 import styles from "./style";
-import globalProps from "../../globalProps";
 import { Row, Grid } from 'react-native-easy-grid';
 import { Dimensions, View, Platform } from "react-native"
+import { connect } from "react-redux";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -113,11 +112,19 @@ class SideBar extends Component {
             </Row>
           </Grid>
         </Content>
-        <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, marginBottom: 6}} />
-        <Text style={styles.footer}>Ostatnia aktualizacja:</Text>
-        <Text style={styles.footer}>{globalProps.objs.timetable.date.replace("T", " ").slice(0, 16)}</Text>
+        {this.props.timetableData.date &&
+        <View>
+          <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, marginBottom: 6}} />
+          <Text style={styles.footer}>Ostatnia aktualizacja:</Text>
+          <Text style={styles.footer}>{this.getDate(this.props.timetableData.date)}</Text>
+        </View>}
       </Container>
     );
+  }
+
+  getDate(date) {
+    var setDate = date.replace("T", " ").slice(0, 16);
+    return setDate;
   }
 }
 
@@ -125,6 +132,13 @@ SideBar.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  timetableData: PropTypes.object,
 };
 
-export default SideBar;
+const mapStateToProps = (state) => {
+  return {
+    timetableData: state.timetable.data,
+  };
+};
+
+export default connect(mapStateToProps)(SideBar);

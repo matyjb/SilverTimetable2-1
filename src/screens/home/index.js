@@ -28,7 +28,7 @@ class Home extends Component {
         this.setState({appState: nextAppState});
       }
 
-    
+      
     
       render() {
         return (

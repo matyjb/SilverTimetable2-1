@@ -5,17 +5,34 @@ import {
   LOAD_TIMETABLE_SUCCESS,
   CHANGE_FILTER,
   CHANGE_CONFIGURATION_OPTION,
-  LOAD_CONFIGURATION
+  LOAD_CONFIGURATION,
+  SET_CURRENT_DAY,
+  SET_DAY
 } from "../actions/action-types";
 
 const rootReducer = (state, action) => {
   switch (action.type) {
     case CHANGE_GROUP:
-      return { ...state, timetable: { ...state.timetable, selectedGroup: action.payload } };
+      return { 
+        ...state, timetable: { 
+          ...state.timetable, selectedGroup: action.payload 
+        }
+      };
+
     case LOAD_TIMETABLE_REQUEST:
-      return { ...state, timetable: { ...state.timetable, isLoaded: false } };
+      return { 
+        ...state, timetable: { 
+          ...state.timetable, isLoaded: false 
+        } 
+      };
+
     case LOAD_TIMETABLE_FAILURE:
-      return { ...state, timetable: { ...state.timetable, isLoaded: true, isError: true } };
+      return { 
+        ...state, timetable: { 
+          ...state.timetable, isLoaded: true, isError: true 
+        } 
+      };
+
     case LOAD_TIMETABLE_SUCCESS:
       return {
         ...state,
@@ -23,11 +40,13 @@ const rootReducer = (state, action) => {
           ...state.timetable, isLoaded: true, isError: false, data: action.payload || state.timetable.data,
         },
       };
+
     case LOAD_CONFIGURATION:
       return {
         ...state,
         configuration: action.payload,
       };
+
     case CHANGE_FILTER:
       return {
         ...state, configuration: {
@@ -38,6 +57,7 @@ const rootReducer = (state, action) => {
           },
         },
       };
+
     case CHANGE_CONFIGURATION_OPTION:
       return {
         ...state, configuration: {
@@ -45,7 +65,17 @@ const rootReducer = (state, action) => {
           [action.payload.name]: action.payload.value,
         },
       };
-    
+
+    case SET_CURRENT_DAY:
+      return {
+        ...state, currentDay: action.payload,
+      };
+      
+    case SET_DAY:
+      return {
+        ...state, selectedDay: action.payload,
+      };
+
     default:
       return state;
   }

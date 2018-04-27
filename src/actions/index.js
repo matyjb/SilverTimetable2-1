@@ -18,3 +18,11 @@ export const changeFilter = (name, value) =>
 export const changeConfigurationOption = (name, value) => ({
   type: types.CHANGE_CONFIGURATION_OPTION, payload: { name, value },
 });
+
+export const setCurrentDay = (value) => ({
+  type: types.SET_CURRENT_DAY, payload: value,
+});
+
+export const setDay = (value) => ({
+  type: types.SET_DAY, payload: value,
+});

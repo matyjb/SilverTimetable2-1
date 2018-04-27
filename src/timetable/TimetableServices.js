@@ -100,6 +100,14 @@ class TimetableServices extends Component {
     globalProps.objs.timetable.date = data.date;
   }
 
+  static async ReadConfigurationFile() {
+    return await FileManager.readFile(globalProps.objs.configFileName);
+  }
+
+  static async WriteConfigurationFile(data) {
+    await FileManager.writeFile(globalProps.objs.configFileName, data);
+  }
+
 }
 
 export default TimetableServices;
