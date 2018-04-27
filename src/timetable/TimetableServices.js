@@ -97,7 +97,6 @@ class TimetableServices extends Component {
       };
     });
     await FileManager.writeFile(globalProps.objs.timetableFileName, { ...data, events: eventsWithSerializedDates });
-    globalProps.objs.timetable.date = data.date;
   }
 
   static async ReadConfigurationFile() {
