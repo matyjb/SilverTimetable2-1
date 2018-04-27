@@ -7,6 +7,7 @@ import App from "../App";
 import Expo from "expo";
 import globalProps from "../globalProps";
 import TimetableServices from "../timetable/TimetableServices";
+import { Provider } from "react-redux";
 
 export default class Setup extends Component {
   constructor(props) {
@@ -86,9 +87,9 @@ export default class Setup extends Component {
       return <Expo.AppLoading />;
     }
     return (
-    //   <StyleProvider style={getTheme(variables)}>
-      <App />
-    //   </StyleProvider>
+      <Provider>
+        <App />
+      </Provider>
     );
   }
 }
