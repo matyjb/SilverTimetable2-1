@@ -106,13 +106,14 @@ class Settings extends Component {
                     <Text note>Rok akademicki</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
-                    style={styles.pickerStyle}
                   >
-                    <Item label="2016/2017" value="key0" />
-                    <Item label="2017/2018" value="key1" />
+                    <Item label="2016/2017" value="0" />
+                    <Item label="2017/2018" value="1" />
                   </Picker>
                 </Item>
 
@@ -121,13 +122,15 @@ class Settings extends Component {
                     <Text note>Wydział</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="WZIM" value="key0" />
-                    <Item label="Leśny" value="key1" />
+                    <Item label="Leśny" value="0" key="0 o" />
+                    <Item label="B" value="2" key="2"/>
                   </Picker>
                 </Item>
 
@@ -136,13 +139,15 @@ class Settings extends Component {
                     <Text note>Kierunek</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="Informatyka" value="key0" />
-                    <Item label="To i Owo" value="key1" />
+                    <Item label="Informatyka" value="0" key="0"/>
+                    <Item label="To i Owo" value="1" key="1"/>
                   </Picker>
                 </Item>
 
@@ -151,14 +156,16 @@ class Settings extends Component {
                     <Text note>Stopień</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="inż" value="key0" />
-                    <Item label="mgr" value="key1" />
-                    <Item label="doc" value="key2" />
+                    <Item label="inż" value="0" key="0"/>
+                    <Item label="mgr" value="1" key="1"/>
+                    <Item label="doc" value="2" key="2"/>
                   </Picker>
                 </Item>
 
@@ -167,14 +174,16 @@ class Settings extends Component {
                     <Text note>Semestr</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="1" value="key0" />
-                    <Item label="2" value="key1" />
-                    <Item label="3" value="key2" />
+                    <Item label="1" value="0" key="0"/>
+                    <Item label="2" value="1" key="1"/>
+                    <Item label="3" value="2" key="2"/>
                   </Picker>
                 </Item>
 
@@ -183,14 +192,16 @@ class Settings extends Component {
                     <Text note>Tryb</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="stacjonarny" value="key0" />
-                    <Item label="zębaty" value="key1" />
-                    <Item label="B" value="key2" />
+                    <Item label="stacjonarny" value="0" />
+                    <Item label="zębaty" value="1" />
+                    <Item label="B" value="2" />
                   </Picker>
                 </Item>
 
@@ -199,14 +210,16 @@ class Settings extends Component {
                     <Text note>Grupa</Text>
                   </Label>
                   <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue={this.state.selected1}
+                    selectedValue="0"
                     onValueChange={this.onValueChange.bind(this)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="1" value="key0" />
-                    <Item label="4" value="key1" />
-                    <Item label="B" value="key2" />
+                    <Item label="1" value="0" key="0"/>
+                    <Item label="4" value="1" key="1"/>
+                    <Item label="B" value="2" key="2"/>
                   </Picker>
                 </Item>
               </Form>
@@ -246,9 +259,16 @@ class Settings extends Component {
                   <Label>
                     <Text note>Prowadzący</Text>
                   </Label>
-                  <Picker mode="dropdown" selectedValue={this.state.selected1} onValueChange={this.onValueChange.bind(this)} style={styles.pickerStyle}>
-                    <Item label="Jan Pieszy" value="key0" />
-                    <Item label="Sylwia Ogórek" value="key1" />
+                  <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
+                    mode="dropdown"
+                    selectedValue="0" 
+                    onValueChange={this.onValueChange.bind(this)} 
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="Jan Pieszy" value="0" key="0"/>
+                    <Item label="Sylwia Ogórek" value="1" key="1"/>
                   </Picker>
                 </Item>
               </Form>
