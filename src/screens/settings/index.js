@@ -11,18 +11,15 @@ import {
   Title,
   Container,
   Content,
-  List,
   ListItem,
   Picker,
-  Segment,
-  Separator,
   Switch,
   Form,
   Label
 } from "native-base";
 import { View, Image } from "react-native";
+import styles from "./style";
 import PropTypes from "prop-types";
-import { checkFilter } from "../settings/checkFilter";
 
 class Settings extends Component {
   constructor(props) {
@@ -30,7 +27,7 @@ class Settings extends Component {
     this.state = {
       shadowOffsetWidth: 1,
       shadowRadius: 4,
-      student: true,
+      prowadzacy: false,
       errorWrongFilters: true,
     };
   }
@@ -45,174 +42,181 @@ class Settings extends Component {
     if(this.state.errorWrongFilters){
       return (
         <Container>
-          <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+          <Header>
+            <Left>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.navigate("DrawerOpen")}
               >
-              <Icon name="ios-menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Ustawienia</Title>
-          </Body>
-          <Right />
-        </Header>
-          <Content contentContainerStyle={{flex:1,justifyContent: 'center'}}>
-            <View style={{width: 280,alignItems: "center", alignSelf: "center"}}>
-              <Image source={require("./../../../assets/img/unknown.png")} style={{height: 155, width: 155}} resizeMode="contain"/>
-              <Text  style={{ width: 280, textAlign: "center"}}>Aby zobaczyć plan proszę spersonalizować ustawienia</Text>
-              <Button style={{marginTop: 20, alignSelf: "center"}} onPress={() => this.setState({errorWrongFilters: false})}>
+                <Icon name="md-menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Title>Ustawienia</Title>
+            </Body>
+            <Right />
+          </Header>
+          <Content contentContainerStyle={styles.contentContainerStyle}>
+            <View style={styles.viewStyle}>
+              <Image source={require("./../../../assets/img/unknown.png")} style={styles.imgStyle} resizeMode="contain"/>
+              <Text  style={styles.textStyle}>Aby zobaczyć plan proszę spersonalizować ustawienia</Text>
+              <Button style={styles.btnStyle} onPress={() => this.setState({errorWrongFilters: false})}>
                 <Text>Ustaw filtry planu</Text>
               </Button>
             </View>
           </Content>
         </Container>
       );
-    }else{
+    } else {
       return (
         <Container>
-        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left hasTabs>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+          <Header>
+            <Left>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.navigate("DrawerOpen")}
               >
-              <Icon name="ios-menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Title>Ustawienia</Title>
-          </Body>
-          <Right />
-        </Header>
-          <Segment>
-            <Button
-              first
-              active={this.state.student}
-              onPress={() => this.setState({ student: true })}
-            >
-              <Text>student</Text>
-            </Button>
-            <Button
-              last
-              active={!this.state.student}
-              onPress={() => this.setState({ student: false })}
-            >
-              <Text>prowadzący</Text>
-            </Button>
-          </Segment>
-        <Content>
-          {this.state.student ? (
-            <Form>
-              <Separator>
-                <Text>Wybór grupy:</Text>
-              </Separator>
-
-              <Item stackedLabel>
-                <Label>
-                  <Text note>Wydział:</Text>
-                </Label>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}
-                  style={{ alignSelf: "stretch" }}
-                >
-                  <Item label="WZIM" value="key0" />
-                  <Item label="Leśny" value="key1" />
-                </Picker>
-              </Item>
-
-              <Item stackedLabel>
-                <Label>
-                  <Text note>Kierunek:</Text>
-                </Label>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}
-                  style={{ alignSelf: "stretch" }}
-                >
-                  <Item label="Informatyka" value="key0" />
-                  <Item label="To i Owo" value="key1" />
-                </Picker>
-              </Item>
-
-              <Item stackedLabel>
-                <Label>
-                  <Text note>Stopień:</Text>
-                </Label>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}
-                  style={{ alignSelf: "stretch" }}
-                >
-                  <Item label="inż" value="key0" />
-                  <Item label="mgr" value="key1" />
-                  <Item label="doc" value="key2" />
-                </Picker>
-              </Item>
-
-              <Item stackedLabel>
-                <Label>
-                  <Text note>Semestr:</Text>
-                </Label>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}
-                  style={{ alignSelf: "stretch" }}
-                >
-                  <Item label="1" value="key0" />
-                  <Item label="2" value="key1" />
-                  <Item label="3" value="key2" />
-                </Picker>
-              </Item>
-
-              <Item stackedLabel>
-                <Label>
-                  <Text note>Tryb:</Text>
-                </Label>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}
-                  style={{ alignSelf: "stretch" }}
-                >
-                  <Item label="stacjonarny" value="key0" />
-                  <Item label="zębaty" value="key1" />
-                  <Item label="B" value="key2" />
-                </Picker>
-              </Item>
-
-              <Item stackedLabel>
-                <Label>
-                  <Text note>Grupa:</Text>
-                </Label>
-                <Picker
-                  mode="dropdown"
-                  selectedValue={this.state.selected1}
-                  onValueChange={this.onValueChange.bind(this)}
-                  style={{ alignSelf: "stretch" }}
-                >
-                  <Item label="1" value="key0" />
-                  <Item label="4" value="key1" />
-                  <Item label="B" value="key2" />
-                </Picker>
-              </Item>
-
-              <Separator>
-                <Text>Inne:</Text>
-              </Separator>
-
-              <ListItem>
+                <Icon name="md-menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Title>Ustawienia</Title>
+            </Body>
+            <Right />
+          </Header>
+          {!this.state.prowadzacy ? (
+            <Content>
+              <Text note style={styles.filterTextStyle}>Filtrowanie</Text>
+              <ListItem style={styles.listItemStyle}>
                 <Left>
-                  <Text note>Szybka grupy:</Text>
+                  <Icon name="md-school" style={styles.iconStyle}/>
                 </Left>
-                <Body />
+                <Text>Tryb prowadzącego</Text>
+                <Body/>
+                <Switch
+                  value={this.state.prowadzacy}
+                  onValueChange={() =>
+                    this.setState({ prowadzacy: !this.state.prowadzacy })
+                  }
+                />
+              </ListItem>
+              <Form style={styles.formStyle}>
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Rok akademicki</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="2016/2017" value="key0" />
+                    <Item label="2017/2018" value="key1" />
+                  </Picker>
+                </Item>
+
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Wydział</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="WZIM" value="key0" />
+                    <Item label="Leśny" value="key1" />
+                  </Picker>
+                </Item>
+
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Kierunek</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="Informatyka" value="key0" />
+                    <Item label="To i Owo" value="key1" />
+                  </Picker>
+                </Item>
+
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Stopień</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="inż" value="key0" />
+                    <Item label="mgr" value="key1" />
+                    <Item label="doc" value="key2" />
+                  </Picker>
+                </Item>
+
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Semestr</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="1" value="key0" />
+                    <Item label="2" value="key1" />
+                    <Item label="3" value="key2" />
+                  </Picker>
+                </Item>
+
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Tryb</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="stacjonarny" value="key0" />
+                    <Item label="zębaty" value="key1" />
+                    <Item label="B" value="key2" />
+                  </Picker>
+                </Item>
+
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Grupa</Text>
+                  </Label>
+                  <Picker
+                    mode="dropdown"
+                    selectedValue={this.state.selected1}
+                    onValueChange={this.onValueChange.bind(this)}
+                    style={styles.pickerStyle}
+                  >
+                    <Item label="1" value="key0" />
+                    <Item label="4" value="key1" />
+                    <Item label="B" value="key2" />
+                  </Picker>
+                </Item>
+              </Form>
+              <Text note style={styles.filterTextStyle}>Inne</Text>
+              <ListItem style={styles.listItemStyle}>
+                <Left>
+                  <Icon name="md-swap" style={styles.iconStyle}/>
+                </Left>
+                <Text>Szybka zmiana grupy</Text>
+                <Body/>
                 <Switch
                   value={this.state.fast}
                   onValueChange={() =>
@@ -220,24 +224,39 @@ class Settings extends Component {
                   }
                 />
               </ListItem>
-            </Form>
+            </Content>
           ) : (
-            <Form> 
-               <Item stackedLabel>
-                <Label>
-                  <Text note>Kto?</Text>
-                </Label>
-                <Picker mode="dropdown" selectedValue={this.state.selected1} onValueChange={this.onValueChange.bind(this)} style={{ alignSelf: "stretch" }}>
-                  <Item label="Adek" value="key0" />
-                  <Item label="ktoś inny" value="key1" />
-                </Picker>
-              </Item>
-            </Form>
+            <Content>
+              <Text note style={styles.filterTextStyle}>Filtrowanie</Text>
+              <ListItem style={styles.listItemStyle}>
+                <Left>
+                  <Icon name="md-school" style={styles.iconStyle}/>
+                </Left>
+                <Text>Tryb prowadzącego</Text>
+                <Body/>
+                <Switch
+                  value={this.state.prowadzacy}
+                  onValueChange={() =>
+                    this.setState({ prowadzacy: !this.state.prowadzacy })
+                  }
+                />
+              </ListItem>
+              <Form style={styles.formStyle}> 
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Prowadzący</Text>
+                  </Label>
+                  <Picker mode="dropdown" selectedValue={this.state.selected1} onValueChange={this.onValueChange.bind(this)} style={styles.pickerStyle}>
+                    <Item label="Jan Pieszy" value="key0" />
+                    <Item label="Sylwia Ogórek" value="key1" />
+                  </Picker>
+                </Item>
+              </Form>
+            </Content>
           )}
-        </Content>
-      </Container>
-    );
-  }
+        </Container>
+      );
+    }
   }
 }
 
