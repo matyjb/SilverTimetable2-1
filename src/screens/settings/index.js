@@ -18,10 +18,9 @@ import {
   Separator,
   Switch,
   Form,
-  Label,
-  View, 
-  Image
+  Label
 } from "native-base";
+import { View, Image } from "react-native";
 import PropTypes from "prop-types";
 import { checkFilter } from "../settings/checkFilter";
 
