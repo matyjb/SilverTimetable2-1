@@ -10,7 +10,6 @@ class Home extends Component {
     this.state = {
       appState: AppState.currentState,
     };
-        
   }
  
   componentDidMount() {

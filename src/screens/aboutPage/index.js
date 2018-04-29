@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image } from "react-native";
-import { Text, Header, Right, Left, Body, Button, Icon, Title, H1, Container, Content } from "native-base";
+import { Text, Header, Right, Left, Body, Button, Icon, Title, H1,H2,H3, Container, Content, View } from "native-base";
 import PropTypes from "prop-types";
 
 class AboutPage extends Component {
@@ -30,17 +30,27 @@ class AboutPage extends Component {
           <Right />
         </Header>
         <Content>
-          <Container style={{ alignSelf: "center", alignItems: "center" }}>
-            <Image source={require("./../../../assets/img/logo.png")} style={{flex:1, height: 155, width: 155}} resizeMode="contain"/>
+          <View style={{alignItems: "center" }}>
+            <Image source={require("./../../../assets/img/logo.png")} style={{height: 155, width: 155}} resizeMode="contain"/>
             <H1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2}}>Plan WZIM</H1>
             <Text align="center">
-                  Wersja 1.0.6
+                  Wersja 2.0.0
             </Text>
             <Text style={{ width: 280, textAlign: "center"}}>
                   Aplikacja stworzona przez członków koła naukowego Silver .NET
             </Text>
-            <Image source={require("./../../../assets/img/silver_logo.png")} style={{flex:1, height: 160, width: 160, marginTop: 10}} resizeMode="contain" />
-          </Container>
+            <View style={{marginTop: 10}}>
+              <Text style={{ width: 280, textAlign: "center"}}>            
+                    Bartosz Matyjasiak{"\n"}
+                    Michał Kocisz{"\n"}
+                    Paweł Kaczorowski{"\n"}
+                    Marcin Lewandowski{"\n"}
+                    Maciej Maj{"\n"}
+                    Wiktor El Attar
+              </Text>
+            </View>
+            <Image source={require("./../../../assets/img/silver_logo.png")} style={{height: 160, width: 160, marginTop: 10}} resizeMode="contain" />
+          </View>
         </Content>
       </Container>
     );
