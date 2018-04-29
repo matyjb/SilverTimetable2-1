@@ -15,13 +15,13 @@ class AboutPage extends Component {
   render() {
     return (
       <Container>
-        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left>
+        <Header>
           <Left>
             <Button
               transparent
               onPress={() => this.props.navigation.navigate("DrawerOpen")}
             >
-              <Icon name="ios-menu" />
+              <Icon name="md-menu" />
             </Button>
           </Left>
           <Body>

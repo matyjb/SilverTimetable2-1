@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Image, ScrollView} from "react-native";
-import { Header, Right, Left, Body, Button, Icon, Title, Container, Content } from "native-base";
+import { Header, Right, Left, Body, Button, Icon, Title, Text, Container, Content } from "native-base";
 import PictureOfFloor from "./../../../assets/img/floor.png";
 import PropTypes from "prop-types";
 import styles from "./style";
@@ -12,17 +12,17 @@ class FloorPage extends Component {
   render() {
     return (
       <Container>
-        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left>
+        <Header>
           <Left>
             <Button
               transparent
               onPress={() => this.props.navigation.navigate("DrawerOpen")}
             >
-              <Icon name="ios-menu" />
+              <Icon name="md-menu" />
             </Button>
           </Left>
           <Body>
-            <Title>Schemat piętra</Title>
+            <Text style={{width: "150%"}}><Title>Schemat piętra</Title></Text>
           </Body>
           <Right />
         </Header>

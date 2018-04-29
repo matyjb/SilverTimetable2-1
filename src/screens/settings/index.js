@@ -20,6 +20,9 @@ import {
 import { View, Image } from "react-native";
 import styles from "./style";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { changeConfigurationOption, changeFilter, setFiltersOK } from "../../actions";
+import TimetableServices from "../../timetable/TimetableServices";
 
 class Settings extends Component {
   constructor(props) {
@@ -32,74 +35,95 @@ class Settings extends Component {
     };
   }
 
-  onValueChange(value) {
-    this.setState({
-      selected1: value
-    });
+  componentWillReceiveProps(props) {
+    TimetableServices.WriteConfigurationFile(props.configuration);
+
+    if (!props.filters.group && props.configuration.filters.mode) {
+      props.changeFilter("group", props.selectListsValues.group[0]);
+    }
   }
 
   render() {
-    if(this.state.errorWrongFilters){
-      return (
-        <Container>
-          <Header>
-            <Left>
-              <Button
-                transparent
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
-                <Icon name="md-menu" />
-              </Button>
-            </Left>
-            <Body>
-              <Title>Ustawienia</Title>
-            </Body>
-            <Right />
-          </Header>
+    const lecturers = this.props.selectListsValues.lecturer.filter((v) => v !== "" && v !== " ");
+    try {
+      lecturers.sort((a, b) => a.split(" ")[1].localeCompare(b.split(" ")[1], "pl", { sensitivity: "base" }));
+    } catch (e) {
+      lecturers.sort();
+    }
+
+    return (
+      <Container>
+        <Header>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            >
+              <Icon name="md-menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Text style={{width: "150%"}}><Title>Ustawienia</Title></Text>
+          </Body>
+          <Right />
+        </Header>
+
+        {!this.props.filtersOK ?
+
           <Content contentContainerStyle={styles.contentContainerStyle}>
             <View style={styles.viewStyle}>
               <Image source={require("./../../../assets/img/unknown.png")} style={styles.imgStyle} resizeMode="contain"/>
               <Text  style={styles.textStyle}>Aby zobaczyć plan proszę spersonalizować ustawienia</Text>
-              <Button style={styles.btnStyle} onPress={() => this.setState({errorWrongFilters: false})}>
+              <Button style={styles.btnStyle} onPress={() => this.props.setFiltersOK(true)}>
                 <Text>Ustaw filtry planu</Text>
               </Button>
             </View>
           </Content>
-        </Container>
-      );
-    } else {
-      return (
-        <Container>
-          <Header>
-            <Left>
-              <Button
-                transparent
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
-                <Icon name="md-menu" />
-              </Button>
-            </Left>
-            <Body>
-              <Title>Ustawienia</Title>
-            </Body>
-            <Right />
-          </Header>
-          {!this.state.prowadzacy ? (
-            <Content>
-              <Text note style={styles.filterTextStyle}>Filtrowanie</Text>
-              <ListItem style={styles.listItemStyle}>
-                <Left>
-                  <Icon name="md-school" style={styles.iconStyle}/>
-                </Left>
-                <Text>Tryb prowadzącego</Text>
-                <Body/>
-                <Switch
-                  value={this.state.prowadzacy}
-                  onValueChange={() =>
-                    this.setState({ prowadzacy: !this.state.prowadzacy })
-                  }
-                />
-              </ListItem>
+     
+          :
+
+          <Content>
+            <Text note style={styles.filterTextStyle}>Filtrowanie</Text>
+            <ListItem style={styles.listItemStyle}>
+              <Left>
+                <Icon name="md-school" style={styles.iconStyle}/>
+              </Left>
+              <Text>Tryb prowadzącego</Text>
+              <Body/>
+              <Switch
+                value={this.props.configuration.lecturerMode}
+                onValueChange={(newValue) => 
+                  this.props.changeConfigurationOption("lecturerMode", newValue)}
+              />
+            </ListItem>
+
+
+
+            { this.props.configuration.lecturerMode ?
+      
+        
+              <Form style={styles.formStyle}> 
+                <Item stackedLabel>
+                  <Label>
+                    <Text note>Prowadzący</Text>
+                  </Label>
+                  <Picker
+                    iosHeader="Wybierz"
+                    headerBackButtonText="Powrót"
+                    mode="dropdown"
+                    selectedValue={this.props.filters.lecturer}
+                    onValueChange={(newValue) => this.props.changeFilter("lecturer", newValue)} 
+                    style={styles.pickerStyle}
+                  >
+                    <Picker.Item value={null} label="Wybierz" key=""/>
+                    { lecturers.map( value => (<Picker.Item key={value} label={value} value={value} />) ) }
+                  </Picker>
+                </Item>
+              </Form>
+      
+              :
+      
+            
               <Form style={styles.formStyle}>
                 <Item stackedLabel>
                   <Label>
@@ -109,11 +133,12 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.academicYear}
+                    onValueChange={(newValue) => {this.props.changeFilter("academicYear", newValue); }}
+                    style={styles.pickerStyle}
                   >
-                    <Item label="2016/2017" value="0" />
-                    <Item label="2017/2018" value="1" />
+                    <Picker.Item value={null} label="Wybierz rok" key="" />
+                    {this.props.selectListsValues.academicYear.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
 
@@ -125,12 +150,12 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.department}
+                    onValueChange={(newValue) => this.props.changeFilter("department", newValue)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="Leśny" value="0" key="0 o" />
-                    <Item label="B" value="2" key="2"/>
+                    <Picker.Item value={null} label="Wybierz wydział" key=""/>
+                    {this.props.selectListsValues.department.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
 
@@ -142,12 +167,12 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.fieldOfStudy}
+                    onValueChange={(newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="Informatyka" value="0" key="0"/>
-                    <Item label="To i Owo" value="1" key="1"/>
+                    <Picker.Item value={null} label="Wybierz kierunek" key=""/>
+                    {this.props.selectListsValues.fieldOfStudy.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
 
@@ -159,13 +184,12 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.degree}
+                    onValueChange={(newValue) => this.props.changeFilter("degree", newValue)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="inż" value="0" key="0"/>
-                    <Item label="mgr" value="1" key="1"/>
-                    <Item label="doc" value="2" key="2"/>
+                    <Picker.Item value={null} label="Wybierz stopień" key=""/>
+                    {this.props.selectListsValues.degree.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
 
@@ -177,13 +201,12 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.semester}
+                    onValueChange={(newValue) => this.props.changeFilter("semester", newValue)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="1" value="0" key="0"/>
-                    <Item label="2" value="1" key="1"/>
-                    <Item label="3" value="2" key="2"/>
+                    <Picker.Item value={null} label="Wybierz semestr" key=""/>
+                    {this.props.selectListsValues.semester.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
 
@@ -195,13 +218,12 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.mode}
+                    onValueChange={(newValue) => this.props.changeFilter("mode", newValue)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="stacjonarny" value="0" />
-                    <Item label="zębaty" value="1" />
-                    <Item label="B" value="2" />
+                    <Picker.Item value={null} label="Wybierz tryb" key=""/>
+                    {this.props.selectListsValues.mode.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
 
@@ -213,77 +235,114 @@ class Settings extends Component {
                     iosHeader="Wybierz"
                     headerBackButtonText="Powrót"
                     mode="dropdown"
-                    selectedValue="0"
-                    onValueChange={this.onValueChange.bind(this)}
+                    selectedValue={this.props.filters.group}
+                    onValueChange={(newValue) => this.props.changeFilter("group", newValue)}
                     style={styles.pickerStyle}
                   >
-                    <Item label="1" value="0" key="0"/>
-                    <Item label="4" value="1" key="1"/>
-                    <Item label="B" value="2" key="2"/>
+                    <Picker.Item value={null} label="Wybierz grupę" key=""/>
+                    {this.props.selectListsValues.group.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
                   </Picker>
                 </Item>
+           
+                <Text note style={styles.filterTextStyle}>Inne</Text>
+                <ListItem style={styles.listItemStyle}>
+                  <Left>
+                    <Icon name="md-swap" style={styles.iconStyle}/>
+                  </Left>
+                  <Text>Szybka zmiana grupy</Text>
+                  <Body/>
+                  <Switch
+                    value={this.props.configuration.allowQuickGroupChange}
+                    onValueChange={
+                      (newValue) => this.props.changeConfigurationOption("allowQuickGroupChange", newValue)
+                    }
+                  />
+                </ListItem>
               </Form>
-              <Text note style={styles.filterTextStyle}>Inne</Text>
-              <ListItem style={styles.listItemStyle}>
-                <Left>
-                  <Icon name="md-swap" style={styles.iconStyle}/>
-                </Left>
-                <Text>Szybka zmiana grupy</Text>
-                <Body/>
-                <Switch
-                  value={this.state.fast}
-                  onValueChange={() =>
-                    this.setState({ fast: !this.state.fast })
-                  }
-                />
-              </ListItem>
-            </Content>
-          ) : (
-            <Content>
-              <Text note style={styles.filterTextStyle}>Filtrowanie</Text>
-              <ListItem style={styles.listItemStyle}>
-                <Left>
-                  <Icon name="md-school" style={styles.iconStyle}/>
-                </Left>
-                <Text>Tryb prowadzącego</Text>
-                <Body/>
-                <Switch
-                  value={this.state.prowadzacy}
-                  onValueChange={() =>
-                    this.setState({ prowadzacy: !this.state.prowadzacy })
-                  }
-                />
-              </ListItem>
-              <Form style={styles.formStyle}> 
-                <Item stackedLabel>
-                  <Label>
-                    <Text note>Prowadzący</Text>
-                  </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue="0" 
-                    onValueChange={this.onValueChange.bind(this)} 
-                    style={styles.pickerStyle}
-                  >
-                    <Item label="Jan Pieszy" value="0" key="0"/>
-                    <Item label="Sylwia Ogórek" value="1" key="1"/>
-                  </Picker>
-                </Item>
-              </Form>
-            </Content>
-          )}
-        </Container>
-      );
-    }
+            }
+        
+          </Content>
+        }
+          
+      </Container>
+    );
   }
 }
+
+
+const getAvailableOptions = (optionName, filterKeys, data, filters) => {
+  if (!data) {
+    return [];
+  }
+
+  const resultsSet = new Set();
+  if (optionName !== "lecturers") {
+    data
+      .events
+      .filter((event) => filterKeys
+        .every((key) => event[key] === filters[key]))
+      .forEach((event) => resultsSet.add(optionName === "group"
+        ? event.specialization || event.group.toString()
+        : event[optionName]));
+  } else {
+    data
+      .events
+      .forEach((event) =>
+        event.lecturers.forEach(
+          (lecturer) =>
+            resultsSet.add(lecturer),
+        ),
+      );
+  }
+
+  return [...resultsSet];
+};
+
+const getSelectListsValues = (data, filters) => {
+  return {
+    academicYear: getAvailableOptions("academicYear", [], data, filters),
+    department: getAvailableOptions("department", ["academicYear"], data, filters),
+    fieldOfStudy: getAvailableOptions("fieldOfStudy", ["department", "academicYear"], data, filters),
+    degree: getAvailableOptions("degree", ["department", "fieldOfStudy", "academicYear"], data, filters),
+    semester: getAvailableOptions("semester", ["department", "fieldOfStudy", "degree", "academicYear"],
+      data, filters),
+    mode: getAvailableOptions("mode", ["department", "fieldOfStudy", "degree", "academicYear", "semester"],
+      data, filters),
+    group: getAvailableOptions("group",
+      ["department", "fieldOfStudy", "degree", "mode", "semester", "academicYear"], data, filters),
+    lecturer: getAvailableOptions("lecturers", [], data, filters),
+  };
+};
+
+const mapStateToProps = (state) => {
+  return {
+    timetable: state.timetable.data,
+    filters: state.configuration.filters,
+    configuration: state.configuration,
+    selectListsValues: getSelectListsValues(state.timetable.data, state.configuration.filters),
+    filtersOK: state.filtersOK
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeConfigurationOption: (name, value) => dispatch(changeConfigurationOption(name, value)),
+    changeFilter: (name, value) => dispatch(changeFilter(name, value)),
+    setFiltersOK: (value) => dispatch(setFiltersOK(value))
+  };
+};
 
 Settings.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired
-  }).isRequired
+  }).isRequired,
+  configuration: PropTypes.object,
+  selectListsValues: PropTypes.object,
+  filters: PropTypes.object,
+  changeConfigurationOption: PropTypes.func,
+  setFiltersOK: PropTypes.func,
+  filtersOK: PropTypes.bool,
+  changeFilter: PropTypes.func
 };
 
-export default Settings;
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);
