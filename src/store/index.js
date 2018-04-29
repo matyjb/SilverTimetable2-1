@@ -16,13 +16,15 @@ export const initialState = {
       semester: null,
       group: null,
       academicYear: null,
+      lecturer: null
     },
     notifyAboutUpdates: true,
     allowQuickGroupChange: true,
     lecturerMode: false,
   },
   currentDay: null,
-  selectedDay: null
+  selectedDay: null,
+  filtersOK: false
 };
 
 const store = createStore(rootReducer, initialState);

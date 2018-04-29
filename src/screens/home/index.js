@@ -1,17 +1,23 @@
 import React, { Component } from "react";
-import { Card, CardItem, Container, Content, Button, Body, Header, Icon, Tab, Tabs, Title, Right, Left, Text } from "native-base";
+import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text } from "native-base";
 import { AppState } from "react-native";
 import PropTypes from 'prop-types';
+import { connect } from "react-redux";
+import { setFiltersOK } from "../../actions";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log("Home Page Loaded");
     this.state = {
       appState: AppState.currentState,
     };
   }
  
+  componentWillMount() {
+    console.log("Checking filters...");
+    this.checkValidFilters();
+  }
+
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
   }
@@ -27,8 +33,6 @@ class Home extends Component {
         this.setState({appState: nextAppState});
       }
 
-      
-    
       render() {
         return (
           <Container>
@@ -47,57 +51,66 @@ class Home extends Component {
               <Right />
             </Header>
             <Content>
-              <Tabs initialPage={1}>
-                <Tab heading="Tab1">
-                  <Card>
-                    <CardItem header>
-                      <Text>NativeBase</Text>
-                    </CardItem>
-                    <CardItem>
-                      <Body>
-                        <Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est.
-                        </Text>
-                      </Body>
-                    </CardItem>
-                    <CardItem footer>
-                      <Text>Lorem ipsum</Text>
-                    </CardItem>
-                  </Card>
-                  <Card>
-                    <CardItem header>
-                      <Text>NativeBase</Text>
-                    </CardItem>
-                    <CardItem>
-                      <Body>
-                        <Text>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi. Cras vel lorem. Etiam pellentesque aliquet tellus. Phasellus pharetra nulla ac diam. Quisque semper justo at risus. Donec venenatis, turpis vel hendrerit interdum, dui ligula ultricies purus, sed posuere libero dui id orci. Nam congue, pede vitae dapibus aliquet, elit magna vulputate arcu, vel tempus metus leo non est.
-                        </Text>
-                      </Body>
-                    </CardItem>
-                    <CardItem footer>
-                      <Text>Lorem ipsum</Text>
-                    </CardItem>
-                  </Card>
-                </Tab>
-                <Tab heading="Tab2">
-                  <Text>lorem ipsum</Text>
-                </Tab>
-                <Tab heading="Tab3">
-                  <Text>lorem ipsum</Text>
-                </Tab>
-              </Tabs>
-              
+              <Text>Tutaj pojawi się plan</Text>
             </Content>
           </Container>
         );
       }
+
+      checkValidFilters() {
+        if ((this.props.configuration.lecturerMode && !this.props.filters.lecturer)
+            || (!this.props.configuration.lecturerMode && !this.props.filters.mode)
+            || !this.ensureFilteredValuesExist(this.props.filters, this.props.timetable)) {
+
+          this.props.setFiltersOK(false);
+          
+          console.log("Home Page: Wrong filters, redirecting to Settings...");
+          this.props.navigation.navigate("Settings");
+
+        } else {
+          this.props.setFiltersOK(true);
+          console.log("Home Page Loaded");
+        }
+      }
+
+      ensureFilteredValuesExist(filters, timetable) {
+        if (this.props.configuration.lecturerMode) {
+          return timetable.events.some((event) => event.lecturers.some((lecturer) => lecturer === filters.lecturer));
+        }
+        const keys = Object.keys(filters);
+        keys.pop(); // remove lecturer key
+        console.log("TEST3");
+        return keys.every((key) => timetable.events.some((event) => event[key] === filters[key]
+            || ((key === "group") && event.specialization === filters.group)
+            || (!filters.group && this.props.configuration.allowQuickGroupChange)));
+      }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    timetable: state.timetable.data,
+    filters: state.configuration.filters,
+    configuration: state.configuration,
+    filtersOK: state.filtersOK
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFiltersOK: (value) => dispatch(setFiltersOK(value))
+  };
+};
 
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  configuration: PropTypes.object,
+  lecturerMode: PropTypes.bool,
+  quickGroupChangeAllowed: PropTypes.bool,
+  setFiltersOK: PropTypes.func,
+  timetable: PropTypes.object,
+  filters: PropTypes.object
 };
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -138,15 +138,10 @@ class Setup extends Component {
     let dayNumber = today.getDay();
 
     if (this.props.configuration.lecturerMode) {
-      return dayNumber === 0 ? 7 : dayNumber;
+      return dayNumber === 0 ? "7" : dayNumber.toString();
     }
 
     switch (mode) {
-      case "Stacjonarne":
-        if (dayNumber === 0 || dayNumber === 6) {
-          dayNumber = 1;
-        }
-        break;
       case "Niestacjonarne":
         if (dayNumber >= 1 && dayNumber <= 4) {
           dayNumber = 5;
@@ -154,10 +149,14 @@ class Setup extends Component {
           dayNumber = 7;
         }
         break;
+      case "Stacjonarne":
       default:
-        dayNumber = null;
+        if (dayNumber === 0 || dayNumber === 6) {
+          dayNumber = 1;
+        }
+        break;
     }
-    return dayNumber;
+    return dayNumber.toString();
   }
 
   async getTimetableWithRetries(retriesCount) {

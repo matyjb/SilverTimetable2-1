@@ -7,7 +7,8 @@ import {
   CHANGE_CONFIGURATION_OPTION,
   LOAD_CONFIGURATION,
   SET_CURRENT_DAY,
-  SET_DAY
+  SET_DAY,
+  FILTERS_OK
 } from "../actions/action-types";
 
 const rootReducer = (state, action) => {
@@ -74,6 +75,11 @@ const rootReducer = (state, action) => {
     case SET_DAY:
       return {
         ...state, selectedDay: action.payload,
+      };
+
+    case FILTERS_OK:
+      return {
+        ...state, filtersOK: action.payload,
       };
 
     default:

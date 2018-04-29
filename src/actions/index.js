@@ -26,3 +26,7 @@ export const setCurrentDay = (value) => ({
 export const setDay = (value) => ({
   type: types.SET_DAY, payload: value,
 });
+
+export const setFiltersOK = (value) => ({
+  type: types.FILTERS_OK, payload: value,
+});

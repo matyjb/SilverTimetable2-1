@@ -9,3 +9,5 @@ export const CHANGE_CONFIGURATION_OPTION = "CHANGE_CONFIGURATION_OPTION";
 
 export const SET_CURRENT_DAY = "SET_CURRENT_DAY";
 export const SET_DAY = "SET_DAY";
+
+export const FILTERS_OK = "FILTERS_OK";
