@@ -53,7 +53,7 @@ class Home extends Component {
           </Body>
           <Right />
         </Header>
-        <Tabs renderTabBar={()=> <ScrollableTab />} style={{backgroundColor: '#3f51b5'}}>
+        <Tabs renderTabBar={()=> <ScrollableTab />} style={{backgroundColor: '#3f51b5'}} prerenderingSiblingsNumber={1}>
           {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
         </Tabs>
       </Container>
@@ -80,18 +80,6 @@ class Home extends Component {
         )
       }
       return result;
-        // return [
-        //     <Tab heading="Pn" key={0}>
-        //       {/* <EventBlock event={{name: "sasda"}} order={1} isLecturerMode/> */}
-              
-        //     </Tab>,
-        //     <Tab heading="Wt" key={1}/>,
-        //     <Tab heading="Śr" key={2}/>,
-        //     <Tab heading="Czw" key={3}/>,
-        //     <Tab heading="Pt" key={4}/>,
-        //     <Tab heading="So" key={5}/>,
-        //     <Tab heading="Nd" key={6}/>,
-        // ];
     }
     if (filter.mode === "Stacjonarne") {
       for(var i = 0;i<5;i++){
@@ -102,23 +90,6 @@ class Home extends Component {
         )
       }
       return result;
-        // return [
-        //   <Tab heading="Pn" key={0}>
-        //   {this.renderEventBlocks(this.props.timetable,this.props.filters,1,this.props.filters.group,this.props.configuration.lecturerMode)}
-        //   </Tab>,
-        //   <Tab heading="Wt" key={1}>
-        //   {this.renderEventBlocks(this.props.timetable,this.props.filters,2,this.props.filters.group,this.props.configuration.lecturerMode)}
-        //   </Tab>,
-        //   <Tab heading="Śr" key={2}>
-        //   {this.renderEventBlocks(this.props.timetable,this.props.filters,3,this.props.filters.group,this.props.configuration.lecturerMode)}
-        //   </Tab>,
-        //   <Tab heading="Czw" key={3}>
-        //   {this.renderEventBlocks(this.props.timetable,this.props.filters,4,this.props.filters.group,this.props.configuration.lecturerMode)}
-        //   </Tab>,
-        //   <Tab heading="Pt" key={4}>
-        //   {this.renderEventBlocks(this.props.timetable,this.props.filters,5,this.props.filters.group,this.props.configuration.lecturerMode)}
-        //   </Tab>, 
-        // ];
     } else {
       for(var i = 4;i<7;i++){
         result.push(
@@ -128,11 +99,6 @@ class Home extends Component {
         )
       }
       return result;
-        // return [
-        //     <Tab heading="Pt" key={4}/>,
-        //     <Tab heading="So" key={5}/>,
-        //     <Tab heading="Nd" key={6}/>,
-        // ];
     }
   }
 
