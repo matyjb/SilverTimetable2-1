@@ -1,18 +1,18 @@
+import React, { Component } from 'react';
 import * as Moment from "moment";
 import {View} from "react-native";
+import {Text} from "native-base";
 import PropTypes from 'prop-types';
 
-export default class BreakBlock {
+export default class BreakBlock extends Component {
 
     render() {
         const style = {
-            display: "flex",
-            justifyContent: "center",
-            fontWeight: 500,
+            textAlign: "center",
             color: "rgb(125,125,125)",
             fontSize: 12,
         };
-        let text = "";
+        var text = "";
         if (this.props.isStart) {
             text = "Start " + this.props.startTime.format("HH:mm");
         } else if (this.props.isEnd) {
@@ -44,10 +44,9 @@ export default class BreakBlock {
         if (this.props.isEnd) {
             style.paddingBottom = 10;
         }
-
         return (
-            <View style={style}>
-                {text}
+            <View>
+                <Text style={style}>{text}</Text>
             </View>
         );
     }
@@ -57,6 +56,5 @@ BreakBlock.propTypes = {
     isStart: PropTypes.bool,
     isEnd: PropTypes.bool,
     duration: PropTypes.number,
-    startTime: Moment.Moment,
-    key: PropTypes.number,
+    startTime: PropTypes.object,
   };
