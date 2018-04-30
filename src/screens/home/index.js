@@ -2,33 +2,22 @@ import React, { Component } from "react";
 import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, Tab, ScrollableTab } from "native-base";
 import { AppState, Dimensions } from "react-native";
 import PropTypes from 'prop-types';
-import {checkFilter} from "../settings/checkFilter";
+import { connect } from "react-redux";
+import { setFiltersOK } from "../../actions";
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    console.log("Home Page Loaded");
     this.state = {
       appState: AppState.currentState,
     };
-    this.filter = {
-      isLecturerMode: false, 
-      lecturer: "Alinka", 
-      academicYear: null, 
-      department: null, 
-      fieldOfStudy: null, 
-      degree: null, 
-      semester: null, 
-      mode: "Stacjonarne", 
-      group: null, 
-    }
-    // if(!checkFilter()){ //to be able to work on tabs
-      if(false){
-      console.log("zle filtry przechodzenie do settings");
-      this.props.navigation.navigate("Settings");
-    }
   }
  
+  componentWillMount() {
+    console.log("Checking filters...");
+    this.checkValidFilters();
+  }
+
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
   }
@@ -36,14 +25,41 @@ class Home extends Component {
   componentWillUnmount() {
     AppState.removeEventListener('change', this._handleAppStateChange);
   }
-  
+    
   _handleAppStateChange = (nextAppState) => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       console.log('App has come to the foreground!')
     }
     this.setState({appState: nextAppState});
   }
-  
+
+  render() {
+    return (
+      <Container>
+        <Header hasTabs>
+          <Left>
+            <Button
+              transparent
+              onPress={() => this.props.navigation.navigate("DrawerOpen")}
+            >
+              <Icon name="md-menu" />
+            </Button>
+          </Left>
+          <Body>
+            <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
+          </Body>
+          <Right />
+        </Header>
+        <Tabs renderTabBar={()=> <ScrollableTab />} style={{backgroundColor: '#3f51b5'}}>
+          {this.renderDayTabs(this.filter)}
+        </Tabs>
+        <Content>
+          <Text>Tutaj pojawi się plan</Text>
+        </Content>
+      </Container>
+    );
+  }
+
   renderDayTabs(filter) {
     if (filter.isLecturerMode) {
         return [
@@ -72,56 +88,60 @@ class Home extends Component {
         ];
     }
   }
-  
-  render() {
-    return (
-      <Container>
-        <Header iosBarStyle='light-content' backgroundColor='#3f51b5' androidStatusBarColor='#3f51b5' Left hasTabs>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <Icon name="ios-menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
-          </Body>
-          <Right />
-        </Header>
-        <Tabs renderTabBar={()=> <ScrollableTab />} style={{backgroundColor: '#3f51b5'}}>
-          {this.renderDayTabs(this.filter)}
-        </Tabs>
-        <Content>
-          <Text>MainPage</Text>
-          <Text>Current state: {this.state.appState}</Text>
-        </Content>
-      </Container>
-    );
+
+  checkValidFilters() {
+    if ((this.props.configuration.lecturerMode && !this.props.filters.lecturer)
+        || (!this.props.configuration.lecturerMode && !this.props.filters.mode)
+        || !this.ensureFilteredValuesExist(this.props.filters, this.props.timetable)) {
+
+      this.props.setFiltersOK(false);
+      
+      console.log("Home Page: Wrong filters, redirecting to Settings...");
+      this.props.navigation.navigate("Settings");
+
+    } else {
+      this.props.setFiltersOK(true);
+      console.log("Home Page Loaded");
+    }
+  }
+
+  ensureFilteredValuesExist(filters, timetable) {
+    if (this.props.configuration.lecturerMode) {
+      return timetable.events.some((event) => event.lecturers.some((lecturer) => lecturer === filters.lecturer));
+    }
+    const keys = Object.keys(filters).filter((value) => value!=="lecturer");
+
+    return keys.every((key) => timetable.events.some((event) => event[key] === filters[key]
+        || ((key === "group") && event.specialization === filters.group)
+        || (!filters.group && this.props.configuration.allowQuickGroupChange)));
   }
 }
-// <Text>{globalProps.timetable}</Text>
+
+const mapStateToProps = (state) => {
+  return {
+    timetable: state.timetable.data,
+    filters: state.configuration.filters,
+    configuration: state.configuration,
+    filtersOK: state.filtersOK
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setFiltersOK: (value) => dispatch(setFiltersOK(value))
+  };
+};
+
 Home.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  configuration: PropTypes.object,
+  lecturerMode: PropTypes.bool,
+  quickGroupChangeAllowed: PropTypes.bool,
+  setFiltersOK: PropTypes.func,
+  timetable: PropTypes.object,
+  filters: PropTypes.object
 };
 
-export default Home;
-/*
-<Timetable
-                            data={data}
-                            filters={filters}
-                            selectedDay={this.state.selectedDay}
-                            selectedEvent={this.state.selectedEvent}
-                            // bottomDrawerOpen={this.props.timetableConfig.bottomDrawerOpen}
-                            // quickGroupChangeAllowed={this.props.configuration.allowQuickGroupChange}
-                            // handleGroupChange={(group) => this.props.changeGroup(group)}
-                            onDayChange={this.changeDay}
-                            onEventBlockClick={(event) => this.handleEventBlockClick(event)}
-                            // onBottomDrawerClose={this.props.closeBottomDrawer}
-                            onTimetableRefresh={() => this.refresh(false)}
-                            // lecturerMode={this.props.configuration.lecturerMode}
-                        />
-*/
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
