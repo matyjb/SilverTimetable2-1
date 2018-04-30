@@ -77,8 +77,8 @@ class Home extends Component {
         if (this.props.configuration.lecturerMode) {
           return timetable.events.some((event) => event.lecturers.some((lecturer) => lecturer === filters.lecturer));
         }
-        const keys = Object.keys(filters);
-        keys.pop(); // remove lecturer key
+        const keys = Object.keys(filters).filter((value) => value!=="lecturer");
+
         return keys.every((key) => timetable.events.some((event) => event[key] === filters[key]
             || ((key === "group") && event.specialization === filters.group)
             || (!filters.group && this.props.configuration.allowQuickGroupChange)));
