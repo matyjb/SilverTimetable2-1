@@ -1,4 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions, Platform } from "react-native";
+
+const { width, height } = Dimensions.get("screen");
 
 const styles = StyleSheet.create({
   contentContainerStyle: {
@@ -41,7 +43,10 @@ const styles = StyleSheet.create({
   },
 
   pickerStyle: {
-    alignSelf: "stretch"
+    alignSelf: "stretch",
+    width: width*0.9,
+    justifyContent: Platform.OS === "ios" ? "center" : "flex-start"
+
   },
 
   formStyle: {

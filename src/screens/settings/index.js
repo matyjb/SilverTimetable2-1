@@ -17,7 +17,7 @@ import {
   Form,
   Label
 } from "native-base";
-import { View, Image } from "react-native";
+import { View, Image, Platform } from "react-native";
 import styles from "./style";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
@@ -107,17 +107,28 @@ class Settings extends Component {
                   <Label>
                     <Text note>Prowadzący</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.lecturer}
-                    onValueChange={(newValue) => this.props.changeFilter("lecturer", newValue)} 
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz" key=""/>
-                    { lecturers.map( value => (<Picker.Item key={value} label={value} value={value} />) ) }
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.lecturer}
+                      onValueChange={(newValue) => this.props.changeFilter("lecturer", newValue)} 
+                      style={styles.pickerStyle}
+                    >
+                      { lecturers.map( value => (<Picker.Item key={value} label={value} value={value} />) ) }
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.lecturer}
+                      onValueChange={(newValue) => this.props.changeFilter("lecturer", newValue)} 
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz" key=""/>
+                      { lecturers.map( value => (<Picker.Item key={value} label={value} value={value} />) ) }
+                    </Picker>
+                  }
                 </Item>
               </Form>
       
@@ -129,119 +140,196 @@ class Settings extends Component {
                   <Label>
                     <Text note>Rok akademicki</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.academicYear}
-                    onValueChange={(newValue) => {this.props.changeFilter("academicYear", newValue); }}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz rok" key="" />
-                    {this.props.selectListsValues.academicYear.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.academicYear}
+                      onValueChange={(newValue) => {this.props.changeFilter("academicYear", newValue); }}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.academicYear.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.academicYear}
+                      onValueChange={(newValue) => {this.props.changeFilter("academicYear", newValue); }}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz rok" key="" />
+                      {this.props.selectListsValues.academicYear.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
 
                 <Item stackedLabel>
                   <Label>
                     <Text note>Wydział</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.department}
-                    onValueChange={(newValue) => this.props.changeFilter("department", newValue)}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz wydział" key=""/>
-                    {this.props.selectListsValues.department.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.department}
+                      onValueChange={(newValue) => this.props.changeFilter("department", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.department.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.department}
+                      onValueChange={(newValue) => this.props.changeFilter("department", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz wydział" key=""/>
+                      {this.props.selectListsValues.department.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
 
                 <Item stackedLabel>
                   <Label>
                     <Text note>Kierunek</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.fieldOfStudy}
-                    onValueChange={(newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz kierunek" key=""/>
-                    {this.props.selectListsValues.fieldOfStudy.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.fieldOfStudy}
+                      onValueChange={(newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.fieldOfStudy.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.fieldOfStudy}
+                      onValueChange={(newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz kierunek" key=""/>
+                      {this.props.selectListsValues.fieldOfStudy.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
 
                 <Item stackedLabel>
                   <Label>
                     <Text note>Stopień</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.degree}
-                    onValueChange={(newValue) => this.props.changeFilter("degree", newValue)}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz stopień" key=""/>
-                    {this.props.selectListsValues.degree.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.degree}
+                      onValueChange={(newValue) => this.props.changeFilter("degree", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.degree.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.degree}
+                      onValueChange={(newValue) => this.props.changeFilter("degree", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz stopień" key=""/>
+                      {this.props.selectListsValues.degree.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
 
                 <Item stackedLabel>
                   <Label>
                     <Text note>Semestr</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.semester}
-                    onValueChange={(newValue) => this.props.changeFilter("semester", newValue)}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz semestr" key=""/>
-                    {this.props.selectListsValues.semester.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.semester}
+                      onValueChange={(newValue) => this.props.changeFilter("semester", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.semester.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.semester}
+                      onValueChange={(newValue) => this.props.changeFilter("semester", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz semestr" key=""/>
+                      {this.props.selectListsValues.semester.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
 
                 <Item stackedLabel>
                   <Label>
                     <Text note>Tryb</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.mode}
-                    onValueChange={(newValue) => this.props.changeFilter("mode", newValue)}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz tryb" key=""/>
-                    {this.props.selectListsValues.mode.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.mode}
+                      onValueChange={(newValue) => this.props.changeFilter("mode", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.mode.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.mode}
+                      onValueChange={(newValue) => this.props.changeFilter("mode", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz tryb" key=""/>
+                      {this.props.selectListsValues.mode.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
 
                 <Item stackedLabel>
                   <Label>
                     <Text note>Grupa</Text>
                   </Label>
-                  <Picker
-                    iosHeader="Wybierz"
-                    headerBackButtonText="Powrót"
-                    mode="dropdown"
-                    selectedValue={this.props.filters.group}
-                    onValueChange={(newValue) => this.props.changeFilter("group", newValue)}
-                    style={styles.pickerStyle}
-                  >
-                    <Picker.Item value={null} label="Wybierz grupę" key=""/>
-                    {this.props.selectListsValues.group.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
-                  </Picker>
+                  {Platform.OS === "ios" ?
+                    <Picker
+                      iosHeader="Wybierz"
+                      headerBackButtonText="Powrót"
+                      mode="dropdown"
+                      selectedValue={this.props.filters.group}
+                      onValueChange={(newValue) => this.props.changeFilter("group", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      {this.props.selectListsValues.group.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                    :
+                    <Picker
+                      mode="dropdown"
+                      selectedValue={this.props.filters.group}
+                      onValueChange={(newValue) => this.props.changeFilter("group", newValue)}
+                      style={styles.pickerStyle}
+                    >
+                      <Picker.Item value={null} label="Wybierz grupę" key=""/>
+                      {this.props.selectListsValues.group.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                    </Picker>
+                  }
                 </Item>
            
                 <Text note style={styles.filterTextStyle}>Inne</Text>

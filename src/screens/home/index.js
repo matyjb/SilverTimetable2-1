@@ -79,7 +79,6 @@ class Home extends Component {
         }
         const keys = Object.keys(filters);
         keys.pop(); // remove lecturer key
-        console.log("TEST3");
         return keys.every((key) => timetable.events.some((event) => event[key] === filters[key]
             || ((key === "group") && event.specialization === filters.group)
             || (!filters.group && this.props.configuration.allowQuickGroupChange)));
