@@ -16,7 +16,6 @@ export const initialState = {
       semester: null,
       group: null,
       academicYear: null,
-      lecturer: null
     },
     notifyAboutUpdates: true,
     allowQuickGroupChange: true,
