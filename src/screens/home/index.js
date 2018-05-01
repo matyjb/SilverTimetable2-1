@@ -104,7 +104,7 @@ class Home extends Component {
         7: "NIE",
     };
     const tablica = [];
-    const result = this.props.lecturerMode
+    const result = lecturerMode
         ?
         data.events.filter((obj) => (obj.lecturers.some((lecturer) => lecturer === filters.lecturer)
             && obj.dayOfWeek === dayNames[dayOfWeek]))
@@ -146,6 +146,7 @@ class Home extends Component {
             }
             tab.sort();
             result[index].groups = tab;
+            
         }
     }
     const elements = result.length
