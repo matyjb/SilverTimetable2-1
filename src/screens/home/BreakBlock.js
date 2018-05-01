@@ -45,9 +45,7 @@ export default class BreakBlock extends Component {
             style.paddingBottom = 10;
         }
         return (
-            <View>
-                <Text style={style}>{text}</Text>
-            </View>
+            <Text style={style}>{text}</Text>
         );
     }
 }

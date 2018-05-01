@@ -71,35 +71,25 @@ class Home extends Component {
       "NIE",
     ];
     var result = [];
-    if (isLecturerMode) {
-      for(var i = 0;i<7;i++){
-        result.push(
-          <Tab heading={dayNames[i]} key={i}>
-            {this.renderEventBlocks(this.props.timetable,this.props.filters,i+1,this.props.filters.group,this.props.configuration.lecturerMode)}
-          </Tab>
-        )
-      }
-      return result;
+
+    var dayFrom = 0, dayTo = 0;
+    if(isLecturerMode){
+      dayFrom = 0; dayTo = 7;
+    }else if(filter.mode === "Stacjonarne"){
+      dayFrom = 0; dayTo = 5;
+    }else{
+      dayFrom = 4; dayTo = 7;
     }
-    if (filter.mode === "Stacjonarne") {
-      for(var i = 0;i<5;i++){
-        result.push(
-          <Tab heading={dayNames[i]} key={i}>
+    for(var i = dayFrom; i < dayTo; i++){
+      result.push(
+        <Tab heading={dayNames[i]} key={i} style={{backgroundColor: "rgb(220,220,220)"}}>
+          <Content>
             {this.renderEventBlocks(this.props.timetable,this.props.filters,i+1,this.props.filters.group,this.props.configuration.lecturerMode)}
-          </Tab>
-        )
-      }
-      return result;
-    } else {
-      for(var i = 4;i<7;i++){
-        result.push(
-          <Tab heading={dayNames[i]} key={i}>
-            {this.renderEventBlocks(this.props.timetable,this.props.filters,i+1,this.props.filters.group,this.props.configuration.lecturerMode)}
-          </Tab>
-        )
-      }
-      return result;
+          </Content>
+        </Tab>
+      )
     }
+    return result;
   }
 
   renderEventBlocks(data, filters, dayOfWeek, group, lecturerMode) {
@@ -131,7 +121,6 @@ class Home extends Component {
                 && obj.academicYear === filters.academicYear);
 
     result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
-
     if (lecturerMode) {
         for (let index = 0; index < result.length; index++) {
             const tmp = result[index];
