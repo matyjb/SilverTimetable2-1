@@ -81,10 +81,16 @@ class Home extends Component {
       dayFrom = 4; dayTo = 7;
     }
     for(var i = dayFrom; i < dayTo; i++){
+      var blocks = this.renderEventBlocks(this.props.timetable,this.props.filters,i+1,this.props.filters.group,this.props.configuration.lecturerMode);
+      const style = {
+        textAlign: "center",
+        color: "rgb(125,125,125)",
+        fontSize: 12,
+      };
       result.push(
         <Tab heading={dayNames[i]} key={i} style={{backgroundColor: "rgb(220,220,220)"}}>
           <Content>
-            {this.renderEventBlocks(this.props.timetable,this.props.filters,i+1,this.props.filters.group,this.props.configuration.lecturerMode)}
+            {blocks.length === 0 ? <Text style={style}>Brak zajęć</Text> : blocks}
           </Content>
         </Tab>
       )
@@ -152,7 +158,6 @@ class Home extends Component {
     const elements = result.length
         ? [(<BreakBlock isStart startTime={result[0].startTime} key={0}/>)]
         : [];
-    // var elements = [];
 
     result.forEach((event, index) => elements.push(
         <React.Fragment key={index + 1}>
