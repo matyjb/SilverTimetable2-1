@@ -7,6 +7,7 @@ import { setFiltersOK } from "../../actions";
 import EventBlock from "./EventBlock";
 import BreakBlock from "./BreakBlock";
 import * as Moment from "moment";
+import {setDay} from "../../actions";
 
 class Home extends Component {
   constructor(props) {
@@ -14,6 +15,7 @@ class Home extends Component {
     this.state = {
       appState: AppState.currentState,
     };
+    this._tabs = null;
   }
  
   componentWillMount() {
@@ -23,6 +25,7 @@ class Home extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
+    setTimeout(() => this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10), 100));
   }
     
   componentWillUnmount() {
@@ -53,7 +56,13 @@ class Home extends Component {
           </Body>
           <Right />
         </Header>
-        <Tabs renderTabBar={()=> <ScrollableTab />} style={{backgroundColor: '#3f51b5'}} prerenderingSiblingsNumber={1}>
+        <Tabs 
+          renderTabBar={()=> <ScrollableTab />} 
+          style={{backgroundColor: '#3f51b5'}} 
+          prerenderingSiblingsNumber={1} 
+          ref={(ref) => { this._tabs = ref; }} 
+          onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Stacjonarne" ? i+1 : i+5).toString())}
+          >
           {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
         </Tabs>
       </Container>
@@ -211,13 +220,15 @@ const mapStateToProps = (state) => {
     timetable: state.timetable.data,
     filters: state.configuration.filters,
     configuration: state.configuration,
-    filtersOK: state.filtersOK
+    filtersOK: state.filtersOK,
+    selectedDay: state.selectedDay
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setFiltersOK: (value) => dispatch(setFiltersOK(value))
+    setFiltersOK: (value) => dispatch(setFiltersOK(value)),
+    setDay: (value) => dispatch(setDay(value)),
   };
 };
 
@@ -229,8 +240,10 @@ Home.propTypes = {
   lecturerMode: PropTypes.bool,
   quickGroupChangeAllowed: PropTypes.bool,
   setFiltersOK: PropTypes.func,
+  setDay: PropTypes.func,
   timetable: PropTypes.object,
-  filters: PropTypes.object
+  filters: PropTypes.object,
+  selectedDay: PropTypes.string
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
