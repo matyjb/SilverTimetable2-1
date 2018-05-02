@@ -26,7 +26,7 @@ class Home extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
-    setTimeout(() => this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10), 300));
+    setTimeout(() => { this.setOldDay(); }, 0);
   }
     
   componentWillUnmount() {
@@ -57,7 +57,7 @@ class Home extends Component {
           </Body>
           <Right>
             <Button
-            disabled={this.state.refreshing}
+              disabled={this.state.refreshing}
               transparent
               onPress={() =>{
                 Toast.show({
@@ -85,6 +85,11 @@ class Home extends Component {
   refresh(){
     this.setState({refreshing: true});
     setTimeout(()=>{Toast.toastInstance._root.closeToast(); this.setState({refreshing: false})},2000);
+  }
+
+  setOldDay(){
+    while(this._tabs === null){}
+    this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10));
   }
 
   renderDayTabs(filter, isLecturerMode) {
