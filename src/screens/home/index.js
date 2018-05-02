@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, Tab, ScrollableTab } from "native-base";
+import { Container, Content, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, Tab, ScrollableTab, Toast } from "native-base";
 import { AppState, Dimensions, View } from "react-native";
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
@@ -14,6 +14,7 @@ class Home extends Component {
     super(props);
     this.state = {
       appState: AppState.currentState,
+      refreshing: false
     };
     this._tabs = null;
   }
@@ -25,7 +26,7 @@ class Home extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
-    setTimeout(() => this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10), 200));
+    setTimeout(() => this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10), 300));
   }
     
   componentWillUnmount() {
@@ -54,7 +55,19 @@ class Home extends Component {
           <Body>
             <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
           </Body>
-          <Right />
+          <Right>
+            <Button
+            disabled={this.state.refreshing}
+              transparent
+              onPress={() =>{
+                Toast.show({
+                  text: "Refreshing...",
+                  duration: 30000
+                }); this.refresh();}}
+            >
+              <Icon name="md-refresh" />
+            </Button>
+          </Right>
         </Header>
         <Tabs 
           renderTabBar={()=> <ScrollableTab />} 
@@ -67,6 +80,11 @@ class Home extends Component {
         </Tabs>
       </Container>
     );
+  }
+
+  refresh(){
+    this.setState({refreshing: true});
+    setTimeout(()=>{Toast.toastInstance._root.closeToast(); this.setState({refreshing: false})},2000);
   }
 
   renderDayTabs(filter, isLecturerMode) {
