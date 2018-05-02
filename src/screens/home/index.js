@@ -25,7 +25,7 @@ class Home extends Component {
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
-    setTimeout(() => this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10), 100));
+    setTimeout(() => this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" ? 1 : 5),10), 200));
   }
     
   componentWillUnmount() {
