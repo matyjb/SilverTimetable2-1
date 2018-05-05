@@ -24,7 +24,7 @@ class FileManager extends Component {
   static async writeFile(filename, dataObj) {
     const target = Expo.FileSystem.documentDirectory+filename;
     try {
-      Expo.FileSystem.writeAsStringAsync(target, JSON.stringify(dataObj));
+      await Expo.FileSystem.writeAsStringAsync(target, JSON.stringify(dataObj));
     } catch (er) {
       console.log("Error saving to " + target, er);
     }
@@ -32,8 +32,9 @@ class FileManager extends Component {
     
   static async deleteFile(filename) {
     const target = Expo.FileSystem.documentDirectory+filename;
-    if (Expo.FileSystem.getInfoAsync(target).exists) {
-      Expo.FileSystem.deleteAsync(target);
+    const getInfo = await Expo.FileSystem.getInfoAsync(target);
+    if (getInfo.exists) {
+      await Expo.FileSystem.deleteAsync(target);
       console.log("Successfully deleted: " + filename);
       return;
     }

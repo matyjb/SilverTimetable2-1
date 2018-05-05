@@ -3,6 +3,7 @@ import { AppState } from "react-native";
 import App from "../App";
 import Expo from "expo";
 import TimetableServices from "../timetable/TimetableServices";
+import FileManager from "../timetable/FileManager";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -13,6 +14,7 @@ import {
   setCurrentDay,
   setDay
 } from "../actions";
+import globalProps from "../globalProps";
 
 class Setup extends Component {
   constructor(props) {
@@ -26,7 +28,7 @@ class Setup extends Component {
     AppState.addEventListener("change", state =>
       console.log("AppState changed to", state)
     );
-
+   
     this.props.timetableLoadRequest();
     console.log("Initialize");
 
@@ -104,6 +106,8 @@ class Setup extends Component {
   }
 
   async componentWillMount() {
+   //await FileManager.deleteFile(globalProps.objs.configFileName);
+  // await FileManager.deleteFile(globalProps.objs.timetableFileName);
     console.log("---------------");
     await this.Initialize();
     console.log("---------------");
