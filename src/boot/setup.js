@@ -95,8 +95,8 @@ class Setup extends Component {
   }
 
   async componentWillMount() {
-    //await FileManager.deleteFile(globalProps.objs.configFileName);
-    //await FileManager.deleteFile(globalProps.objs.timetableFileName);
+    // await FileManager.deleteFile(globalProps.objs.configFileName);
+    // await FileManager.deleteFile(globalProps.objs.timetableFileName);
     console.log("---------------");
     await this.Initialize();
     console.log("---------------");

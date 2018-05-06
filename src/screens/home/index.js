@@ -197,10 +197,10 @@ class Home extends Component {
       dayNumber = dayNumber - 1;
     }
 
-    if (mode==="Niestacjonarne" && dayNumber >= 0 && dayNumber <= 3) {
+    if (mode==="Niestacjonarne" && dayNumber >= 0 && dayNumber <= 3 && !this.props.configuration.lecturerMode) {
       dayNumber = 4;
     }
-    if (mode==="Stacjonarne" && dayNumber > 4) {
+    if (mode==="Stacjonarne" && dayNumber > 4 && !this.props.configuration.lecturerMode) {
       dayNumber = 0;
     }
     return dayNumber.toString();
