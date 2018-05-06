@@ -22,7 +22,6 @@ export const initialState = {
     allowQuickGroupChange: true,
     lecturerMode: false,
   },
-  currentDay: null,
   selectedDay: null,
   filtersOK: false
 };

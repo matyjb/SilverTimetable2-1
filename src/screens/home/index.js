@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, View } from "native-base";
+import { Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast } from "native-base";
 import { AppState, Dimensions } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
@@ -24,16 +24,12 @@ class Home extends Component {
   }
  
   componentWillMount() {
-    console.log("Checking filters...");
     this.checkValidFilters();
-    console.log("TEST 1 : FAILED ....");
   }
 
   componentDidMount() {
     AppState.addEventListener('change', this._handleAppStateChange);
-    console.log("TEST 2 :  ...");
-    setTimeout(() => { this.setOldDay() }, 0);
-    console.log("TEST 2 :  FAILED ...");
+    setTimeout(async() => { await this.setOldDay() }, 0);
   }
     
   componentWillUnmount() {
@@ -48,7 +44,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log("Spinner");
     return (
       <Container>
         <Header hasTabs>
@@ -83,19 +78,20 @@ class Home extends Component {
         { this.state.refreshing || !this.props.filtersOK ?
           <Spinner color="red" size={60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
           :
-          
           <Tabs 
-            renderTabBar={() => <ScrollableTab />} 
             style={{backgroundColor: '#3f51b5'}} 
-            prerenderingSiblingsNumber={1} 
-            ref={(ref) => { this._tabs = ref; }} 
-            onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Stacjonarne" ? i+1 : i+5).toString())}
+            prerenderingSiblingsNumber={8}
+            renderTabBar={() => <ScrollableTab
+              underlineStyle={{backgroundColor: "red"}}/>
+            } 
+            ref={(ref) => { this._tabs = ref }} 
+            onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
           >
             {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
+            
           </Tabs>
           
         }
-
       </Container>
     );
   }
@@ -138,7 +134,7 @@ class Home extends Component {
     }
 
     this.setState({refreshing: false});
-    setTimeout(() => { this.setOldDay() }, 0)
+    setTimeout(async() => { await this.setOldDay() }, 0);
   }
 
   async getTimetableWithRetries(retriesCount) {
@@ -159,12 +155,11 @@ class Home extends Component {
     throw error;
   }
 
-  setOldDay() {
+  async setOldDay() {
     if (this._tabs !== null && this.props.filtersOK && !this.state.refreshing) {
-      this._tabs.goToPage(parseInt(this.props.selectedDay-(this.props.filters.mode === "Stacjonarne" || this.props.configuration.lecturerMode ? 1 : 5),10));
+      const numberPage = parseInt(this.props.selectedDay,10) - (this.props.filters.mode === "Niestacjonarne" ? 4 : 0);
+      await this._tabs.goToPage(numberPage);
     }
-    console.log("tabs: " + this._tabs !== null);
-    console.log("filters: " + this.props.filtersOK);
   }
 
   checkValidFilters() {
@@ -180,7 +175,35 @@ class Home extends Component {
     } else {
       this.props.setFiltersOK(true);
       console.log("Home Page Loaded");
+      try {
+        var tmp = this.getCurrentDay(this.props.timetableFilters.mode);
+        if (typeof(tmp)==="string" && this.props.selectedDay === null) {
+          console.log("ustawiam dzien");
+          this.props.setDay(tmp);
+        }
+      } catch (e) {
+        console.log("Błąd ustawiania dnia...", e);
+      }
+  
     }
+  }
+  getCurrentDay(mode) {
+    const today = new Date();
+    let dayNumber = today.getDay();
+
+    if (dayNumber === 0) {
+      dayNumber = 6;
+    } else {
+      dayNumber = dayNumber - 1;
+    }
+
+    if (mode==="Niestacjonarne" && dayNumber >= 0 && dayNumber <= 3) {
+      dayNumber = 4;
+    }
+    if (mode==="Stacjonarne" && dayNumber > 4) {
+      dayNumber = 0;
+    }
+    return dayNumber.toString();
   }
 
   ensureFilteredValuesExist(filters, timetable) {
@@ -324,7 +347,8 @@ const mapStateToProps = (state) => {
     filters: state.configuration.filters,
     configuration: state.configuration,
     filtersOK: state.filtersOK,
-    selectedDay: state.selectedDay
+    selectedDay: state.selectedDay,
+    timetableFilters: state.configuration.filters,
   };
 };
 
@@ -345,6 +369,7 @@ Home.propTypes = {
   quickGroupChangeAllowed: PropTypes.bool,
   setFiltersOK: PropTypes.func,
   setDay: PropTypes.func,
+  timetableFilters: PropTypes.object,
   timetable: PropTypes.object,
   filters: PropTypes.object,
   selectedDay: PropTypes.string,

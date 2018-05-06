@@ -11,7 +11,6 @@ import {
   loadTimetableFailure,
   loadTimetableSuccess,
   loadConfiguration,
-  setCurrentDay,
   setDay
 } from "../actions";
 import globalProps from "../globalProps";
@@ -45,19 +44,9 @@ class Setup extends Component {
     } else {
       console.log("jest konfiguracja w pamięci");
       this.props.loadConfiguration(configurationData);
-
-      try {
-        var tmp = await this.getCurrentDay(this.props.timetableFilters.mode);
-        if (tmp) {
-          console.log("ustawiam dzien");
-          this.props.setCurrentDay(tmp);
-          this.props.setDay(this.props.currentDay);
-          console.log("dzien: " + this.props.currentDay);
-        }
-      } catch (e) {
-        console.log("Błąd ustawiania dnia...", e);
-      }
     }
+
+    this.props.setDay(null);
 
     const isNetwork = await TimetableServices.isNetworkAvailable();
     
@@ -106,8 +95,8 @@ class Setup extends Component {
   }
 
   async componentWillMount() {
-   //await FileManager.deleteFile(globalProps.objs.configFileName);
-  // await FileManager.deleteFile(globalProps.objs.timetableFileName);
+    //await FileManager.deleteFile(globalProps.objs.configFileName);
+    //await FileManager.deleteFile(globalProps.objs.timetableFileName);
     console.log("---------------");
     await this.Initialize();
     console.log("---------------");
@@ -137,32 +126,6 @@ class Setup extends Component {
     });
   }
 
-  async getCurrentDay(mode) {
-    const today = new Date();
-    let dayNumber = today.getDay();
-
-    if (this.props.configuration.lecturerMode) {
-      return dayNumber === 0 ? "7" : dayNumber.toString();
-    }
-
-    switch (mode) {
-      case "Niestacjonarne":
-        if (dayNumber >= 1 && dayNumber <= 4) {
-          dayNumber = 5;
-        } else if (dayNumber === 0) {
-          dayNumber = 7;
-        }
-        break;
-      case "Stacjonarne":
-      default:
-        if (dayNumber === 0 || dayNumber === 6) {
-          dayNumber = 1;
-        }
-        break;
-    }
-    return dayNumber.toString();
-  }
-
   async getTimetableWithRetries(retriesCount) {
     let error;
     let timetable;
@@ -187,8 +150,7 @@ const mapStateToProps = (state) => {
     timetableConfig: state.timetable,
     timetableData: state.timetable.data,
     timetableFilters: state.configuration.filters,
-    configuration: state.configuration,
-    currentDay: state.currentDay,
+    configuration: state.configuration
   };
 };
 
@@ -198,7 +160,6 @@ const mapDispatchToProps = (dispatch) => {
     timetableLoadSuccess: (timetable) => dispatch(loadTimetableSuccess(timetable)),
     timetableLoadFailure: () => dispatch(loadTimetableFailure()),
     loadConfiguration: (config) => dispatch(loadConfiguration(config)),
-    setCurrentDay: (value) => dispatch(setCurrentDay(value)),
     setDay: (value) => dispatch(setDay(value)),
   };
 };
@@ -209,9 +170,7 @@ Setup.propTypes = {
   timetableLoadFailure: PropTypes.func,
   timetableLoadSuccess: PropTypes.func,
   timetableLoadRequest: PropTypes.func,
-  setCurrentDay: PropTypes.func,
   setDay: PropTypes.func,
-  currentDay: PropTypes.string,
   timetableFilters: PropTypes.object,
   loadConfiguration: PropTypes.func,
 };
