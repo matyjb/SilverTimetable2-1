@@ -43,6 +43,21 @@ class Settings extends Component {
     }
   }
 
+  componentWillMount() {
+    { Platform.OS !== "ios" && 
+        this.setState({
+          department: this.props.filters.department,
+          fieldOfStudy: this.props.filters.fieldOfStudy,
+          degree: this.props.filters.degree,
+          mode: this.props.filters.mode,
+          semester: this.props.filters.semester,
+          group: this.props.filters.group,
+          academicYear: this.props.filters.academicYear,
+          lecturer: this.props.filters.lecturer
+        });
+    }
+  }
+
   render() {
     const lecturers = this.props.selectListsValues.lecturer.filter((v) => v !== "" && v !== " ");
     try {
@@ -121,8 +136,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.lecturer}
-                      onValueChange={(newValue) => this.props.changeFilter("lecturer", newValue)} 
+                      selectedValue={this.state.lecturer}
+                      onValueChange={(newValue) => {
+                        this.setState({lecturer: newValue});
+                        this.props.changeFilter("lecturer", newValue);}} 
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz" key=""/>
@@ -154,8 +171,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.academicYear}
-                      onValueChange={(newValue) => {this.props.changeFilter("academicYear", newValue); }}
+                      selectedValue={this.state.academicYear}
+                      onValueChange={(newValue) => {
+                        this.setState({academicYear: newValue});
+                        this.props.changeFilter("academicYear", newValue); }}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz rok" key="" />
@@ -182,8 +201,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.department}
-                      onValueChange={(newValue) => this.props.changeFilter("department", newValue)}
+                      selectedValue={this.state.department}
+                      onValueChange={(newValue) => {
+                        this.setState({department: newValue});
+                        this.props.changeFilter("department", newValue);}}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz wydział" key=""/>
@@ -210,8 +231,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.fieldOfStudy}
-                      onValueChange={(newValue) => this.props.changeFilter("fieldOfStudy", newValue)}
+                      selectedValue={this.state.fieldOfStudy}
+                      onValueChange={(newValue) => {
+                        this.setState({fieldOfStudy: newValue});
+                        this.props.changeFilter("fieldOfStudy", newValue);}}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz kierunek" key=""/>
@@ -238,12 +261,14 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.degree}
-                      onValueChange={(newValue) => this.props.changeFilter("degree", newValue)}
+                      selectedValue={this.state.degree}
+                      onValueChange={(newValue) => {
+                        this.setState({degree: newValue});
+                        this.props.changeFilter("degree", newValue);}}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz stopień" key=""/>
-                      {this.props.selectListsValues.degree.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
+                      {this.props.selectListsValues.degree.map( value => (<Picker.Item key={value} label={value} value={value} />) ) }
                     </Picker>
                   }
                 </Item>
@@ -266,8 +291,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.semester}
-                      onValueChange={(newValue) => this.props.changeFilter("semester", newValue)}
+                      selectedValue={this.state.semester}
+                      onValueChange={(newValue) => {
+                        this.setState({semester: newValue});
+                        this.props.changeFilter("semester", newValue);}}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz semestr" key=""/>
@@ -294,8 +321,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.mode}
-                      onValueChange={(newValue) => this.props.changeFilter("mode", newValue)}
+                      selectedValue={this.state.mode}
+                      onValueChange={(newValue) => {
+                        this.setState({mode: newValue});
+                        this.props.changeFilter("mode", newValue);}}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz tryb" key=""/>
@@ -322,8 +351,10 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.props.filters.group}
-                      onValueChange={(newValue) => this.props.changeFilter("group", newValue)}
+                      selectedValue={this.state.group}
+                      onValueChange={(newValue) => {
+                        this.setState({group: newValue});
+                        this.props.changeFilter("group", newValue);}}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz grupę" key=""/>
