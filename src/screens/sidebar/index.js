@@ -68,14 +68,14 @@ class SideBar extends Component {
               <Left style={{ alignSelf: "flex-end", marginLeft: 16, marginBottom: 16 }}>
                 { this.props.timetableData && 
                 this.props.configuration.lecturerMode && this.props.filters.lecturer &&
-                <Text><Title style={{fontSize: 21}}>{this.props.filters.lecturer}</Title></Text> }
+                <Text><Title style={{fontSize: 21, textAlign: "left"}}>{this.props.filters.lecturer}</Title></Text> }
 
                 {this.props.timetableData &&
                 !this.props.configuration.lecturerMode && this.props.filters.fieldOfStudy && this.props.filters.fieldOfStudy &&
                   this.props.filters.degree && this.props.filters.mode && this.props.filters.semester &&
                   <View>
-                    <Text><Title style={{fontSize: 21}}>{this.props.filters.fieldOfStudy} ({this.props.filters.degree})</Title></Text>
-                    <Text><Title style={{fontSize: 14}}>{this.props.filters.mode}, semestr {this.props.filters.semester}</Title></Text>
+                    <Text><Title style={{fontSize: 21, textAlign: "left"}}>{this.props.filters.fieldOfStudy} ({this.props.filters.degree})</Title></Text>
+                    <Text><Title style={{fontSize: 14, textAlign: "left"}}>{this.props.filters.mode}, semestr {this.props.filters.semester}</Title></Text>
                   </View>
                 }
                  

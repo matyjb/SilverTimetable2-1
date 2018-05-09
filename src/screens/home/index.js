@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast } from "native-base";
-import { AppState, Dimensions } from "react-native";
+import { AppState, Dimensions, Platform } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
 
@@ -76,10 +76,10 @@ class Home extends Component {
         </Header>
 
         { this.state.refreshing || !this.props.filtersOK ?
-          <Spinner color="red" size={60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
+          <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
           :
           <Tabs 
-            style={{backgroundColor: '#3f51b5'}} 
+            style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
             prerenderingSiblingsNumber={8}
             renderTabBar={() => <ScrollableTab
               underlineStyle={{backgroundColor: "red"}}/>
