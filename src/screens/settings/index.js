@@ -471,7 +471,8 @@ Settings.propTypes = {
   changeConfigurationOption: PropTypes.func,
   setFiltersOK: PropTypes.func,
   filtersOK: PropTypes.bool,
-  changeFilter: PropTypes.func
+  changeFilter: PropTypes.func,
+  setDay: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

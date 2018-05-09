@@ -3,7 +3,6 @@ import {
   Content,
   Text,
   Title,
-  Subtitle,
   List,
   ListItem,
   Icon,
@@ -67,8 +66,19 @@ class SideBar extends Component {
             <Row style={{ backgroundColor: Platform.OS === "ios" ? "#fafafa" : "#3f51b5", height: Math.max(height, width) * 0.25}}>
               
               <Left style={{ alignSelf: "flex-end", marginLeft: 16, marginBottom: 16 }}>
-                <Title style={{fontSize: 21}}>Informatyka (inż)</Title>
-                <Subtitle>Stacjonarne, semestr 4</Subtitle>
+                { this.props.timetableData && 
+                this.props.configuration.lecturerMode && this.props.filters.lecturer &&
+                <Text><Title style={{fontSize: 21}}>{this.props.filters.lecturer}</Title></Text> }
+
+                {this.props.timetableData &&
+                !this.props.configuration.lecturerMode && this.props.filters.fieldOfStudy && this.props.filters.fieldOfStudy &&
+                  this.props.filters.degree && this.props.filters.mode && this.props.filters.semester &&
+                  <View>
+                    <Text><Title style={{fontSize: 21}}>{this.props.filters.fieldOfStudy} ({this.props.filters.degree})</Title></Text>
+                    <Text><Title style={{fontSize: 14}}>{this.props.filters.mode}, semestr {this.props.filters.semester}</Title></Text>
+                  </View>
+                }
+                 
               </Left>
             </Row>
             {Platform.OS === "ios" &&
@@ -133,11 +143,15 @@ SideBar.propTypes = {
     navigate: PropTypes.func.isRequired,
   }).isRequired,
   timetableData: PropTypes.object,
+  configuration: PropTypes.object,
+  filters: PropTypes.object
 };
 
 const mapStateToProps = (state) => {
   return {
     timetableData: state.timetable.data,
+    filters: state.configuration.filters,
+    configuration: state.configuration
   };
 };
 
