@@ -122,7 +122,7 @@ class SideBar extends Component {
             </Row>
           </Grid>
         </Content>
-        {this.props.timetableData.date &&
+        {this.props.timetableData &&
         <View>
           <View style={{ borderBottomColor: "#ccc", borderBottomWidth: 1, marginBottom: 6}} />
           <Text style={styles.footer}>Ostatnia aktualizacja:</Text>
