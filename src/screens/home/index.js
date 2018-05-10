@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import { Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast } from "native-base";
+import { Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab } from "native-base";
 import { AppState, Dimensions, Platform } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setFiltersOK, setDay, timetableLoadSuccess } from "../../actions";
+import { setFiltersOK, setDay, timetableLoadSuccess, changeFilter } from "../../actions";
 
 import EventBlock from "./EventBlock";
 import BreakBlock from "./BreakBlock";
@@ -18,7 +18,7 @@ class Home extends Component {
     super(props);
     this.state = {
       appState: AppState.currentState,
-      refreshing: false
+      refreshing: false,
     };
     this._tabs = null;
   }
@@ -92,9 +92,45 @@ class Home extends Component {
           </Tabs>
           
         }
+        { this.props.quickGroupChangeAllowed && !this.props.lecturerMode &&
+          <Footer>
+            <FooterTab>
+              {this.generateGroupButtons(this.generateGroupNames(this.props.timetable, this.props.filters))}
+            </FooterTab>
+          </Footer>
+        }
       </Container>
     );
   }
+  
+  generateGroupButtons(groupNames){
+    var elements = [];
+    groupNames.forEach((element,index) => {
+      elements.push(
+        <Button key={index} onPress={() => this.props.changeFilter("group", element)} active={this.props.filters.group === element}>
+          <Text>{element}</Text>
+        </Button>
+      )
+    });
+    return elements;
+  }
+
+  generateGroupNames(data, filters) {
+
+    const groupNamesSet = new Set();
+
+    data.events.filter((obj) =>
+        obj.degree === filters.degree
+        && obj.department === filters.department
+        && obj.fieldOfStudy === filters.fieldOfStudy
+        && obj.mode === filters.mode
+        && obj.semester === filters.semester)
+        .forEach((event) => {
+            groupNamesSet.add(event.specialization || event.group.toString());
+        });
+
+    return [...groupNamesSet].sort();
+}
 
   async refresh() {
     this.setState({refreshing: true});
@@ -349,6 +385,8 @@ const mapStateToProps = (state) => {
     filtersOK: state.filtersOK,
     selectedDay: state.selectedDay,
     timetableFilters: state.configuration.filters,
+    quickGroupChangeAllowed: state.configuration.allowQuickGroupChange,
+    lecturerMode: state.configuration.lecturerMode,
   };
 };
 
@@ -356,6 +394,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFiltersOK: (value) => dispatch(setFiltersOK(value)),
     setDay: (value) => dispatch(setDay(value)),
+    //changeGroup: (value) => dispatch(changeGroup(value)),
+    changeFilter: (name, value) => dispatch(changeFilter(name, value)),
     timetableLoadSuccess: (value) => dispatch(timetableLoadSuccess(value))
   };
 };
@@ -369,6 +409,8 @@ Home.propTypes = {
   quickGroupChangeAllowed: PropTypes.bool,
   setFiltersOK: PropTypes.func,
   setDay: PropTypes.func,
+  //changeGroup: PropTypes.func,
+  changeFilter: PropTypes.func,
   timetableFilters: PropTypes.object,
   timetable: PropTypes.object,
   filters: PropTypes.object,
