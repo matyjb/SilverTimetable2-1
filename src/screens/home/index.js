@@ -44,6 +44,7 @@ class Home extends Component {
   }
 
   render() {
+    if(this.props.timetable !== null){
     return (
       <Container>
         <Header hasTabs>
@@ -101,6 +102,13 @@ class Home extends Component {
         }
       </Container>
     );
+  }else{
+    return(
+    <Container>
+      <Text>timetable is null</Text>
+    </Container>
+    );
+  }
   }
   
   generateGroupButtons(groupNames){
