@@ -21,7 +21,7 @@ import { View, Image, Platform } from "react-native";
 import styles from "./style";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { changeConfigurationOption, changeFilter, setFiltersOK } from "../../actions";
+import { changeConfigurationOption, changeFilter, setFiltersOK, setDay } from "../../actions";
 import TimetableServices from "../../timetable/TimetableServices";
 
 class Settings extends Component {
@@ -107,8 +107,10 @@ class Settings extends Component {
               <Body/>
               <Switch
                 value={this.props.configuration.lecturerMode}
-                onValueChange={(newValue) => 
-                  this.props.changeConfigurationOption("lecturerMode", newValue)}
+                onValueChange={(newValue) => {
+                  this.props.changeConfigurationOption("lecturerMode", newValue);
+                  this.props.setDay(null);
+                }}
               />
             </ListItem>
 
@@ -139,7 +141,8 @@ class Settings extends Component {
                       selectedValue={this.state.lecturer}
                       onValueChange={(newValue) => {
                         this.setState({lecturer: newValue});
-                        this.props.changeFilter("lecturer", newValue);}} 
+                        this.props.changeFilter("lecturer", newValue);
+                      }} 
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz" key=""/>
@@ -313,7 +316,10 @@ class Settings extends Component {
                       headerBackButtonText="Powrót"
                       mode="dropdown"
                       selectedValue={this.props.filters.mode}
-                      onValueChange={(newValue) => this.props.changeFilter("mode", newValue)}
+                      onValueChange={(newValue) => {
+                        this.props.changeFilter("mode", newValue);
+                        this.props.setDay(null);
+                      }}
                       style={styles.pickerStyle}
                     >
                       {this.props.selectListsValues.mode.map( value => (<Picker.Item key={value} label={value} value={value} />) )}
@@ -324,7 +330,9 @@ class Settings extends Component {
                       selectedValue={this.state.mode}
                       onValueChange={(newValue) => {
                         this.setState({mode: newValue});
-                        this.props.changeFilter("mode", newValue);}}
+                        this.props.changeFilter("mode", newValue);
+                        this.props.setDay(null);
+                      }}
                       style={styles.pickerStyle}
                     >
                       <Picker.Item value={null} label="Wybierz tryb" key=""/>
@@ -439,7 +447,8 @@ const mapStateToProps = (state) => {
     filters: state.configuration.filters,
     configuration: state.configuration,
     selectListsValues: getSelectListsValues(state.timetable.data, state.configuration.filters),
-    filtersOK: state.filtersOK
+    filtersOK: state.filtersOK,
+    selectedDay: state.selectedDay
   };
 };
 
@@ -447,7 +456,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     changeConfigurationOption: (name, value) => dispatch(changeConfigurationOption(name, value)),
     changeFilter: (name, value) => dispatch(changeFilter(name, value)),
-    setFiltersOK: (value) => dispatch(setFiltersOK(value))
+    setFiltersOK: (value) => dispatch(setFiltersOK(value)),
+    setDay: (value) => dispatch(setDay(value))
   };
 };
 
@@ -461,7 +471,8 @@ Settings.propTypes = {
   changeConfigurationOption: PropTypes.func,
   setFiltersOK: PropTypes.func,
   filtersOK: PropTypes.bool,
-  changeFilter: PropTypes.func
+  changeFilter: PropTypes.func,
+  setDay: PropTypes.func
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Settings);

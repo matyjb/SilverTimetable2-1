@@ -6,7 +6,6 @@ import {
   CHANGE_FILTER,
   CHANGE_CONFIGURATION_OPTION,
   LOAD_CONFIGURATION,
-  SET_CURRENT_DAY,
   SET_DAY,
   FILTERS_OK
 } from "../actions/action-types";
@@ -65,11 +64,6 @@ const rootReducer = (state, action) => {
           ...state.configuration,
           [action.payload.name]: action.payload.value,
         },
-      };
-
-    case SET_CURRENT_DAY:
-      return {
-        ...state, currentDay: action.payload,
       };
       
     case SET_DAY:
