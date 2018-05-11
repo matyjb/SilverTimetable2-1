@@ -21,8 +21,12 @@ export const initialState = {
     allowQuickGroupChange: true,
     lecturerMode: false,
   },
+  pinMap: {
+    isPinned: false,
+    pinRoom: null,
+  },
   selectedDay: null,
-  filtersOK: false
+  filtersOK: false,
 };
 
 const store = createStore(rootReducer, initialState);

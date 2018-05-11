@@ -7,7 +7,9 @@ import {
   CHANGE_CONFIGURATION_OPTION,
   LOAD_CONFIGURATION,
   SET_DAY,
-  FILTERS_OK
+  FILTERS_OK,
+  SET_PINNED,
+  SET_PIN_ROOM,
 } from "../actions/action-types";
 
 const rootReducer = (state, action) => {
@@ -74,6 +76,20 @@ const rootReducer = (state, action) => {
     case FILTERS_OK:
       return {
         ...state, filtersOK: action.payload,
+      };
+
+    case SET_PINNED:
+      return {
+        ...state, pinMap: {
+          ...state.pinMap, isPinned: action.payload,
+        }
+      };
+
+    case SET_PIN_ROOM:
+      return {
+        ...state, pinMap: {
+          ...state.pinMap, pinRoom: action.payload,
+        }
       };
 
     default:

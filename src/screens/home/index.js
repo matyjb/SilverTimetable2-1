@@ -45,70 +45,70 @@ class Home extends Component {
 
   render() {
     if(this.props.timetable !== null){
-    return (
-      <Container>
-        <Header hasTabs>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <Icon name="md-menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
-          </Body>
-          <Right>
-            <Button
-              disabled={ this.state.refreshing }
-              transparent
-              onPress={async() => {
-                Toast.show({
-                  text: "Odświeżanie",
-                  duration: 3000
-                }); 
-                await this.refresh();
-              }}
-            >
-              <Icon name="md-refresh" />
-            </Button>
-          </Right>
-        </Header>
+      return (
+        <Container>
+          <Header hasTabs>
+            <Left>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              >
+                <Icon name="md-menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
+            </Body>
+            <Right>
+              <Button
+                disabled={ this.state.refreshing }
+                transparent
+                onPress={async() => {
+                  Toast.show({
+                    text: "Odświeżanie",
+                    duration: 3000
+                  }); 
+                  await this.refresh();
+                }}
+              >
+                <Icon name="md-refresh" />
+              </Button>
+            </Right>
+          </Header>
 
-        { this.state.refreshing || !this.props.filtersOK ?
-          <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
-          :
-          <Tabs 
-            style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
-            prerenderingSiblingsNumber={8}
-            renderTabBar={() => <ScrollableTab
-              underlineStyle={{backgroundColor: "red"}}/>
-            } 
-            ref={(ref) => { this._tabs = ref }} 
-            onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
-          >
-            {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
+          { this.state.refreshing || !this.props.filtersOK ?
+            <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
+            :
+            <Tabs 
+              style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
+              prerenderingSiblingsNumber={8}
+              renderTabBar={() => <ScrollableTab
+                underlineStyle={{backgroundColor: "red"}}/>
+              } 
+              ref={(ref) => { this._tabs = ref }} 
+              onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
+            >
+              {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
             
-          </Tabs>
+            </Tabs>
           
-        }
-        { this.props.quickGroupChangeAllowed && !this.props.lecturerMode &&
+          }
+          { this.props.quickGroupChangeAllowed && !this.props.lecturerMode &&
           <Footer>
             <FooterTab>
               {this.generateGroupButtons(this.generateGroupNames(this.props.timetable, this.props.filters))}
             </FooterTab>
           </Footer>
-        }
-      </Container>
-    );
-  }else{
-    return(
-    <Container>
-      <Text>timetable is null</Text>
-    </Container>
-    );
-  }
+          }
+        </Container>
+      );
+    } else {
+      return(
+        <Container>
+          <Text>timetable is null</Text>
+        </Container>
+      );
+    }
   }
   
   generateGroupButtons(groupNames){
@@ -128,17 +128,17 @@ class Home extends Component {
     const groupNamesSet = new Set();
 
     data.events.filter((obj) =>
-        obj.degree === filters.degree
+      obj.degree === filters.degree
         && obj.department === filters.department
         && obj.fieldOfStudy === filters.fieldOfStudy
         && obj.mode === filters.mode
         && obj.semester === filters.semester)
-        .forEach((event) => {
-            groupNamesSet.add(event.specialization || event.group.toString());
-        });
+      .forEach((event) => {
+        groupNamesSet.add(event.specialization || event.group.toString());
+      });
 
     return [...groupNamesSet].sort();
-}
+  }
 
   async refresh() {
     this.setState({refreshing: true});
@@ -332,7 +332,7 @@ class Home extends Component {
                     && obj.semester === filters.semester
                     && obj.academicYear === filters.academicYear);
     
-    result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
+    result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1);
     if (lecturerMode) {
       for (let index = 0; index < result.length; index++) {
         const tmp = result[index];
@@ -402,7 +402,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFiltersOK: (value) => dispatch(setFiltersOK(value)),
     setDay: (value) => dispatch(setDay(value)),
-    //changeGroup: (value) => dispatch(changeGroup(value)),
     changeFilter: (name, value) => dispatch(changeFilter(name, value)),
     timetableLoadSuccess: (value) => dispatch(timetableLoadSuccess(value))
   };
@@ -417,7 +416,6 @@ Home.propTypes = {
   quickGroupChangeAllowed: PropTypes.bool,
   setFiltersOK: PropTypes.func,
   setDay: PropTypes.func,
-  //changeGroup: PropTypes.func,
   changeFilter: PropTypes.func,
   timetableFilters: PropTypes.object,
   timetable: PropTypes.object,

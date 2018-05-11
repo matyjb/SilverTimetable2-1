@@ -10,3 +10,6 @@ export const CHANGE_CONFIGURATION_OPTION = "CHANGE_CONFIGURATION_OPTION";
 export const SET_DAY = "SET_DAY";
 
 export const FILTERS_OK = "FILTERS_OK";
+
+export const SET_PINNED = "SET_PINNED";
+export const SET_PIN_ROOM = "SET_PIN_ROOM";
