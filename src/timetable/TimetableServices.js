@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { NetInfo } from "react-native";
+import { NetInfo, Platform } from "react-native";
 import globalProps from "../globalProps";
 import FileManager from "./FileManager";
 import * as Moment from "moment";
@@ -13,6 +13,7 @@ class TimetableServices extends Component {
     const netStat = await NetInfo.isConnected.fetch().then(isConnected => {
       return isConnected ? true : false;
     });
+    if(Platform.OS === "ios") return true; //TEMPORARY FIX ON IOS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     return netStat;
   }
   
