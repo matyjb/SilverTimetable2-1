@@ -20,10 +20,10 @@ class Home extends Component {
     this.state = {
       appState: AppState.currentState,
       refreshing: false,
+      eventBlockMore: null,
     };
     this._tabs = null;
     this.drawer = null;
-    this.clickedevent = null;
   }
  
   componentWillMount() {
@@ -57,7 +57,7 @@ class Home extends Component {
     return (
       <Drawer
         ref={(ref) => { this.drawer = ref; }}
-        content={<EventBlockMore navigation={this.props.navigation} event={this.clickedevent} />}
+        content={this.state.eventBlockMore}
         onClose={() => this.closeDrawer()} 
         side={'bottom'}
         openDrawerOffset={0.7}
@@ -387,7 +387,7 @@ class Home extends Component {
           event={event}
           order={index + 1}
           lecturerMode={lecturerMode}
-          onPress={()=>{this.clickedevent = event; this.openDrawer();}}
+          onPress={()=>{this.setState({eventBlockMore: <EventBlockMore navigation={this.props.navigation} event={event} />}); this.openDrawer();}}
         />
         {index + 1 < result.length &&
           <BreakBlock duration={result[index + 1].startTime.diff(event.endTime, "minutes")} />
