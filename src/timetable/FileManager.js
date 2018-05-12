@@ -5,20 +5,12 @@ import Expo from "expo";
 class FileManager extends Component {
 
   static async readFile(filename) {
-    /* const fileEntry = await AsyncStorage.getItem(filename);
-    const json = await JSON.parse(fileEntry);
-    if (json) {
-      return json;
-    }*/
     const target = Expo.FileSystem.documentDirectory+filename;
-    // console.log("TEST target: " + target);
     const getInfo = await Expo.FileSystem.getInfoAsync(target);
-    // console.log("TEST getInfo: " + getInfo.exists);
     if (getInfo.exists) {
       const fileEntry = await Expo.FileSystem.readAsStringAsync(target);
       const json = await JSON.parse(fileEntry);
       if (json) {
-        // console.log("TEST json-date: " + json.date);
         return json;
       } else {
         return false;
@@ -32,14 +24,22 @@ class FileManager extends Component {
   static async writeFile(filename, dataObj) {
     const target = Expo.FileSystem.documentDirectory+filename;
     try {
-      Expo.FileSystem.writeAsStringAsync(target, JSON.stringify(dataObj));
-    //  AsyncStorage.setItem(filename, JSON.stringify(dataObj));
+      await Expo.FileSystem.writeAsStringAsync(target, JSON.stringify(dataObj));
     } catch (er) {
-      // console.log("Error saving to " + filename, er);
       console.log("Error saving to " + target, er);
     }
   }
     
+  static async deleteFile(filename) {
+    const target = Expo.FileSystem.documentDirectory+filename;
+    const getInfo = await Expo.FileSystem.getInfoAsync(target);
+    if (getInfo.exists) {
+      await Expo.FileSystem.deleteAsync(target);
+      console.log("Successfully deleted: " + filename);
+      return;
+    }
+    console.log(filename + " could not be deleted or not exists.");
+  }
 
 }
 

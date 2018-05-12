@@ -1,11 +1,6 @@
 var objs = {
-  timetable: {
-    date: "Nigdy",
-    events: [],
-  },
-  isLoaded: null,
-  isError: null,
   timetableFileName: "timetable.json",
+  configFileName: "config.json",
 };
 
 export default {objs};
