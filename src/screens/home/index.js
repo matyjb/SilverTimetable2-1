@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab } from "native-base";
+import { Card, CardItem, Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab } from "native-base";
 import { AppState, Dimensions, Platform } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
@@ -10,6 +10,8 @@ import { setFiltersOK, setDay, timetableLoadSuccess, changeFilter } from "../../
 
 import EventBlock from "./EventBlock";
 import BreakBlock from "./BreakBlock";
+
+import styles from "./styles";
 
 const { width, height } = Dimensions.get("screen");
 
@@ -44,71 +46,116 @@ class Home extends Component {
   }
 
   render() {
-    if(this.props.timetable !== null){
-    return (
-      <Container>
-        <Header hasTabs>
-          <Left>
-            <Button
-              transparent
-              onPress={() => this.props.navigation.navigate("DrawerOpen")}
-            >
-              <Icon name="md-menu" />
-            </Button>
-          </Left>
-          <Body>
-            <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
-          </Body>
-          <Right>
-            <Button
-              disabled={ this.state.refreshing }
-              transparent
-              onPress={async() => {
-                Toast.show({
-                  text: "Odświeżanie",
-                  duration: 3000
-                }); 
-                await this.refresh();
-              }}
-            >
-              <Icon name="md-refresh" />
-            </Button>
-          </Right>
-        </Header>
+    if (this.props.timetable && !this.props.timetableConfig.isError) {
+      return (
+        <Container>
+          <Header hasTabs>
+            <Left>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              >
+                <Icon name="md-menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
+            </Body>
+            <Right>
+              <Button
+                disabled={ this.state.refreshing }
+                transparent
+                onPress={async() => {
+                  Toast.show({
+                    text: "Odświeżanie",
+                    duration: 3000
+                  }); 
+                  await this.refresh();
+                }}
+              >
+                <Icon name="md-refresh" />
+              </Button>
+            </Right>
+          </Header>
 
-        { this.state.refreshing || !this.props.filtersOK ?
-          <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
-          :
-          <Tabs 
-            style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
-            prerenderingSiblingsNumber={8}
-            renderTabBar={() => <ScrollableTab
-              underlineStyle={{backgroundColor: "red"}}/>
-            } 
-            ref={(ref) => { this._tabs = ref }} 
-            onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
-          >
-            {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
+          { this.state.refreshing || !this.props.filtersOK ?
+            <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
+            :
+            <Tabs 
+              style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
+              prerenderingSiblingsNumber={8}
+              renderTabBar={() => <ScrollableTab
+                underlineStyle={{backgroundColor: "red"}}/>
+              } 
+              ref={(ref) => { this._tabs = ref }} 
+              onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
+            >
+              {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
             
-          </Tabs>
+            </Tabs>
           
-        }
-        { this.props.quickGroupChangeAllowed && !this.props.lecturerMode &&
+          }
+          { this.props.quickGroupChangeAllowed && !this.props.lecturerMode && !this.state.refreshing &&
           <Footer>
             <FooterTab>
               {this.generateGroupButtons(this.generateGroupNames(this.props.timetable, this.props.filters))}
             </FooterTab>
           </Footer>
-        }
-      </Container>
-    );
-  }else{
-    return(
-    <Container>
-      <Text>timetable is null</Text>
-    </Container>
-    );
-  }
+          }
+        </Container>
+      );
+    } else {
+      return(
+        <Container>
+          <Header>
+            <Left>
+              <Button
+                transparent
+                onPress={() => this.props.navigation.navigate("DrawerOpen")}
+              >
+                <Icon name="md-menu" />
+              </Button>
+            </Left>
+            <Body>
+              <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
+            </Body>
+            <Right>
+              <Button
+                disabled={ this.state.refreshing }
+                transparent
+                onPress={async() => {
+                  Toast.show({
+                    text: "Odświeżanie",
+                    duration: 3000
+                  }); 
+                  await this.refresh();
+                }}
+              >
+                <Icon name="md-refresh" />
+              </Button>
+            </Right>
+          </Header>
+          { this.state.refreshing ?
+            <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
+            :
+            <Content contentContainerStyle={styles.contentContainerStyle}>
+              <Card style={styles.errorStyle}>
+                <CardItem header>
+                  <Text>Błąd pobierania</Text>
+                </CardItem>
+                <CardItem>
+                  <Body>
+                    <Text>
+                    Aktualnie brak planu zajęć w pamięci urządzenia.
+                    </Text>
+                  </Body>
+                </CardItem>
+              </Card>
+            </Content>
+          }
+        </Container>
+      );
+    }
   }
   
   generateGroupButtons(groupNames){
@@ -128,17 +175,17 @@ class Home extends Component {
     const groupNamesSet = new Set();
 
     data.events.filter((obj) =>
-        obj.degree === filters.degree
+      obj.degree === filters.degree
         && obj.department === filters.department
         && obj.fieldOfStudy === filters.fieldOfStudy
         && obj.mode === filters.mode
         && obj.semester === filters.semester)
-        .forEach((event) => {
-            groupNamesSet.add(event.specialization || event.group.toString());
-        });
+      .forEach((event) => {
+        groupNamesSet.add(event.specialization || event.group.toString());
+      });
 
     return [...groupNamesSet].sort();
-}
+  }
 
   async refresh() {
     this.setState({refreshing: true});
@@ -388,6 +435,7 @@ class Home extends Component {
 const mapStateToProps = (state) => {
   return {
     timetable: state.timetable.data,
+    timetableConfig: state.timetable,
     filters: state.configuration.filters,
     configuration: state.configuration,
     filtersOK: state.filtersOK,
@@ -421,6 +469,7 @@ Home.propTypes = {
   changeFilter: PropTypes.func,
   timetableFilters: PropTypes.object,
   timetable: PropTypes.object,
+  timetableConfig: PropTypes.object,
   filters: PropTypes.object,
   selectedDay: PropTypes.string,
   filtersOK: PropTypes.bool,
