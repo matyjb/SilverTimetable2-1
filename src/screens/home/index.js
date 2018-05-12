@@ -146,17 +146,17 @@ class Home extends Component {
     const groupNamesSet = new Set();
 
     data.events.filter((obj) =>
-        obj.degree === filters.degree
+      obj.degree === filters.degree
         && obj.department === filters.department
         && obj.fieldOfStudy === filters.fieldOfStudy
         && obj.mode === filters.mode
         && obj.semester === filters.semester)
-        .forEach((event) => {
-            groupNamesSet.add(event.specialization || event.group.toString());
-        });
+      .forEach((event) => {
+        groupNamesSet.add(event.specialization || event.group.toString());
+      });
 
     return [...groupNamesSet].sort();
-}
+  }
 
   async refresh() {
     this.setState({refreshing: true});
@@ -350,7 +350,7 @@ class Home extends Component {
                     && obj.semester === filters.semester
                     && obj.academicYear === filters.academicYear);
     
-    result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
+    result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1);
     if (lecturerMode) {
       for (let index = 0; index < result.length; index++) {
         const tmp = result[index];
@@ -421,7 +421,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFiltersOK: (value) => dispatch(setFiltersOK(value)),
     setDay: (value) => dispatch(setDay(value)),
-    //changeGroup: (value) => dispatch(changeGroup(value)),
     changeFilter: (name, value) => dispatch(changeFilter(name, value)),
     timetableLoadSuccess: (value) => dispatch(timetableLoadSuccess(value))
   };
@@ -436,7 +435,6 @@ Home.propTypes = {
   quickGroupChangeAllowed: PropTypes.bool,
   setFiltersOK: PropTypes.func,
   setDay: PropTypes.func,
-  //changeGroup: PropTypes.func,
   changeFilter: PropTypes.func,
   timetableFilters: PropTypes.object,
   timetable: PropTypes.object,
