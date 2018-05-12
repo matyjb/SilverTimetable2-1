@@ -60,8 +60,8 @@ class Home extends Component {
         content={this.state.eventBlockMore}
         onClose={() => this.closeDrawer()} 
         side={'bottom'}
-        openDrawerOffset={0.7}
-        panCloseMask={0.7}
+        openDrawerOffset={0.65}
+        panCloseMask={0.65}
         >
         <Container>
           <Header hasTabs>
@@ -387,7 +387,7 @@ class Home extends Component {
           event={event}
           order={index + 1}
           lecturerMode={lecturerMode}
-          onPress={()=>{this.setState({eventBlockMore: <EventBlockMore navigation={this.props.navigation} event={event} />}); this.openDrawer();}}
+          onPress={()=>{this.setState({eventBlockMore: <EventBlockMore navigation={this.props.navigation} event={event}/>}); this.openDrawer();}}
         />
         {index + 1 < result.length &&
           <BreakBlock duration={result[index + 1].startTime.diff(event.endTime, "minutes")} />
