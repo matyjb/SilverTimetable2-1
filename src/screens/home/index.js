@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardItem, Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab } from "native-base";
-import { AppState, Dimensions, Platform } from "react-native";
+import { AppState, Dimensions, Platform, NativeModules } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
 
@@ -14,6 +14,7 @@ import BreakBlock from "./BreakBlock";
 import styles from "./styles";
 
 const { width, height } = Dimensions.get("screen");
+const deviceType = NativeModules.PlatformConstants.interfaceIdiom;
 
 class Home extends Component {
   constructor(props) {
@@ -27,6 +28,7 @@ class Home extends Component {
  
   componentWillMount() {
     this.checkValidFilters();
+    console.log(deviceType);
   }
 
   componentDidMount() {
@@ -82,10 +84,9 @@ class Home extends Component {
             <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
             :
             <Tabs 
-              style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
+              style={{backgroundColor: Platform.OS === "ios" ? "#F8F8F8" : "#3f51b5"}}
               prerenderingSiblingsNumber={8}
-              renderTabBar={() => <ScrollableTab
-                underlineStyle={{backgroundColor: "red"}}/>
+              renderTabBar={() => <ScrollableTab/>
               } 
               ref={(ref) => { this._tabs = ref }} 
               onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
@@ -336,11 +337,11 @@ class Home extends Component {
       const style = {
         textAlign: "center",
         color: "rgb(125,125,125)",
-        fontSize: 12,
+        fontSize: deviceType==="pad"? 24 : 12
       };
     
       result.push(
-        <Tab heading={dayNames[i]} key={i} style={{backgroundColor: "rgb(220,220,220)"}}>
+        <Tab heading={dayNames[i]} key={i} style={{backgroundColor: Platform.OS === "ios"? "rgb(240,240,240)" : "rgb(220,220,220)"}}>
           <Content>
             {blocks.length === 0 ? <Text style={style}>Brak zajęć</Text> : blocks}
           </Content>

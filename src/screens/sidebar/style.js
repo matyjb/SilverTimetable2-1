@@ -1,10 +1,10 @@
-const React = require("react-native");
-const { Platform, Dimensions } = React;
+import {Platform, Dimensions, NativeModules, StyleSheet } from "react-native";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
+const deviceType = NativeModules.PlatformConstants.interfaceIdiom;
 
-export default {
+const styles = StyleSheet.create({
   drawerCover: {
     alignSelf: "stretch",
     height: deviceHeight / 3.5,
@@ -22,12 +22,12 @@ export default {
   },
   text: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: 16,
+    fontSize: deviceType==="pad"? 32 : 16,
     marginLeft: 16
   },
   footer: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: 12,
+    fontSize: deviceType==="pad"? 24:12,
     color: "#808080",
     marginLeft: 12,
     marginBottom: 6
@@ -37,5 +37,40 @@ export default {
     fontWeight: "400",
     textAlign: "center",
     marginTop: Platform.OS === "android" ? -3 : undefined
+  },
+  icon: {
+    color: "#777", 
+    fontSize: deviceType==="pad"? 36 : 26, 
+    width: deviceType==="pad"? 36 : 26,
+    marginRight: deviceType==="pad"? 25 : 5
+  },
+  row: {
+    backgroundColor: Platform.OS === "ios" ? "#fafafa" : "#3f51b5", 
+    height: Math.max(deviceHeight, deviceWidth) * 0.25
+  },
+  content: { 
+    flex: 1, 
+    backgroundColor: "#fff", 
+    top: -1 
+  },
+  left: { 
+    alignSelf: "flex-end", 
+    marginLeft: 16, 
+    marginBottom: 16 
+  },
+  sidebarTitleLecturer: {
+    fontSize: deviceType==="pad"? 36:21, 
+    textAlign: "left"
+  },
+  sidebarTitleField: {
+    fontSize: deviceType==="pad"? 36: 21, 
+    textAlign: "left"
+  },
+  sidebarTitleSemester: {
+    fontSize: deviceType==="pad"? 24: 14, 
+    textAlign: "left"
   }
-};
+
+});
+
+export default styles;
