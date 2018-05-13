@@ -5,9 +5,15 @@ const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
 export default {
-    canvas: {
-        flex: 1,
-        height: deviceHeight,
-        width: null,
-    }
-  };
+  background: {
+    flex: 1,
+    width: null,
+    height: deviceHeight,
+  },
+  pin: {
+    resizeMode: 'contain',
+    width: deviceWidth*0.18,
+    height: deviceHeight*0.1
+  },
+
+};

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Card, CardItem, Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab } from "native-base";
+import { Card, CardItem, Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab, Drawer } from "native-base";
 import { AppState, Dimensions, Platform } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { setFiltersOK, setDay, timetableLoadSuccess, changeFilter } from "../../actions";
 
 import EventBlock from "./EventBlock";
+import EventBlockMore from "./EventBlockMore";
 import BreakBlock from "./BreakBlock";
 
 import styles from "./styles";
@@ -21,8 +22,10 @@ class Home extends Component {
     this.state = {
       appState: AppState.currentState,
       refreshing: false,
+      eventBlockMore: null,
     };
     this._tabs = null;
+    this.drawer = null;
   }
  
   componentWillMount() {
@@ -45,67 +48,82 @@ class Home extends Component {
     this.setState({appState: nextAppState});
   }
 
+  closeDrawer = () => {
+    this.drawer._root.close()
+  };
+  openDrawer = () => {
+    this.drawer._root.open()
+  };
   render() {
     if (this.props.timetable && !this.props.timetableConfig.isError) {
       return (
-        <Container>
-          <Header hasTabs>
-            <Left>
-              <Button
-                transparent
-                onPress={() => this.props.navigation.navigate("DrawerOpen")}
-              >
-                <Icon name="md-menu" />
-              </Button>
-            </Left>
-            <Body>
-              <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
-            </Body>
-            <Right>
-              <Button
-                disabled={ this.state.refreshing }
-                transparent
-                onPress={async() => {
-                  Toast.show({
-                    text: "Odświeżanie",
-                    duration: 3000
-                  }); 
-                  await this.refresh();
-                }}
-              >
-                <Icon name="md-refresh" />
-              </Button>
-            </Right>
-          </Header>
+        <Drawer
+          ref={(ref) => { this.drawer = ref; }}
+          content={this.state.eventBlockMore}
+          onClose={() => this.closeDrawer()} 
+          side={'bottom'}
+          openDrawerOffset={0.65}
+          panCloseMask={0.65}
+        >
+          <Container>
+            <Header hasTabs>
+              <Left>
+                <Button
+                  transparent
+                  onPress={() => this.props.navigation.navigate("DrawerOpen")}
+                >
+                  <Icon name="md-menu" />
+                </Button>
+              </Left>
+              <Body>
+                <Text style={{width: "150%"}}><Title>Plan zajęć WZIM</Title></Text>
+              </Body>
+              <Right>
+                <Button
+                  disabled={ this.state.refreshing }
+                  transparent
+                  onPress={async() => {
+                    Toast.show({
+                      text: "Odświeżanie",
+                      duration: 3000
+                    }); 
+                    await this.refresh();
+                  }}
+                >
+                  <Icon name="md-refresh" />
+                </Button>
+              </Right>
+            </Header>
 
-          { this.state.refreshing || !this.props.filtersOK ?
-            <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
-            :
-            <Tabs 
-              style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
-              prerenderingSiblingsNumber={8}
-              renderTabBar={() => <ScrollableTab
-                underlineStyle={{backgroundColor: "red"}}/>
-              } 
-              ref={(ref) => { this._tabs = ref }} 
-              onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
-            >
-              {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
+            { this.state.refreshing || !this.props.filtersOK ?
+              <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
+              :
+              <Tabs 
+                style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
+                prerenderingSiblingsNumber={8}
+                renderTabBar={() => <ScrollableTab
+                  underlineStyle={{backgroundColor: "red"}}/>
+                } 
+                ref={(ref) => { this._tabs = ref }} 
+                onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
+              >
+                {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
+              
+              </Tabs>
             
-            </Tabs>
-          
-          }
-          { this.props.quickGroupChangeAllowed && !this.props.lecturerMode && !this.state.refreshing &&
-          <Footer>
-            <FooterTab>
-              {this.generateGroupButtons(this.generateGroupNames(this.props.timetable, this.props.filters))}
-            </FooterTab>
-          </Footer>
-          }
-        </Container>
+            }
+            { this.props.quickGroupChangeAllowed && !this.props.lecturerMode && !this.state.refreshing &&
+            <Footer>
+              <FooterTab>
+                {this.generateGroupButtons(this.generateGroupNames(this.props.timetable, this.props.filters))}
+              </FooterTab>
+            </Footer>
+            }
+          </Container>
+        </Drawer>
       );
     } else {
-      return(
+      return (
         <Container>
           <Header>
             <Left>
@@ -379,7 +397,7 @@ class Home extends Component {
                     && obj.semester === filters.semester
                     && obj.academicYear === filters.academicYear);
     
-    result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1); // na wypadek gdyby dane nie były posortowane
+    result.sort((a, b) => a.startTime.isAfter(b.startTime) ? 1 : -1);
     if (lecturerMode) {
       for (let index = 0; index < result.length; index++) {
         const tmp = result[index];
@@ -416,6 +434,7 @@ class Home extends Component {
           event={event}
           order={index + 1}
           lecturerMode={lecturerMode}
+          onPress={()=>{this.setState({eventBlockMore: <EventBlockMore lecturerMode={this.props.lecturerMode} navigation={this.props.navigation} event={event}/>}); this.openDrawer();}}
         />
         {index + 1 < result.length &&
           <BreakBlock duration={result[index + 1].startTime.diff(event.endTime, "minutes")} />
@@ -450,7 +469,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setFiltersOK: (value) => dispatch(setFiltersOK(value)),
     setDay: (value) => dispatch(setDay(value)),
-    //changeGroup: (value) => dispatch(changeGroup(value)),
     changeFilter: (name, value) => dispatch(changeFilter(name, value)),
     timetableLoadSuccess: (value) => dispatch(timetableLoadSuccess(value))
   };
@@ -465,7 +483,6 @@ Home.propTypes = {
   quickGroupChangeAllowed: PropTypes.bool,
   setFiltersOK: PropTypes.func,
   setDay: PropTypes.func,
-  //changeGroup: PropTypes.func,
   changeFilter: PropTypes.func,
   timetableFilters: PropTypes.object,
   timetable: PropTypes.object,
@@ -473,7 +490,7 @@ Home.propTypes = {
   filters: PropTypes.object,
   selectedDay: PropTypes.string,
   filtersOK: PropTypes.bool,
-  timetableLoadSuccess: PropTypes.func
+  timetableLoadSuccess: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

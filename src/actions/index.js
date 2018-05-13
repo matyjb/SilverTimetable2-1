@@ -26,3 +26,11 @@ export const setDay = (value) => ({
 export const setFiltersOK = (value) => ({
   type: types.FILTERS_OK, payload: value,
 });
+
+export const setPinned = (value) => ({
+  type: types.SET_PINNED, payload: value,
+});
+
+export const setPinRoom = (value) => ({
+  type: types.SET_PIN_ROOM, payload: value,
+});
