@@ -14,11 +14,10 @@ import {
 import PropTypes from "prop-types";
 import styles from "./style";
 import { Row, Grid } from 'react-native-easy-grid';
-import { Dimensions, View, Platform, NativeModules } from "react-native"
+import { Dimensions, View, Platform } from "react-native"
 import { connect } from "react-redux";
 
 const { width, height } = Dimensions.get("screen");
-const deviceType = NativeModules.PlatformConstants.interfaceIdiom;
 const datas = [
   {
     name: "Plan",
@@ -91,7 +90,6 @@ class SideBar extends Component {
                     button
                     noBorder
                     onPress={() => this.props.navigation.navigate(data.route)}
-                    marginBottom={deviceType==="pad"? 45 : 10}
                   >
                     <Left>
                       <Icon

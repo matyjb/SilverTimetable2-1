@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Card, CardItem, Content, Tab, Container, Button, Body, Header, Icon, Title, Right, Left, Text, Tabs, ScrollableTab, Spinner, Toast, Footer, FooterTab } from "native-base";
-import { AppState, Dimensions, Platform, NativeModules } from "react-native";
+import { AppState, Dimensions, Platform } from "react-native";
 
 import TimetableServices from "../../timetable/TimetableServices";
 
@@ -14,7 +14,6 @@ import BreakBlock from "./BreakBlock";
 import styles from "./styles";
 
 const { width, height } = Dimensions.get("screen");
-const deviceType = NativeModules.PlatformConstants.interfaceIdiom;
 
 class Home extends Component {
   constructor(props) {
@@ -28,7 +27,6 @@ class Home extends Component {
  
   componentWillMount() {
     this.checkValidFilters();
-    console.log(deviceType);
   }
 
   componentDidMount() {
@@ -86,8 +84,9 @@ class Home extends Component {
             <Tabs 
               style={{backgroundColor: Platform.OS === "ios" ? "#F8F8F8" : "#3f51b5"}}
               prerenderingSiblingsNumber={8}
-              renderTabBar={() => <ScrollableTab/>
-              } 
+              renderTabBar={() => <ScrollableTab
+                underlineStyle={{backgroundColor: "red"}}
+              />} 
               ref={(ref) => { this._tabs = ref }} 
               onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
             >
@@ -337,7 +336,7 @@ class Home extends Component {
       const style = {
         textAlign: "center",
         color: "rgb(125,125,125)",
-        fontSize: deviceType==="pad"? 24 : 12
+        fontSize: width*0.031
       };
     
       result.push(

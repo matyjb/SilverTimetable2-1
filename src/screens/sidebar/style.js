@@ -1,8 +1,7 @@
-import {Platform, Dimensions, NativeModules, StyleSheet } from "react-native";
+import {Platform, Dimensions, StyleSheet } from "react-native";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
-const deviceType = NativeModules.PlatformConstants.interfaceIdiom;
 
 const styles = StyleSheet.create({
   drawerCover: {
@@ -22,15 +21,15 @@ const styles = StyleSheet.create({
   },
   text: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: deviceType==="pad"? 32 : 16,
-    marginLeft: 16
+    fontSize: deviceWidth*0.043,
+    marginLeft: deviceWidth*0.043,
   },
   footer: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: deviceType==="pad"? 24:12,
+    fontSize: deviceWidth*0.031,
     color: "#808080",
-    marginLeft: 12,
-    marginBottom: 6
+    marginLeft: deviceWidth*0.031,
+    marginBottom: deviceWidth*0.013,
   },
   badgeText: {
     fontSize: Platform.OS === "ios" ? 13 : 11,
@@ -40,9 +39,10 @@ const styles = StyleSheet.create({
   },
   icon: {
     color: "#777", 
-    fontSize: deviceType==="pad"? 36 : 26, 
-    width: deviceType==="pad"? 36 : 26,
-    marginRight: deviceType==="pad"? 25 : 5
+    fontSize: deviceWidth*0.073,
+    width: deviceWidth*0.073,
+    marginRight: deviceWidth*0.013,
+    marginLeft: deviceWidth*0.013,
   },
   row: {
     backgroundColor: Platform.OS === "ios" ? "#fafafa" : "#3f51b5", 
@@ -55,19 +55,19 @@ const styles = StyleSheet.create({
   },
   left: { 
     alignSelf: "flex-end", 
-    marginLeft: 16, 
-    marginBottom: 16 
+    marginLeft: deviceWidth*0.043,
+    marginBottom: deviceWidth*0.043,
   },
   sidebarTitleLecturer: {
-    fontSize: deviceType==="pad"? 36:21, 
+    fontSize: deviceWidth*0.058,
     textAlign: "left"
   },
   sidebarTitleField: {
-    fontSize: deviceType==="pad"? 36: 21, 
+    fontSize: deviceWidth*0.058,
     textAlign: "left"
   },
   sidebarTitleSemester: {
-    fontSize: deviceType==="pad"? 24: 14, 
+    fontSize: deviceWidth*0.037,
     textAlign: "left"
   }
 

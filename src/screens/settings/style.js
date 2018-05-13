@@ -25,12 +25,33 @@ const styles = StyleSheet.create({
   },
 
   filterTextStyle: {
-    padding: 15
+    fontSize: width*0.031,
+    paddingTop: width*0.04,
+  },
+
+  quickGroupStyle: {
+    fontSize: width*0.043,
+  },
+
+  labelTextStyle: {
+    fontSize: width*0.037,
+    padding: width*0.025,
   },
 
   iconStyle: {
-    fontSize: 24, 
-    width: 24
+    fontSize: width*0.067,
+    width: width*0.067,
+  },
+
+  iconBottomStyle: {
+    fontSize: width*0.067,
+    width: width*0.067,
+  },
+
+  titleStyle: {
+    paddingTop: width*0.04,
+    paddingLeft: width*0.04,
+    fontSize: width*0.037,
   },
 
   listItemStyle: {
@@ -38,20 +59,19 @@ const styles = StyleSheet.create({
   },
 
   btnStyle: {
-    marginTop: 20,
+    marginTop: width*0.055,
     alignSelf: "center"
   },
 
   pickerStyle: {
     alignSelf: "stretch",
     width: width*0.9,
-    justifyContent: Platform.OS === "ios" ? "center" : "flex-start"
-
+    justifyContent: Platform.OS === "ios" ? "center" : "flex-start",
   },
 
   formStyle: {
-    marginRight: 15,
-  }
+    marginRight: width*0.04,
+  },
 });
 
 export default styles;
