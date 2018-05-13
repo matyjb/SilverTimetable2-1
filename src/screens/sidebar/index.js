@@ -18,7 +18,6 @@ import { Dimensions, View, Platform } from "react-native"
 import { connect } from "react-redux";
 
 const { width, height } = Dimensions.get("screen");
-
 const datas = [
   {
     name: "Plan",
@@ -60,22 +59,22 @@ class SideBar extends Component {
       <Container>
         <Content
           bounces={false}
-          style={{ flex: 1, backgroundColor: "#fff", top: -1 }}
+          style={styles.content}
         >
           <Grid>
-            <Row style={{ backgroundColor: Platform.OS === "ios" ? "#fafafa" : "#3f51b5", height: Math.max(height, width) * 0.25}}>
+            <Row style={styles.row}>
               
-              <Left style={{ alignSelf: "flex-end", marginLeft: 16, marginBottom: 16 }}>
+              <Left style={styles.left}>
                 { this.props.timetableData && 
                 this.props.configuration.lecturerMode && this.props.filters.lecturer &&
-                <Text><Title style={{fontSize: 21, textAlign: "left"}}>{this.props.filters.lecturer}</Title></Text> }
+                <Text><Title style={styles.sidebarTitleLecturer}>{this.props.filters.lecturer}</Title></Text> }
 
                 {this.props.timetableData &&
                 !this.props.configuration.lecturerMode && this.props.filters.fieldOfStudy && this.props.filters.fieldOfStudy &&
                   this.props.filters.degree && this.props.filters.mode && this.props.filters.semester &&
                   <View>
-                    <Text><Title style={{fontSize: 21, textAlign: "left"}}>{this.props.filters.fieldOfStudy} ({this.props.filters.degree})</Title></Text>
-                    <Text><Title style={{fontSize: 14, textAlign: "left"}}>{this.props.filters.mode}, semestr {this.props.filters.semester}</Title></Text>
+                    <Text><Title style={styles.sidebarTitleField}>{this.props.filters.fieldOfStudy} ({this.props.filters.degree})</Title></Text>
+                    <Text><Title style={styles.sidebarTitleSemester}>{this.props.filters.mode}, semestr {this.props.filters.semester}</Title></Text>
                   </View>
                 }
                  
@@ -96,7 +95,7 @@ class SideBar extends Component {
                       <Icon
                         active
                         name={data.icon}
-                        style={{ color: "#777", fontSize: 26, width: 30 }}
+                        style={styles.icon}
                       />
                       <Text style={styles.text}>
                         {data.name}

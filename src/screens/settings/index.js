@@ -98,21 +98,23 @@ class Settings extends Component {
           :
 
           <Content>
-            <Text note style={styles.filterTextStyle}>Filtrowanie</Text>
-            <ListItem style={styles.listItemStyle}>
-              <Left>
-                <Icon name="md-school" style={styles.iconStyle}/>
-              </Left>
-              <Text>Tryb prowadzącego</Text>
-              <Body/>
-              <Switch
-                value={this.props.configuration.lecturerMode}
-                onValueChange={(newValue) => {
-                  this.props.changeConfigurationOption("lecturerMode", newValue);
-                  this.props.setDay(null);
-                }}
-              />
-            </ListItem>
+            <Form style={styles.formStyle}>
+              <Text note style={styles.titleStyle}>Filtrowanie</Text>
+              <ListItem style={styles.listItemStyle}>
+                <Left>
+                  <Icon name="md-school" style={styles.iconStyle}/>
+                </Left>
+                <Text style={styles.quickGroupStyle}>Tryb prowadzącego</Text>
+                <Body/>
+                <Switch
+                  value={this.props.configuration.lecturerMode}
+                  onValueChange={(newValue) => {
+                    this.props.changeConfigurationOption("lecturerMode", newValue);
+                    this.props.setDay(null);
+                  }}
+                />
+              </ListItem>
+            </Form>
 
 
 
@@ -122,7 +124,7 @@ class Settings extends Component {
               <Form style={styles.formStyle}> 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Prowadzący</Text>
+                    <Text note style={styles.labelTextStyle}>Prowadzący</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -158,7 +160,7 @@ class Settings extends Component {
               <Form style={styles.formStyle}>
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Rok akademicki</Text>
+                    <Text note style={styles.labelTextStyle}>Rok akademicki</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -188,7 +190,7 @@ class Settings extends Component {
 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Wydział</Text>
+                    <Text note style={styles.labelTextStyle}>Wydział</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -218,7 +220,7 @@ class Settings extends Component {
 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Kierunek</Text>
+                    <Text note style={styles.labelTextStyle}>Kierunek</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -248,7 +250,7 @@ class Settings extends Component {
 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Stopień</Text>
+                    <Text note style={styles.labelTextStyle}>Stopień</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -278,7 +280,7 @@ class Settings extends Component {
 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Semestr</Text>
+                    <Text note style={styles.labelTextStyle}>Semestr</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -308,7 +310,7 @@ class Settings extends Component {
 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Tryb</Text>
+                    <Text note style={styles.labelTextStyle}>Tryb</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -343,7 +345,7 @@ class Settings extends Component {
 
                 <Item stackedLabel>
                   <Label>
-                    <Text note>Grupa</Text>
+                    <Text note style={styles.labelTextStyle}>Grupa</Text>
                   </Label>
                   {Platform.OS === "ios" ?
                     <Picker
@@ -371,12 +373,12 @@ class Settings extends Component {
                   }
                 </Item>
            
-                <Text note style={styles.filterTextStyle}>Inne</Text>
+                <Text note style={styles.titleStyle}>Inne</Text>
                 <ListItem style={styles.listItemStyle}>
                   <Left>
-                    <Icon name="md-swap" style={styles.iconStyle}/>
+                    <Icon name="md-swap" style={styles.iconBottomStyle}/>
                   </Left>
-                  <Text>Szybka zmiana grupy</Text>
+                  <Text style={styles.quickGroupStyle}>Szybka zmiana grupy</Text>
                   <Body/>
                   <Switch
                     value={this.props.configuration.allowQuickGroupChange}

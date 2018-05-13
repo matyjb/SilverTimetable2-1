@@ -1,10 +1,9 @@
-const React = require("react-native");
-const { Platform, Dimensions } = React;
+import {Platform, Dimensions, StyleSheet } from "react-native";
 
 const deviceHeight = Dimensions.get("window").height;
 const deviceWidth = Dimensions.get("window").width;
 
-export default {
+const styles = StyleSheet.create({
   drawerCover: {
     alignSelf: "stretch",
     height: deviceHeight / 3.5,
@@ -22,20 +21,56 @@ export default {
   },
   text: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: 16,
-    marginLeft: 16
+    fontSize: deviceWidth*0.043,
+    marginLeft: deviceWidth*0.043,
   },
   footer: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: 12,
+    fontSize: deviceWidth*0.031,
     color: "#808080",
-    marginLeft: 12,
-    marginBottom: 6
+    marginLeft: deviceWidth*0.031,
+    marginBottom: deviceWidth*0.013,
   },
   badgeText: {
     fontSize: Platform.OS === "ios" ? 13 : 11,
     fontWeight: "400",
     textAlign: "center",
     marginTop: Platform.OS === "android" ? -3 : undefined
+  },
+  icon: {
+    color: "#777", 
+    fontSize: deviceWidth*0.073,
+    width: deviceWidth*0.073,
+    marginRight: deviceWidth*0.013,
+    marginLeft: deviceWidth*0.013,
+  },
+  row: {
+    backgroundColor: Platform.OS === "ios" ? "#fafafa" : "#3f51b5", 
+    height: Math.max(deviceHeight, deviceWidth) * 0.25
+  },
+  content: { 
+    flex: 1, 
+    backgroundColor: "#fff", 
+    top: -1 
+  },
+  left: { 
+    alignSelf: "flex-end", 
+    marginLeft: deviceWidth*0.043,
+    marginBottom: deviceWidth*0.043,
+  },
+  sidebarTitleLecturer: {
+    fontSize: deviceWidth*0.058,
+    textAlign: "left"
+  },
+  sidebarTitleField: {
+    fontSize: deviceWidth*0.058,
+    textAlign: "left"
+  },
+  sidebarTitleSemester: {
+    fontSize: deviceWidth*0.037,
+    textAlign: "left"
   }
-};
+
+});
+
+export default styles;

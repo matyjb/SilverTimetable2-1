@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Card, CardItem, Text, Body } from 'native-base';
 import PropTypes from 'prop-types';
+import { Dimensions } from "react-native";
 import * as Moment from "moment";
+
+const { width } = Dimensions.get("screen");
 
 export default class EventBlock extends Component {
   render(){
@@ -10,17 +13,17 @@ export default class EventBlock extends Component {
     const event = this.props.event;
     return (
       <Card>
-        <CardItem button onPress={this.props.onPress}>
+        <CardItem>
           <Body>
-            <Text>{event.name}</Text>
+            <Text style = {{fontSize: width*0.049}}>{event.name}</Text>
 
-            <Text note>
+            <Text note style = {{fontSize: width*0.037}}>
               {(event.isFaculty ? "(F) " : "") + event.type + " "}
               {startTime.format("HH:mm ")}
                         - {endTime.format("HH:mm")}
             </Text>
 
-            <Text>
+            <Text style = {{fontSize: width*0.037}}>
               {this.props.lecturerMode 
                 ? 
                 <React.Fragment>
@@ -33,12 +36,12 @@ export default class EventBlock extends Component {
                     ", b." + event.building + " "
                     :
                     " ")}
-                  <Text note>{'\n'}{event.fieldOfStudy} rok {event.year} {event.degree}{'\n'}</Text>
+                  <Text note style = {{fontSize: width*0.037}}>{'\n'}{event.fieldOfStudy} rok {event.year} {event.degree}{'\n'}</Text>
                   {(event.groups !== null && event.groups.length > 1) 
                     ? 
-                    <Text note>grupy: {event.groups.join(", ")}</Text>
+                    <Text note style = {{fontSize: width*0.037}}>grupy: {event.groups.join(", ")}</Text>
                     : 
-                    <Text note>grupa: {event.specialization || event.group} </Text> }
+                    <Text note style = {{fontSize: width*0.037}}>grupa: {event.specialization || event.group} </Text> }
                 </React.Fragment>
                 : 
                 <React.Fragment>
@@ -50,7 +53,7 @@ export default class EventBlock extends Component {
                     ", b." + event.building + " "
                     :
                     " ")}
-                  {event.lecturers[0] !== "" ? <Text note> - {event.lecturers.join(", ")} </Text> : ""}
+                  {event.lecturers[0] !== "" ? <Text note style = {{fontSize: width*0.037}}> - {event.lecturers.join(", ")} </Text> : ""}
                 </React.Fragment>
               }
             </Text>
@@ -65,5 +68,4 @@ EventBlock.propTypes = {
   event: PropTypes.object,
   order: PropTypes.number,
   lecturerMode: PropTypes.bool,
-  onPress: PropTypes.func,
 };

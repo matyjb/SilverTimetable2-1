@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import * as Moment from "moment";
+import { Dimensions } from "react-native";
 import {Text} from "native-base";
 import PropTypes from 'prop-types';
+
+const { width } = Dimensions.get("screen");
 
 export default class BreakBlock extends Component {
 
@@ -9,7 +12,7 @@ export default class BreakBlock extends Component {
     const style = {
       textAlign: "center",
       color: "rgb(125,125,125)",
-      fontSize: 12,
+      fontSize: width*0.031,
     };
     var text = "";
     if (this.props.isStart) {

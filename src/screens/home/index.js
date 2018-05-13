@@ -94,23 +94,20 @@ class Home extends Component {
                 </Button>
               </Right>
             </Header>
-
             { this.state.refreshing || !this.props.filtersOK ?
               <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
               :
               <Tabs 
-                style={{backgroundColor: Platform.OS === "ios" ? "#d9d9d9" : "#3f51b5"}} 
+                style={{backgroundColor: Platform.OS === "ios" ? "#F8F8F8" : "#3f51b5"}}
                 prerenderingSiblingsNumber={8}
                 renderTabBar={() => <ScrollableTab
-                  underlineStyle={{backgroundColor: "red"}}/>
-                } 
+                  underlineStyle={{backgroundColor: "red"}}
+                />} 
                 ref={(ref) => { this._tabs = ref }} 
                 onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
               >
                 {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
-              
               </Tabs>
-            
             }
             { this.props.quickGroupChangeAllowed && !this.props.lecturerMode && !this.state.refreshing &&
             <Footer>
@@ -354,11 +351,11 @@ class Home extends Component {
       const style = {
         textAlign: "center",
         color: "rgb(125,125,125)",
-        fontSize: 12,
+        fontSize: width*0.031
       };
     
       result.push(
-        <Tab heading={dayNames[i]} key={i} style={{backgroundColor: "rgb(220,220,220)"}}>
+        <Tab heading={dayNames[i]} key={i} style={{backgroundColor: Platform.OS === "ios"? "rgb(240,240,240)" : "rgb(220,220,220)"}}>
           <Content>
             {blocks.length === 0 ? <Text style={style}>Brak zajęć</Text> : blocks}
           </Content>
