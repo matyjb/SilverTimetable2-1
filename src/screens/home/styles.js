@@ -1,8 +1,9 @@
-const React = require("react-native");
-const { Dimensions, Platform } = React;
-const deviceHeight = Dimensions.get("window").height;
+import { StyleSheet, Dimensions, Platform } from "react-native";
 
-export default {
+const deviceHeight = Dimensions.get("window").height;
+const deviceWidth = Dimensions.get("window").width;
+
+const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     width: null,
@@ -24,5 +25,15 @@ export default {
     color: "#D8D8D8",
     bottom: 6,
     marginTop: 5
-  }
-};
+  },
+  contentContainerStyle: {
+    justifyContent: "center"
+  },
+  errorStyle: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginTop: deviceHeight*0.25
+  },
+});
+
+export default styles;
