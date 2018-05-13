@@ -2,8 +2,10 @@ import React, { Component } from "react";
 import { Container, Text, H1, Content, Badge, Icon, Button } from "native-base";
 import { View } from "react-native";
 import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { setPinned, setPinRoom } from "../../actions";
 
-export default class EventBlockMore extends Component {
+class EventBlockMore extends Component {
     lowercaseFirstLetter(text) {
         return text.charAt(0).toLowerCase() + text.slice(1);
     }
@@ -68,7 +70,12 @@ export default class EventBlockMore extends Component {
                             <Text>   {room}</Text>
                         </Icon>
                         {event.building == 34 && event.room !== '' &&
-                        <Button light style={{margin: 4, width: '100%'}} >
+                        <Button light style={{margin: 4, width: '100%'}} 
+                            onPress={()=>{
+                                this.props.setPinned(true);
+                                this.props.setPinRoom(event.room);
+                                this.props.navigation.navigate("FloorPage");
+                        }}>
                             <Text>Pokaż na schemacie</Text>
                         </Button>
                         }
@@ -83,12 +90,27 @@ export default class EventBlockMore extends Component {
         }
     }
 }
+const mapStateToProps = (state) => {
+    return {
 
+    };
+  };
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setPinned: (value) => dispatch(setPinned(value)),
+        setPinRoom: (value) => dispatch(setPinRoom(value)),
+    };
+  };
 
 EventBlockMore.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired
   }).isRequired,
   event: PropTypes.object,
+  setPinned: PropTypes.func,
+  setPinRoom: PropTypes.func,
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventBlockMore);
 

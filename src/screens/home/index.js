@@ -441,7 +441,7 @@ Home.propTypes = {
   filters: PropTypes.object,
   selectedDay: PropTypes.string,
   filtersOK: PropTypes.bool,
-  timetableLoadSuccess: PropTypes.func
+  timetableLoadSuccess: PropTypes.func,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);
