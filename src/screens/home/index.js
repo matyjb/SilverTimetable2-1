@@ -29,7 +29,11 @@ class Home extends Component {
   }
  
   componentWillMount() {
-    this.checkValidFilters();
+    if (!this.props.timetableConfig.isError) {
+      this.checkValidFilters();
+    } else {
+      this.props.setFiltersOK(false);
+    }
   }
 
   componentDidMount() {
@@ -208,7 +212,7 @@ class Home extends Component {
     const isNetwork = await TimetableServices.isNetworkAvailable();
     
     if (isNetwork) {
-      const update = true;//await TimetableServices.IsNewTimetable(this.props.timetable.date);
+      const update = await TimetableServices.IsNewTimetable(this.props.timetable.date);
       
       if (update) {
         Toast.show({
@@ -245,7 +249,12 @@ class Home extends Component {
     }
 
     this.setState({refreshing: false});
-    setTimeout(async() => { await this.setOldDay() }, 0);
+    if (this.props.filtersOK) {
+      setTimeout(async() => { await this.setOldDay() }, 0);
+    } else {
+      this.checkValidFilters();
+    }
+    
   }
 
   async getTimetableWithRetries(retriesCount) {
@@ -267,7 +276,7 @@ class Home extends Component {
   }
 
   async setOldDay() {
-    if (this._tabs !== null && this.props.filtersOK && !this.state.refreshing) {
+    if (this._tabs !== null && this.props.timetable && this.props.filtersOK && !this.state.refreshing) {
       const numberPage = parseInt(this.props.selectedDay,10) - (this.props.filters.mode === "Niestacjonarne" ? 4 : 0);
       await this._tabs.goToPage(numberPage);
     }
