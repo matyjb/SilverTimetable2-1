@@ -13,7 +13,7 @@ export default class EventBlock extends Component {
     const event = this.props.event;
     return (
       <Card>
-        <CardItem>
+        <CardItem button onPress={this.props.onPress}> 
           <Body>
             <Text style = {{fontSize: width*0.049}}>{event.name}</Text>
 
@@ -68,4 +68,5 @@ EventBlock.propTypes = {
   event: PropTypes.object,
   order: PropTypes.number,
   lecturerMode: PropTypes.bool,
+  onPress: PropTypes.func, 
 };

@@ -6,7 +6,7 @@ import TimetableServices from "../../timetable/TimetableServices";
 
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { setFiltersOK, setDay, timetableLoadSuccess, changeFilter } from "../../actions";
+import { setFiltersOK, setDay, loadTimetableSuccess, changeFilter } from "../../actions";
 
 import EventBlock from "./EventBlock";
 import EventBlockMore from "./EventBlockMore";
@@ -208,23 +208,28 @@ class Home extends Component {
     const isNetwork = await TimetableServices.isNetworkAvailable();
     
     if (isNetwork) {
-      const update = await TimetableServices.IsNewTimetable(this.props.timetable.date);
+      const update = true;//await TimetableServices.IsNewTimetable(this.props.timetable.date);
       
       if (update) {
         Toast.show({
           text: "Pobieram nowy plan",
           duration: 3000
-        }); 
+        });
+        let timetable = null;
         try {
-          const timetable = await this.getTimetableWithRetries(3);
+          timetable = await this.getTimetableWithRetries(5);
           await TimetableServices.WriteTimetableFile(timetable);
           this.props.timetableLoadSuccess(timetable);
         } catch (er) {
           Toast.show({
             text: "Błąd pobierania",
             duration: 3000
-          }); 
+          });
         }
+        Toast.show({
+          text: "Zaktualizowano",
+          duration: 3000
+        }); 
       } else {
         Toast.show({
           text: "Plan aktualny",
@@ -431,7 +436,11 @@ class Home extends Component {
           event={event}
           order={index + 1}
           lecturerMode={lecturerMode}
-          onPress={()=>{this.setState({eventBlockMore: <EventBlockMore lecturerMode={this.props.lecturerMode} navigation={this.props.navigation} event={event}/>}); this.openDrawer();}}
+          onPress={() => {
+            if (event.building === "34") {
+              this.setState({eventBlockMore: <EventBlockMore lecturerMode={this.props.lecturerMode} navigation={this.props.navigation} event={event}/>}); 
+              this.openDrawer();
+            }}}
         />
         {index + 1 < result.length &&
           <BreakBlock duration={result[index + 1].startTime.diff(event.endTime, "minutes")} />
@@ -467,7 +476,7 @@ const mapDispatchToProps = (dispatch) => {
     setFiltersOK: (value) => dispatch(setFiltersOK(value)),
     setDay: (value) => dispatch(setDay(value)),
     changeFilter: (name, value) => dispatch(changeFilter(name, value)),
-    timetableLoadSuccess: (value) => dispatch(timetableLoadSuccess(value))
+    timetableLoadSuccess: (value) => dispatch(loadTimetableSuccess(value))
   };
 };
 
