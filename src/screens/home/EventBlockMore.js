@@ -108,6 +108,7 @@ EventBlockMore.propTypes = {
     navigate: PropTypes.func.isRequired
   }).isRequired,
   event: PropTypes.object,
+  lecturerMode: PropTypes.bool,
   setPinned: PropTypes.func,
   setPinRoom: PropTypes.func,
 };
