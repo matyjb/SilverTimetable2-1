@@ -29,11 +29,7 @@ class Home extends Component {
   }
  
   componentWillMount() {
-    if (!this.props.timetableConfig.isError) {
-      this.checkValidFilters();
-    } else {
-      this.props.setFiltersOK(false);
-    }
+    this.checkValidFilters();
   }
 
   componentDidMount() {
@@ -212,7 +208,7 @@ class Home extends Component {
     const isNetwork = await TimetableServices.isNetworkAvailable();
     
     if (isNetwork) {
-      const update = await TimetableServices.IsNewTimetable(this.props.timetable.date);
+      const update = this.props.timetable ? await TimetableServices.IsNewTimetable(this.props.timetable.date) : true;
       
       if (update) {
         Toast.show({
@@ -283,28 +279,32 @@ class Home extends Component {
   }
 
   checkValidFilters() {
-    if ((this.props.configuration.lecturerMode && !this.props.filters.lecturer)
+    if (!this.props.timetableConfig.isError) {
+      if ((this.props.configuration.lecturerMode && !this.props.filters.lecturer)
         || (!this.props.configuration.lecturerMode && !this.props.filters.mode)
         || !this.ensureFilteredValuesExist(this.props.filters, this.props.timetable)) {
 
-      this.props.setFiltersOK(false);
+        this.props.setFiltersOK(false);
       
-      console.log("Home Page: Wrong filters, redirecting to Settings...");
-      this.props.navigation.navigate("Settings");
+        console.log("Home Page: Wrong filters, redirecting to Settings...");
+        this.props.navigation.navigate("Settings");
 
-    } else {
-      this.props.setFiltersOK(true);
-      console.log("Home Page Loaded");
-      try {
-        var tmp = this.getCurrentDay(this.props.timetableFilters.mode);
-        if (typeof(tmp)==="string" && this.props.selectedDay === null) {
-          console.log("ustawiam dzien");
-          this.props.setDay(tmp);
+      } else {
+        this.props.setFiltersOK(true);
+        console.log("Home Page Loaded");
+        try {
+          var tmp = this.getCurrentDay(this.props.timetableFilters.mode);
+          if (typeof(tmp)==="string" && this.props.selectedDay === null) {
+            console.log("ustawiam dzien");
+            this.props.setDay(tmp);
+          }
+        } catch (e) {
+          console.log("Błąd ustawiania dnia...", e);
         }
-      } catch (e) {
-        console.log("Błąd ustawiania dnia...", e);
-      }
   
+      }
+    } else {
+      this.props.setFiltersOK(false);
     }
   }
   getCurrentDay(mode) {

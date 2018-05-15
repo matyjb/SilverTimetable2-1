@@ -73,7 +73,7 @@ class EventBlockMore extends Component {
                             this.props.setPinRoom(event.room);
                             this.props.navigation.navigate("FloorPage");
                           }}>
-                          <Icon ios='ios-map' android="md-map">
+                          <Icon ios='md-map' android="md-map">
                             <Text>   {room}</Text>
                           </Icon>
                         </Button>
