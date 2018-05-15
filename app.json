@@ -1,23 +1,26 @@
 {
   "expo": {
     "name": "Plan WZIM",
-    "description": "This project is really great.",
+    "description": "Ta aplikacja pokaże Ci twój plan zajęć.",
     "slug": "SilverTimetable",
     "privacy": "public",
     "sdkVersion": "26.0.0",
-    "platforms": ["ios", "android"],
     "version": "1.1.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
+    "primaryColor": "#3f51b5",
     "icon": "./assets/icon.png",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#334393"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "androidStatusBarColor": "#334393",
-      "androidStatusBar": {
-        "barStyle": "light-content",
-        "backgroundColor": "#334393"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -26,11 +29,21 @@
       "**/*"
     ],
     "ios": {
+      "bundleIdentifier": "com.silver.silvertimetable",
       "supportsTablet": false,
-      "bundleIdentifier": "com.silver.silvertimetable"
+      "isTabletOnly": false
     },
     "android": {
-      "package": "com.silvers.silvertimetable"
-    }
+      "package": "com.silvernet.silvertimetable",
+      "permissions": [],
+      "publishBundlePath": "android\\app\\src\\main\\assets\\shell-app.bundle",
+      "publishManifestPath": "android\\app\\src\\main\\assets\\shell-app-manifest.json"
+    },
+    "isDetached": true,
+    "detach": {
+      "scheme": "exp126eaf28ec9f46499e7eaa5de3297d6f",
+      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.4.0-sdk26.0.0-e63d9209-070c-4118-b06b-c60e82da0b66.tar.gz"
+    },
+    "scheme": "exp126eaf28ec9f46499e7eaa5de3297d6f"
   }
 }
