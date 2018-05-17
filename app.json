@@ -35,15 +35,15 @@
     },
     "android": {
       "package": "com.silvernet.silvertimetable",
-      "permissions": [],
-      "publishBundlePath": "android\\app\\src\\main\\assets\\shell-app.bundle",
-      "publishManifestPath": "android\\app\\src\\main\\assets\\shell-app-manifest.json"
-    },
-    "isDetached": true,
-    "detach": {
-      "scheme": "exp126eaf28ec9f46499e7eaa5de3297d6f",
-      "androidExpoViewUrl": "https://s3.amazonaws.com/exp-exponent-view-code/android-v2.4.0-sdk26.0.0-e63d9209-070c-4118-b06b-c60e82da0b66.tar.gz"
-    },
-    "scheme": "exp126eaf28ec9f46499e7eaa5de3297d6f"
+      "permissions": [
+        "C2D_MESSAGE",
+        "RECEIVE",
+        "ACCESS_NETWORK_STATE",
+        "INTERNET",
+        "SYSTEM_ALERT_WINDOW",
+        "WAKE_LOCK"
+      ],
+      "versionCode": 101000
+    }
   }
 }
