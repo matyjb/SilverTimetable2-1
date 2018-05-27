@@ -1,0 +1,9 @@
+node_modules/**/*
+npm-debug.*
+
+.vscode
+
+\.expo/packager-info\.json
+
+android/
+ios/
