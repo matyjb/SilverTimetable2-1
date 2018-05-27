@@ -5,17 +5,37 @@ import FileManager from "./FileManager";
 import * as Moment from "moment";
 
 class TimetableServices extends Component {
-
+  
   /**
  * @returns {boolean} Boolean value whether network is available
  */
   static async isNetworkAvailable() {
-    const netStat = await NetInfo.isConnected.fetch().then(isConnected => {
-      return isConnected ? true : false;
-    });
-    return netStat;
+    if (Platform.OS !== "ios") {
+      const netStat = NetInfo.isConnected.fetch().then(isConnected => {
+        return isConnected ? true : false;
+      });
+      return netStat;
+    } else {
+      let probablyHasInternet;
+      try {
+        const isConnected = await fetch("https://www.google.com", {
+          headers: {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+            "Expires": 0
+          }
+        });
+        probablyHasInternet = isConnected.status === 200;
+        if (probablyHasInternet){ 
+          return true;
+        } else {
+          return false;
+        }
+      } catch (e) {
+        return false;
+      }
+    }
   }
-  
   /**
    * @param {string} date Date to compare
  * @returns {Promise<boolean>} Boolean promise whether new timetable is available

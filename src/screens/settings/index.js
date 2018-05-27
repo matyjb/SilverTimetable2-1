@@ -152,6 +152,16 @@ class Settings extends Component {
                     </Picker>
                   }
                 </Item>
+                <ListItem style={styles.listItemStyle}>
+                  <Left/>
+                  <Button transparent
+                    onPress={() => {
+                      this.props.navigation.navigate("Home");
+                    }}>
+                    <Text style={styles.quickGroupStyle}>Przejdź do planu</Text>
+                  </Button>
+                  <Body/>
+                </ListItem>
               </Form>
       
               :
@@ -329,7 +339,7 @@ class Settings extends Component {
                     :
                     <Picker
                       mode="dropdown"
-                      selectedValue={this.state.mode}
+                      selectedValue={this.props.filters.mode}
                       onValueChange={(newValue) => {
                         this.setState({mode: newValue});
                         this.props.changeFilter("mode", newValue);
@@ -386,6 +396,16 @@ class Settings extends Component {
                       (newValue) => this.props.changeConfigurationOption("allowQuickGroupChange", newValue)
                     }
                   />
+                </ListItem>
+                <ListItem style={styles.listItemStyle}>
+                  <Left/>
+                  <Button transparent
+                    onPress={() => {
+                      this.props.navigation.navigate("Home");
+                    }}>
+                    <Text style={styles.quickGroupStyle}>Przejdź do planu</Text>
+                  </Button>
+                  <Body/>
                 </ListItem>
               </Form>
             }

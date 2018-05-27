@@ -12,7 +12,7 @@ export default class EventBlock extends Component {
       endTime } = this.props.event;
     const event = this.props.event;
     return (
-      <Card>
+      <Card style={{marginLeft: width*0.037, marginRight: width*0.037}}>
         <CardItem button onPress={this.props.onPress}> 
           <Body>
             <Text style = {{fontSize: width*0.049}}>{event.name}</Text>

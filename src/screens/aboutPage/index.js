@@ -34,7 +34,7 @@ class AboutPage extends Component {
             <Image source={require("./../../../assets/img/logo.png")} style={{height: 155, width: 155}} resizeMode="contain"/>
             <H1 style={{color: "#4A4A4A", marginTop: 0, marginBottom: 2}}>Plan WZIM</H1>
             <Text align="center">
-                  Wersja 2.0.0
+                  Wersja 1.1.0
             </Text>
             <Text style={{ width: 280, textAlign: "center"}}>
                   Aplikacja stworzona przez członków koła naukowego Silver .NET

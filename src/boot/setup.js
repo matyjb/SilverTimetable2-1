@@ -3,7 +3,7 @@ import { AppState } from "react-native";
 import App from "../App";
 import Expo from "expo";
 import TimetableServices from "../timetable/TimetableServices";
-import FileManager from "../timetable/FileManager";
+// import FileManager from "../timetable/FileManager";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import {
@@ -13,7 +13,7 @@ import {
   loadConfiguration,
   setDay
 } from "../actions";
-import globalProps from "../globalProps";
+// import globalProps from "../globalProps";
 
 class Setup extends Component {
   constructor(props) {

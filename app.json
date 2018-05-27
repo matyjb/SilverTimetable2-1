@@ -1,23 +1,26 @@
 {
   "expo": {
-    "name": "SilverTimetable",
-    "description": "This project is really great.",
+    "name": "Plan WZIM",
+    "description": "Ta aplikacja pokaże Ci twój plan zajęć.",
     "slug": "SilverTimetable",
     "privacy": "public",
     "sdkVersion": "26.0.0",
-    "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "1.1.0",
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "orientation": "portrait",
+    "primaryColor": "#3f51b5",
     "icon": "./assets/icon.png",
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#334393"
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
-    },
-    "androidStatusBarColor": "#334393",
-      "androidStatusBar": {
-        "barStyle": "light-content",
-        "backgroundColor": "#334393"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -26,11 +29,21 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.silvers.silvertimetable"
+      "bundleIdentifier": "com.silver.silvertimetable",
+      "supportsTablet": false,
+      "isTabletOnly": false
     },
     "android": {
-      "package": "com.silvers.silvertimetable"
+      "package": "com.silvernet.silvertimetable",
+      "permissions": [
+        "C2D_MESSAGE",
+        "RECEIVE",
+        "ACCESS_NETWORK_STATE",
+        "INTERNET",
+        "SYSTEM_ALERT_WINDOW",
+        "WAKE_LOCK"
+      ],
+      "versionCode": 101000
     }
   }
 }

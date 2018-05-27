@@ -13,6 +13,8 @@ export default class BreakBlock extends Component {
       textAlign: "center",
       color: "rgb(125,125,125)",
       fontSize: width*0.031,
+      paddingBottom: width*0.007,
+      paddingTop: width*0.007,
     };
     var text = "";
     if (this.props.isStart) {
@@ -41,10 +43,10 @@ export default class BreakBlock extends Component {
     }
 
     if (this.props.isStart) {
-      style.marginTop = 8;
+      style.marginTop = width*0.013;
     }
     if (this.props.isEnd) {
-      style.paddingBottom = 10;
+      style.marginBottom = width*0.025;
     }
     return (
       <Text style={style}>{text}</Text>

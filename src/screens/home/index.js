@@ -23,17 +23,14 @@ class Home extends Component {
       appState: AppState.currentState,
       refreshing: false,
       eventBlockMore: null,
+      initPage: 0,
     };
     this._tabs = null;
     this.drawer = null;
   }
  
   componentWillMount() {
-    if (!this.props.timetableConfig.isError) {
-      this.checkValidFilters();
-    } else {
-      this.props.setFiltersOK(false);
-    }
+    this.checkValidFilters();
   }
 
   componentDidMount() {
@@ -65,7 +62,7 @@ class Home extends Component {
           ref={(ref) => { this.drawer = ref; }}
           content={this.state.eventBlockMore}
           onClose={() => this.closeDrawer()} 
-          side={'bottom'}
+          side="bottom"
           openDrawerOffset={0.65}
           panCloseMask={0.65}
         >
@@ -98,16 +95,17 @@ class Home extends Component {
                 </Button>
               </Right>
             </Header>
-            { this.state.refreshing || !this.props.filtersOK ?
+            { this.state.refreshing || this.props.selectedDay === null || !this.props.filtersOK ?
               <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
               :
               <Tabs 
                 style={{backgroundColor: Platform.OS === "ios" ? "#F8F8F8" : "#3f51b5"}}
+                ref={(ref) => { this._tabs = ref }} 
+                initialPage={this.state.initPage}
                 prerenderingSiblingsNumber={8}
                 renderTabBar={() => <ScrollableTab
                   underlineStyle={{backgroundColor: "red"}}
                 />} 
-                ref={(ref) => { this._tabs = ref }} 
                 onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
               >
                 {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
@@ -212,7 +210,7 @@ class Home extends Component {
     const isNetwork = await TimetableServices.isNetworkAvailable();
     
     if (isNetwork) {
-      const update = await TimetableServices.IsNewTimetable(this.props.timetable.date);
+      const update = this.props.timetable ? await TimetableServices.IsNewTimetable(this.props.timetable.date) : true;
       
       if (update) {
         Toast.show({
@@ -277,34 +275,42 @@ class Home extends Component {
 
   async setOldDay() {
     if (this._tabs !== null && this.props.timetable && this.props.filtersOK && !this.state.refreshing) {
-      const numberPage = parseInt(this.props.selectedDay,10) - (this.props.filters.mode === "Niestacjonarne" ? 4 : 0);
+      const numberPage = await parseInt(this.props.selectedDay,10) - (this.props.filters.mode === "Niestacjonarne" ? 4 : 0);
+      this.setState({
+        ...this.state,
+        initPage: numberPage
+      })
       await this._tabs.goToPage(numberPage);
     }
   }
 
   checkValidFilters() {
-    if ((this.props.configuration.lecturerMode && !this.props.filters.lecturer)
+    if (!this.props.timetableConfig.isError) {
+      if ((this.props.configuration.lecturerMode && !this.props.filters.lecturer)
         || (!this.props.configuration.lecturerMode && !this.props.filters.mode)
         || !this.ensureFilteredValuesExist(this.props.filters, this.props.timetable)) {
 
-      this.props.setFiltersOK(false);
+        this.props.setFiltersOK(false);
       
-      console.log("Home Page: Wrong filters, redirecting to Settings...");
-      this.props.navigation.navigate("Settings");
+        console.log("Home Page: Wrong filters, redirecting to Settings...");
+        this.props.navigation.navigate("Settings");
 
-    } else {
-      this.props.setFiltersOK(true);
-      console.log("Home Page Loaded");
-      try {
-        var tmp = this.getCurrentDay(this.props.timetableFilters.mode);
-        if (typeof(tmp)==="string" && this.props.selectedDay === null) {
-          console.log("ustawiam dzien");
-          this.props.setDay(tmp);
+      } else {
+        this.props.setFiltersOK(true);
+        console.log("Home Page Loaded");
+        try {
+          var tmp = this.getCurrentDay(this.props.timetableFilters.mode);
+          if (typeof(tmp)==="string" && this.props.selectedDay === null) {
+            console.log("ustawiam dzien");
+            this.props.setDay(tmp);
+          }
+        } catch (e) {
+          console.log("Błąd ustawiania dnia...", e);
         }
-      } catch (e) {
-        console.log("Błąd ustawiania dnia...", e);
-      }
   
+      }
+    } else {
+      this.props.setFiltersOK(false);
     }
   }
   getCurrentDay(mode) {
@@ -365,7 +371,9 @@ class Home extends Component {
       const style = {
         textAlign: "center",
         color: "rgb(125,125,125)",
-        fontSize: width*0.031
+        fontSize: width*0.031,
+        marginTop: width*0.013,
+        marginBottom: width*0.025,
       };
     
       result.push(
@@ -376,7 +384,7 @@ class Home extends Component {
         </Tab>
       );
     }
-    
+
     return result;
   }
     
@@ -391,7 +399,7 @@ class Home extends Component {
       6: "SO",
       7: "NIE",
     };
-        
+      
     const result = lecturerMode
       ?
       data.events.filter((obj) => (obj.lecturers.some((lecturer) => lecturer === filters.lecturer)
