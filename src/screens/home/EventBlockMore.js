@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Container, Text, H3, Content, Badge, Icon, Button } from "native-base";
-import { View } from "react-native";
+import { Container, Button, Text, Badge, Icon, Left } from "native-base";
+import { Dimensions } from "react-native";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { setPinned, setPinRoom } from "../../actions";
+const { width, height } = Dimensions.get("screen");
 
 class EventBlockMore extends Component {
   lowercaseFirstLetter(text) {
@@ -17,9 +18,17 @@ class EventBlockMore extends Component {
     var lecturers = [];
     event.lecturers.forEach((lecturer,index) => {
       if(lecturer !== ''){
+        let initials = "";
+        const chars = lecturer.split("");
+        chars.forEach((char) => {
+          if(char === char.toUpperCase() && char !== '-') {
+            initials = initials + char.trim();
+          }
+        });
         lecturers.push(
-          <Badge key={index} style={{marginVertical: 8, backgroundColor: '#D3D3D3'}}>
-            <Text style={{color: 'black'}}>{lecturer}</Text>
+          <Badge key={index} style={{backgroundColor: "#e6e6e6", paddingLeft: 0, marginTop: width*0.025, borderRadius: width*0.091}}>
+            <Left style={{alignSelf:"flex-start"}}><Badge style={{backgroundColor: "#8c8c8c", paddingLeft: 0, paddingRight: 0, borderRadius: width*0.091}}><Text style={{fontSize: height*0.023, width: width*0.097}}>{initials}</Text>
+            </Badge></Left><Text style={{color: "black", marginLeft: width*0.11, marginRight: width*0.037, paddingBottom: width*0.01, fontSize: height*0.023}}>{lecturer}</Text>
           </Badge>
         );
       }
@@ -39,49 +48,47 @@ class EventBlockMore extends Component {
 
     if(this.props.event){
       return (
-        <Container style={{backgroundColor: 'white'}}>
-          <Content style={{margin: 10}}>
-            <H3>{event.name}</H3>
+        <Container style={{backgroundColor: "white", padding: width*0.037}}>
+          <Text style={{fontSize: height*0.029}}>{event.name}</Text>
 
-            <Text note>
-              {(event.isFaculty ? "(F) " : "") + event.type + " "}
-              {startTime.format("HH:mm ")}
+          <Text note style={{fontSize: height*0.023}}>
+            {(event.isFaculty ? "(F) " : "") + event.type + " "}
+            {startTime.format("HH:mm ")}
                     - {endTime.format("HH:mm")}
-            </Text>
+          </Text>
 
-            {this.props.lecturerMode 
-              ? 
-              <React.Fragment>
-                <Text note>{event.fieldOfStudy} rok {event.year} {event.degree}</Text>
-                {(event.groups !== null && event.groups.length > 1) 
-                  ? 
-                  <Text note>grupy: {event.groups.join(", ")}</Text>
-                  : 
-                  <Text note>grupa: {event.specialization || event.group} </Text> }
-              </React.Fragment>
-              : 
-              <React.Fragment>
-                {lecturers}
-              </React.Fragment>
-            }
-            {room !== '' &&
-                    <View>
+          {this.props.lecturerMode 
+            ? 
+            <React.Fragment>
+              <Text note style={{fontSize: height*0.023}}>{event.fieldOfStudy} rok {event.year} {event.degree}</Text>
+              {(event.groups !== null && event.groups.length > 1) 
+                ? 
+                <Text note style={{fontSize:height*0.023}}>grupy: {event.groups.join(", ")}</Text>
+                : 
+                <Text note style={{fontSize: height*0.023}}>grupa: {event.specialization || event.group} </Text> }
+            </React.Fragment>
+            : 
+            <React.Fragment>
+              {lecturers}
+            </React.Fragment>
+          }
+          {room !== '' &&
+                    <React.Fragment>
                       {event.room !== '' &&
-                        <Button light style={{margin: 2, width: '100%'}} 
+                        <Button light style={{width: "100%", marginVertical: height*0.025}}
                           onPress={() => {
                             this.props.setPinned(true);
                             this.props.setPinRoom(event.room);
                             this.props.navigation.navigate("FloorPage");
                           }}>
-                          <Icon ios='md-map' android="md-map">
-                            <Text>   {room}</Text>
+                          <Icon style={{color: "black", fontSize: height*0.029 }} ios='md-map' android="md-map">
+                            <Text style={{fontSize: height*0.029}}>    {room}</Text>
                           </Icon>
                         </Button>
                       }
-                    </View>
+                    </React.Fragment>
                       
-            }
-          </Content>
+          }
         </Container>
       );
     } else {

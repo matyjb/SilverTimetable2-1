@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     fontWeight: Platform.OS === "ios" ? "500" : "400",
-    fontSize: deviceWidth*0.031,
+    fontSize: deviceWidth*0.037,
     color: "#808080",
     marginLeft: deviceWidth*0.031,
     marginBottom: deviceWidth*0.013,
@@ -56,6 +56,7 @@ const styles = StyleSheet.create({
   left: { 
     alignSelf: "flex-end", 
     marginLeft: deviceWidth*0.043,
+    marginRight: deviceWidth*0.037,
     marginBottom: deviceWidth*0.043,
   },
   sidebarTitleLecturer: {

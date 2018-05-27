@@ -23,6 +23,7 @@ class Home extends Component {
       appState: AppState.currentState,
       refreshing: false,
       eventBlockMore: null,
+      initPage: 0,
     };
     this._tabs = null;
     this.drawer = null;
@@ -61,7 +62,7 @@ class Home extends Component {
           ref={(ref) => { this.drawer = ref; }}
           content={this.state.eventBlockMore}
           onClose={() => this.closeDrawer()} 
-          side={'bottom'}
+          side="bottom"
           openDrawerOffset={0.65}
           panCloseMask={0.65}
         >
@@ -94,16 +95,17 @@ class Home extends Component {
                 </Button>
               </Right>
             </Header>
-            { this.state.refreshing || !this.props.filtersOK ?
+            { this.state.refreshing || this.props.selectedDay === null || !this.props.filtersOK ?
               <Spinner color="red" size={Platform.OS === "ios" ? 1 : 60} style={{alignItems: "center", alignSelf: "center", paddingVertical: height*0.4, paddingHorizontal: width*0.4}}/>
               :
               <Tabs 
                 style={{backgroundColor: Platform.OS === "ios" ? "#F8F8F8" : "#3f51b5"}}
+                ref={(ref) => { this._tabs = ref }} 
+                initialPage={this.state.initPage}
                 prerenderingSiblingsNumber={8}
                 renderTabBar={() => <ScrollableTab
                   underlineStyle={{backgroundColor: "red"}}
                 />} 
-                ref={(ref) => { this._tabs = ref }} 
                 onChangeTab={({ i }) => this.props.setDay((this.props.filters.mode === "Niestacjonarne" ? i+4 : i).toString())}
               >
                 {this.renderDayTabs(this.props.filters, this.props.configuration.lecturerMode)}
@@ -273,7 +275,11 @@ class Home extends Component {
 
   async setOldDay() {
     if (this._tabs !== null && this.props.timetable && this.props.filtersOK && !this.state.refreshing) {
-      const numberPage = parseInt(this.props.selectedDay,10) - (this.props.filters.mode === "Niestacjonarne" ? 4 : 0);
+      const numberPage = await parseInt(this.props.selectedDay,10) - (this.props.filters.mode === "Niestacjonarne" ? 4 : 0);
+      this.setState({
+        ...this.state,
+        initPage: numberPage
+      })
       await this._tabs.goToPage(numberPage);
     }
   }
@@ -365,7 +371,9 @@ class Home extends Component {
       const style = {
         textAlign: "center",
         color: "rgb(125,125,125)",
-        fontSize: width*0.031
+        fontSize: width*0.031,
+        marginTop: width*0.013,
+        marginBottom: width*0.025,
       };
     
       result.push(
@@ -376,7 +384,7 @@ class Home extends Component {
         </Tab>
       );
     }
-    
+
     return result;
   }
     
@@ -391,7 +399,7 @@ class Home extends Component {
       6: "SO",
       7: "NIE",
     };
-        
+      
     const result = lecturerMode
       ?
       data.events.filter((obj) => (obj.lecturers.some((lecturer) => lecturer === filters.lecturer)

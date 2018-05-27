@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
 
   pickerStyle: {
     alignSelf: "stretch",
-    width: width*0.9,
+    width: width*1.05,
     justifyContent: Platform.OS === "ios" ? "center" : "flex-start",
   },
 
